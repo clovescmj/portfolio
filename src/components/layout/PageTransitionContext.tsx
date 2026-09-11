@@ -47,11 +47,26 @@ export function PageTransitionProvider({ children }: { children: React.ReactNode
     }, FADE_DURATION);
   };
 
+  // Scroll position resets here too — not in a separate effect elsewhere
+  // — so it's driven by the same navigation this effect is already
+  // reacting to, rather than racing it via its own independent effect.
+  // It's deferred a frame with requestAnimationFrame because scrollTo()
+  // forces a synchronous layout flush; doing that in the same tick as
+  // the setVisible(true) that starts the fade-in transition was
+  // preventing the browser from ever registering an opacity-0 "from"
+  // state to animate out of, so the fade-in silently snapped straight
+  // to opacity-100 instead of playing. One deferred frame is well
+  // within the fade's opacity-near-zero window, so the scroll jump
+  // itself stays imperceptible.
   useEffect(() => {
     if (navigatingRef.current) {
       navigatingRef.current = false;
       setVisible(true);
       setPendingHref(null);
+      requestAnimationFrame(() => {
+        document.querySelector(".scroll-area")?.scrollTo({ top: 0 });
+        document.getElementById("shell")?.scrollTo({ top: 0 });
+      });
     }
   }, [pathname]);
 

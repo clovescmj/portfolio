@@ -27,11 +27,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         Figma mobile frame), so this shell itself is the scroll container
         and sidebar + content scroll together as one block within it.
       */}
-      <body className="h-full overflow-hidden p-4 md:p-gutter">
+      <body className="h-full overflow-hidden p-3 md:p-gutter">
         <PageTransitionProvider>
           <div
             id="shell"
-            className="mx-auto flex h-[calc(100vh-32px)] w-full max-w-[1440px] flex-col overflow-y-auto bg-surface md:h-[calc(100vh-48px)] md:flex-row md:overflow-visible"
+            className="mx-auto flex h-[calc(100vh-24px)] w-full max-w-[1440px] flex-col overflow-y-auto bg-surface md:h-[calc(100vh-48px)] md:flex-row md:overflow-visible"
           >
             <Sidebar />
             <ScrollArea>

@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const TOP_INSET = 18;
@@ -27,7 +26,6 @@ interface ThumbMetrics {
  * sits still inside the area without moving.
  */
 export function ScrollArea({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
   const scrollRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [thumb, setThumb] = useState<ThumbMetrics | null>(null);
@@ -99,17 +97,6 @@ export function ScrollArea({ children }: { children: React.ReactNode }) {
       clearHideTimer();
     };
   }, [pulse, clearHideTimer]);
-
-  // Neither scroll container here is the window, so Next's built-in
-  // scroll restoration doesn't reach either of them — reset both
-  // directly: scrollRef is `main`, the scroll container on desktop;
-  // #shell (see layout.tsx) is the scroll container on mobile, where
-  // sidebar + content scroll together as one block. Each is a no-op on
-  // the breakpoint that doesn't use it.
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: 0 });
-    document.getElementById("shell")?.scrollTo({ top: 0 });
-  }, [pathname]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     const scrollEl = scrollRef.current;
