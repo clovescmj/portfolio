@@ -18,17 +18,16 @@ export function Sidebar() {
           unprefixed leading-[...] would keep winning at md: too and
           silently override text-brand's own line-height.
 
-          text-box-trim itself is md:none: with zero padding above it
-          (the aside's own top padding moved to the shared shell inset),
-          Chromium clips the trimmed glyphs against this scrollable
-          (overflow-y-auto) aside — text-box-trim plus a flush-zero offset
-          inside a scroll container paints the top of the letters right
-          off the edge. text-brand's line-height is already ~1:1 with its
-          font-size, so there's barely any leading left to trim anyway;
-          turning it off at md: costs nothing visible. Mobile keeps the
-          trim since the aside still has real padding there.
+          No text-box-trim at all: Braun Linear's cap-height metrics make
+          it paint glyphs outside the box the trim computes — on desktop
+          that broke scrolling (Chromium clips the overflow against the
+          scrollable aside), on mobile it just paints "Hi!" above its own
+          box. Both breakpoints already use leading-[1] / a 41px
+          line-height matching the font-size almost exactly, so there's
+          barely any leading to trim in the first place — dropping it
+          costs nothing visible.
         */}
-        <h1 className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] md:[text-box-trim:none] w-full font-sans text-ink md:w-[216px]">
+        <h1 className="w-full font-sans text-ink md:w-[216px]">
           <span className="block max-md:text-[31px] max-md:leading-[1] max-md:tracking-[-0.03em] max-md:font-bold md:text-brand">
             {site.greeting}
           </span>
