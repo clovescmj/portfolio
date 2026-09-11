@@ -5,7 +5,7 @@ import { nav, site } from "@/content/site";
 import { usePageTransition } from "./PageTransitionContext";
 
 export function Sidebar() {
-  const { navigate } = usePageTransition();
+  const { navigate, activePath } = usePageTransition();
 
   return (
     <aside className="flex w-full shrink-0 flex-col gap-6 overflow-y-auto px-6 py-8 md:w-[280px] md:gap-rhythm md:px-nav md:py-[48px]">
@@ -22,19 +22,24 @@ export function Sidebar() {
       </div>
 
       <nav className="flex flex-row gap-6 md:flex-col md:gap-2">
-        {nav.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={(event) => {
-              event.preventDefault();
-              navigate(item.href);
-            }}
-            className="font-sans text-nav text-ink"
-          >
-            {item.label}
-          </Link>
-        ))}
+        {nav.map((item) => {
+          const active = activePath === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={(event) => {
+                event.preventDefault();
+                navigate(item.href);
+              }}
+              className={`font-sans text-nav transition-colors duration-400 ease-in-out hover:text-accent ${
+                active ? "font-bold text-accent" : "text-ink"
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
       </nav>
 
       {/* No room for it in the Figma mobile frame — every card already
