@@ -100,13 +100,15 @@ export function ScrollArea({ children }: { children: React.ReactNode }) {
     };
   }, [pulse, clearHideTimer]);
 
-  // On desktop this is a custom scroll container, not the window, so
-  // Next's built-in scroll restoration doesn't reach it — reset both here:
-  // scrollRef for the desktop internal scroll, window for mobile's plain
-  // document scroll. Each is a no-op on the breakpoint that doesn't use it.
+  // Neither scroll container here is the window, so Next's built-in
+  // scroll restoration doesn't reach either of them — reset both
+  // directly: scrollRef is `main`, the scroll container on desktop;
+  // #shell (see layout.tsx) is the scroll container on mobile, where
+  // sidebar + content scroll together as one block. Each is a no-op on
+  // the breakpoint that doesn't use it.
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0 });
-    window.scrollTo({ top: 0 });
+    document.getElementById("shell")?.scrollTo({ top: 0 });
   }, [pathname]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {

@@ -19,14 +19,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`h-full antialiased ${helveticaNeueHeavy.variable} ${braunLinear.variable}`}
     >
       {/*
-        The fixed-height shell with its own internal scroll (ScrollArea)
-        is a desktop-only pattern — the Figma mobile frame is one long
-        page instead, so on mobile the body just scrolls normally and
-        nothing here is height-constrained.
+        The white shell always stays fixed at viewport height — it's a
+        "card" that encapsulates the content, not a page that grows past
+        the screen. What differs by breakpoint is *what* scrolls inside
+        it: on desktop, the sidebar stays put and only ScrollArea's main
+        scrolls; on mobile there's no separate pinned sidebar (per the
+        Figma mobile frame), so this shell itself is the scroll container
+        and sidebar + content scroll together as one block within it.
       */}
-      <body className="min-h-full p-4 md:h-full md:overflow-hidden md:p-gutter">
+      <body className="h-full overflow-hidden p-4 md:p-gutter">
         <PageTransitionProvider>
-          <div className="mx-auto flex w-full max-w-[1440px] flex-col bg-surface md:h-[calc(100vh-48px)] md:flex-row">
+          <div
+            id="shell"
+            className="mx-auto flex h-[calc(100vh-32px)] w-full max-w-[1440px] flex-col overflow-y-auto bg-surface md:h-[calc(100vh-48px)] md:flex-row md:overflow-visible"
+          >
             <Sidebar />
             <ScrollArea>
               <PageTransition>{children}</PageTransition>
