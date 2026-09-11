@@ -100,12 +100,13 @@ export function ScrollArea({ children }: { children: React.ReactNode }) {
     };
   }, [pulse, clearHideTimer]);
 
-  // This is a custom scroll container, not the window — Next's built-in
-  // scroll restoration doesn't reach it, so without this a route change
-  // can land on the new page already scrolled from wherever the last one
-  // left off.
+  // On desktop this is a custom scroll container, not the window, so
+  // Next's built-in scroll restoration doesn't reach it — reset both here:
+  // scrollRef for the desktop internal scroll, window for mobile's plain
+  // document scroll. Each is a no-op on the breakpoint that doesn't use it.
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0 });
+    window.scrollTo({ top: 0 });
   }, [pathname]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -146,7 +147,7 @@ export function ScrollArea({ children }: { children: React.ReactNode }) {
     <div className="relative min-h-0 min-w-0 flex-1" onPointerEnter={pulse} onPointerMove={pulse}>
       <main
         ref={scrollRef}
-        className="scroll-area h-full overflow-y-auto px-6 py-10 md:px-content md:py-12"
+        className="scroll-area px-6 py-10 md:h-full md:overflow-y-auto md:px-content md:py-12"
       >
         <div ref={contentRef}>{children}</div>
       </main>

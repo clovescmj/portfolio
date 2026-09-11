@@ -7,7 +7,7 @@ export function PageHeader({ title }: { title: string }) {
         99px font's ~109px line-height pads the box well past the visible
         glyph, throwing off alignment with anything next to it.
       */}
-      <h2 className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] font-display text-[48px] leading-[1.1] tracking-[-0.03em] font-extrabold text-ink md:text-display">
+      <h2 className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] font-display text-[56px] leading-[1.1] tracking-[-0.03em] font-extrabold text-ink md:text-display">
         {title}
       </h2>
     </header>

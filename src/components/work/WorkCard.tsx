@@ -39,9 +39,11 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
         <ProjectImage image={image} priority={priority} />
 
         {!layout.imageOnly && (
-          <div className="flex flex-col gap-4 @min-[420px]:flex-row @min-[420px]:gap-6">
-            <h3 className="flex-1 font-sans text-title text-ink">{project.title}</h3>
-            <div className="flex flex-1 flex-col gap-4">
+          <div className="flex flex-col gap-2 md:gap-4 @min-[420px]:flex-row @min-[420px]:gap-6">
+            <h3 className="flex-1 font-sans text-[20px] leading-[1.2] tracking-[-0.01em] font-medium text-ink md:text-title">
+              {project.title}
+            </h3>
+            <div className="flex flex-1 flex-col gap-2 md:gap-4">
               <p className="font-sans text-body text-ink">{project.description}</p>
               <ProjectMeta client={project.client} tags={project.tags} />
             </div>

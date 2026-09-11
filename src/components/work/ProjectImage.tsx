@@ -13,11 +13,12 @@ import type { ProjectImage as ProjectImageData } from "@/types/project";
  * everything else, including the neutral placeholder shown when a
  * project has no image yet.
  *
- * Every card's image area is a fixed 280px tall, regardless of the
- * card's width — a single, predictable rule rather than one that varies
- * per card size.
+ * Every card's image area is a fixed height — 144px on mobile, 280px at
+ * the md breakpoint and up (per the Figma mobile frame) — regardless of
+ * the card's width, a single predictable rule rather than one that
+ * varies per card size.
  */
-const IMAGE_HEIGHT = "h-[280px]";
+const IMAGE_HEIGHT = "h-[144px] md:h-[280px]";
 const SIZES = "(min-width: 768px) 50vw, 100vw";
 
 export function ProjectImage({

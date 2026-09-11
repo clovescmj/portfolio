@@ -6,7 +6,7 @@ export default function HomePage() {
   return (
     <>
       <PageHeader title="Work" />
-      <div className="mt-rhythm">
+      <div className="mt-10 md:mt-rhythm">
         <BentoGrid projects={projects} />
       </div>
     </>

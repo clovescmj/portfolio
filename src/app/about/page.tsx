@@ -4,7 +4,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader title="About me" />
-      <div className="mt-rhythm max-w-[640px]">
+      <div className="mt-10 max-w-[640px] md:mt-rhythm">
         <p className="font-sans text-body text-ink">
           This page doesn&apos;t have a Figma design yet — it reuses the same
           shell (sidebar, header, tokens) as the Work page so the two stay
