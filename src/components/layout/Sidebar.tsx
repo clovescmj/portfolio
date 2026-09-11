@@ -11,10 +11,10 @@ export function Sidebar() {
     <aside className="flex w-full shrink-0 flex-col gap-6 overflow-y-auto px-6 py-8 md:w-[280px] md:gap-rhythm md:px-nav md:py-[48px]">
       <div className="flex flex-col gap-4 md:gap-6">
         <h1 className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] w-full font-display text-ink md:w-[216px]">
-          <span className="block text-[32px] leading-[1.05] tracking-[-0.03em] font-extrabold md:text-brand">
+          <span className="block text-[31px] leading-[1.05] tracking-[-0.03em] font-extrabold md:text-brand">
             {site.greeting}
           </span>
-          <span className="block text-[32px] leading-[1.05] tracking-[-0.03em] font-extrabold md:text-brand">
+          <span className="block text-[31px] leading-[1.05] tracking-[-0.03em] font-extrabold md:text-brand">
             {site.title}
           </span>
         </h1>

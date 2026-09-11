@@ -40,7 +40,7 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
 
         {!layout.imageOnly && (
           <div className="flex flex-col gap-2 md:gap-4 @min-[420px]:flex-row @min-[420px]:gap-6">
-            <h3 className="flex-1 font-sans text-[20px] leading-[1.2] tracking-[-0.01em] font-medium text-ink md:text-title">
+            <h3 className="flex-1 font-sans text-[19px] leading-[1.2] tracking-[-0.01em] font-medium text-ink md:text-title">
               {project.title}
             </h3>
             <div className="flex flex-1 flex-col gap-2 md:gap-4">
