@@ -33,10 +33,19 @@ export function Sidebar() {
                 navigate(item.href);
               }}
               // Real padding, not bled via a canceling negative margin —
-              // per Figma, the pill is a real box and the gap between nav
-              // items (gap-2) is measured between these padded boxes, not
-              // between the text baselines.
-              className={`relative inline-block self-start px-1.5 py-1 font-sans text-nav text-ink transition-colors duration-400 ease-in-out hover:bg-surface-hover ${
+              // per Figma, the pill is a real box (6px/4px insets) and the
+              // gap between nav items (gap-2) is measured between these
+              // padded boxes, not between the text baselines.
+              //
+              // leading-[20px] overrides text-nav's normal 1.5 line-height
+              // (24px) to match Figma's 20px-tall text node exactly, so
+              // the padding math isn't inflated by ~4px of invisible
+              // leading above/below the glyphs. (text-box-trim, used
+              // elsewhere for this kind of mismatch, over-corrects here —
+              // Braun Linear's cap-height metric trims to a sliver — so a
+              // plain matching line-height is the more predictable fix
+              // for this single-size, single-line label.)
+              className={`relative inline-block self-start px-1.5 py-1 font-sans text-nav leading-[20px] text-ink transition-colors duration-400 ease-in-out hover:bg-surface-hover ${
                 active ? "bg-surface-hover" : ""
               }`}
             >
