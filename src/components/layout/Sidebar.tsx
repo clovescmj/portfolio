@@ -32,28 +32,28 @@ export function Sidebar() {
                 event.preventDefault();
                 navigate(item.href);
               }}
-              // font-weight can't be transitioned smoothly on a static font
-              // file (no variable weight axis to interpolate through, so it
-              // would just snap) — instead, a regular-weight span and a
-              // bold-weight span sit stacked on top of each other and
-              // crossfade, giving a real animated transition between them.
-              // The bold span (usually wider) also sizes the box, so the
-              // link's width doesn't jump when the weight changes.
-              className="group relative inline-block self-start font-sans text-nav text-ink"
+              // Padding + an equal negative margin cancel out for layout
+              // purposes (same trick as the card hover backdrop) so the
+              // gray pill can bleed past the text without nudging the
+              // other nav items around it.
+              className={`relative -mx-3 -my-1 inline-block self-start px-3 py-1 font-sans text-nav text-ink transition-colors duration-400 ease-in-out hover:bg-surface-hover ${
+                active ? "bg-surface-hover" : ""
+              }`}
             >
+              {/* font-weight can't be transitioned smoothly on a static
+                  font file (no variable weight axis to interpolate
+                  through, so it would just snap) — instead, a
+                  regular-weight span and a bold-weight span sit stacked
+                  on top of each other and crossfade. The bold span
+                  (usually wider) also sizes the box via normal flow, so
+                  the pill's width doesn't jump when the weight changes. */}
               <span aria-hidden className="invisible whitespace-nowrap font-bold">
                 {item.label}
               </span>
               <span
                 aria-hidden={active}
-                // A 6%-thick underline is too thin to read as "fading in"
-                // through opacity alone — it stays near-invisible until
-                // opacity is already high, then seems to pop in. Giving
-                // its *color* its own transient-to-ink transition (the
-                // same trick already used for the hover fade) makes the
-                // reveal itself visibly animate, in step with the text.
-                className={`absolute inset-0 whitespace-nowrap underline decoration-[6%] underline-offset-4 transition-[opacity,text-decoration-color] duration-200 ease-out group-hover:decoration-transparent ${
-                  active ? "opacity-0 decoration-transparent" : "opacity-100 decoration-ink"
+                className={`absolute inset-0 whitespace-nowrap transition-opacity duration-200 ease-out ${
+                  active ? "opacity-0" : "opacity-100"
                 }`}
               >
                 {item.label}
