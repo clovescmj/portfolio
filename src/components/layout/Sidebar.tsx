@@ -10,11 +10,18 @@ export function Sidebar() {
   return (
     <aside className="flex w-full shrink-0 flex-col gap-6 overflow-y-auto px-6 py-8 md:w-[280px] md:gap-rhythm md:px-nav md:py-[48px]">
       <div className="flex flex-col gap-4 md:gap-6">
-        <h1 className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] w-full font-display text-ink md:w-[216px]">
-          <span className="block text-[31px] leading-[1] tracking-[-0.03em] font-extrabold md:text-brand">
+        {/*
+          max-md: here, not bare utilities — text-brand bundles the same
+          size/leading/tracking/weight via Tailwind's shared --tw-leading/
+          --tw-tracking/--tw-font-weight custom properties, so an
+          unprefixed leading-[...] would keep winning at md: too and
+          silently override text-brand's own line-height.
+        */}
+        <h1 className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] w-full font-sans text-ink md:w-[216px]">
+          <span className="block max-md:text-[31px] max-md:leading-[1] max-md:tracking-[-0.03em] max-md:font-bold md:text-brand">
             {site.greeting}
           </span>
-          <span className="block text-[31px] leading-[1] tracking-[-0.03em] font-extrabold md:text-brand">
+          <span className="block max-md:text-[31px] max-md:leading-[1] max-md:tracking-[-0.03em] max-md:font-bold md:text-brand">
             {site.title}
           </span>
         </h1>

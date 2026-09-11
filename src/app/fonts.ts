@@ -1,18 +1,10 @@
 import localFont from "next/font/local";
 
 /**
- * The two real typefaces from the Figma file, self-hosted from the
- * licensed files in src/fonts/. Each exposes a CSS variable that
- * globals.css wires into --font-display / --font-sans.
+ * The one real typeface from the Figma file, self-hosted from the
+ * licensed files in src/fonts/. Exposes a CSS variable that globals.css
+ * wires into --font-sans.
  */
-export const helveticaNeueHeavy = localFont({
-  src: "../fonts/HelveticaNeueLTStd-85Heavy.otf",
-  weight: "800",
-  style: "normal",
-  variable: "--font-helvetica-heavy",
-  display: "swap",
-});
-
 export const braunLinear = localFont({
   src: [
     { path: "../fonts/BraunLinear-Regular.ttf", weight: "400", style: "normal" },

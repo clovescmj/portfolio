@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { braunLinear, helveticaNeueHeavy } from "./fonts";
+import { braunLinear } from "./fonts";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { PageTransitionProvider } from "@/components/layout/PageTransitionContext";
 import { ScrollArea } from "@/components/layout/ScrollArea";
@@ -17,7 +17,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`h-full antialiased ${helveticaNeueHeavy.variable} ${braunLinear.variable}`}
+      className={`h-full antialiased ${braunLinear.variable}`}
     >
       {/*
         The white shell always stays fixed at viewport height — it's a

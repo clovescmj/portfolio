@@ -4,7 +4,7 @@
  * Design tokens, extracted from the Figma file (Portfolio 2026).
  * Every value here becomes a Tailwind utility automatically:
  * --color-ink      -> bg-ink / text-ink / border-ink
- * --font-display   -> font-display
+ * --font-sans      -> font-sans
  * --spacing-gutter -> p-gutter / gap-gutter / px-gutter ...
  * --text-title     -> text-title (size + line-height + tracking + weight)
  * --shadow-card    -> shadow-card
@@ -25,12 +25,12 @@
   --color-placeholder-soft: #fbfdff;
 
   /*
-   * Real typefaces, self-hosted via next/font/local (see src/app/fonts.ts):
-   * "Helvetica Neue LT Std" (85 Heavy) for display, "Braun Linear" for
-   * everything else. The system stack after each is only a fallback for
-   * the brief instant before the local font loads (font-display: swap).
+   * The one real typeface, self-hosted via next/font/local (see
+   * src/app/fonts.ts): "Braun Linear", used for everything — including
+   * titles, which get there via font-bold rather than a second typeface.
+   * The system stack after it is only a fallback for the brief instant
+   * before the local font loads (font-display: swap).
    */
-  --font-display: var(--font-helvetica-heavy), "Helvetica Neue", "Arial Black", Arial, sans-serif;
   --font-sans: var(--font-braun-linear), "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /* Spacing (matches the Figma layout rhythm) */
@@ -45,15 +45,15 @@
     0 4px 4px -4px rgba(12, 12, 13, 0.05);
 
   /* Typography scale — one utility per role, size+leading+tracking+weight bundled */
-  --text-display: 98px;
-  --text-display--line-height: 1.04;
+  --text-display: 99px;
+  --text-display--line-height: 123px;
   --text-display--letter-spacing: -0.03em;
-  --text-display--font-weight: 800;
+  --text-display--font-weight: 700;
 
-  --text-brand: 39px;
-  --text-brand--line-height: 1;
+  --text-brand: 41px;
+  --text-brand--line-height: 41px;
   --text-brand--letter-spacing: -0.03em;
-  --text-brand--font-weight: 800;
+  --text-brand--font-weight: 700;
 
   --text-title: 25px;
   --text-title--line-height: 1.12;
