@@ -159,9 +159,19 @@ export function ScrollArea({ children }: { children: React.ReactNode }) {
           }`}
           onPointerDown={handlePointerDown}
         >
+          {/*
+            Animating `width` directly is layout-triggering and reads as
+            choppy/stop-motion in practice — `scale` is compositor-only
+            and animates smoothly. The element is always 4px wide;
+            scale-x-50 just visually halves it to 2px at rest. Tailwind's
+            scale/translate utilities set the standalone CSS `scale` /
+            `translate` properties (not the legacy `transform` shorthand),
+            so `scale` — not `transform` — is what transition-property
+            needs to actually animate it.
+          */}
           <div
-            className={`absolute left-1/2 -translate-x-1/2 transition-[width,background-color] duration-200 ease-out ${
-              dragging ? "w-[4px] bg-ink" : "w-[2px] bg-muted group-hover:w-[4px] group-hover:bg-ink"
+            className={`absolute left-1/2 w-[4px] origin-center -translate-x-1/2 transition-[scale,background-color] duration-400 ease-in-out ${
+              dragging ? "scale-x-100 bg-ink" : "scale-x-50 bg-muted group-hover:scale-x-100 group-hover:bg-ink"
             }`}
             style={{ height: thumb.height, top: thumb.top }}
           />

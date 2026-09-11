@@ -3,7 +3,7 @@ export const site = {
   greeting: "Hi!",
   title: "I'm Clóves.",
   bio: "A Product Designer with over 10 years of experience turning real user problems into experiences that drive business impact.",
-  footer: "Designed by a human,\nbuilt with an agent.",
+  footer: "Designed by a human.\nBuilt together with AI.",
 };
 
 export interface NavItem {

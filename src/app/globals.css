@@ -15,6 +15,7 @@
   /* Colors */
   --color-canvas: #d0d1d2;
   --color-surface: #ffffff;
+  --color-surface-hover: #f7f7f7;
   --color-ink: #2e3031;
   --color-muted: #73787a;
   --color-placeholder: #eef0f2;
@@ -62,7 +63,7 @@
   --text-nav--line-height: 1.5;
 
   --text-body: 14px;
-  --text-body--line-height: 1.33;
+  --text-body--line-height: 1.45;
 
   --text-meta: 12px;
   --text-meta--line-height: 1.4;

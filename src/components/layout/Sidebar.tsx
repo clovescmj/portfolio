@@ -42,15 +42,21 @@ export function Sidebar() {
               </span>
               <span
                 aria-hidden={active}
-                className={`absolute inset-0 whitespace-nowrap underline decoration-ink decoration-[6%] underline-offset-4 transition-[opacity,text-decoration-color] duration-200 ease-out group-hover:decoration-transparent ${
-                  active ? "opacity-0" : "opacity-100"
+                // A 6%-thick underline is too thin to read as "fading in"
+                // through opacity alone — it stays near-invisible until
+                // opacity is already high, then seems to pop in. Giving
+                // its *color* its own transient-to-ink transition (the
+                // same trick already used for the hover fade) makes the
+                // reveal itself visibly animate, in step with the text.
+                className={`absolute inset-0 whitespace-nowrap underline decoration-[6%] underline-offset-4 transition-[opacity,text-decoration-color] duration-200 ease-out group-hover:decoration-transparent ${
+                  active ? "opacity-0 decoration-transparent" : "opacity-100 decoration-ink"
                 }`}
               >
                 {item.label}
               </span>
               <span
                 aria-hidden={!active}
-                className={`absolute inset-0 whitespace-nowrap font-bold transition-opacity duration-100 ease-out ${
+                className={`absolute inset-0 whitespace-nowrap font-bold transition-opacity duration-200 ease-out ${
                   active ? "opacity-100" : "opacity-0"
                 }`}
               >
