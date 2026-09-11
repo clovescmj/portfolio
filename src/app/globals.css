@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Design tokens, extracted from the Figma file (Portfolio 2026).
+ * Every value here becomes a Tailwind utility automatically:
+ * --color-ink      -> bg-ink / text-ink / border-ink
+ * --font-display   -> font-display
+ * --spacing-gutter -> p-gutter / gap-gutter / px-gutter ...
+ * --text-title     -> text-title (size + line-height + tracking + weight)
+ * --shadow-card    -> shadow-card
+ *
+ * Change a value here and every component using that token updates.
+ */
+@theme {
+  /* Colors */
+  --color-canvas: #d0d1d2;
+  --color-surface: #ffffff;
+  --color-ink: #2e3031;
+  --color-muted: #73787a;
+  --color-placeholder: #eef0f2;
+  --color-placeholder-deep: #7e7f80;
+  --color-placeholder-strong: #e3e4e5;
+  --color-placeholder-soft: #fbfdff;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /*
+   * Real typefaces, self-hosted via next/font/local (see src/app/fonts.ts):
+   * "Helvetica Neue LT Std" (85 Heavy) for display, "Braun Linear" for
+   * everything else. The system stack after each is only a fallback for
+   * the brief instant before the local font loads (font-display: swap).
+   */
+  --font-display: var(--font-helvetica-heavy), "Helvetica Neue", "Arial Black", Arial, sans-serif;
+  --font-sans: var(--font-braun-linear), "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Spacing (matches the Figma layout rhythm) */
+  --spacing-nav: 32px;
+  --spacing-content: 56px;
+  --spacing-gutter: 24px;
+  --spacing-rhythm: 88px;
+
+  /* Shadow (Drop Shadow/400 in the Figma library) */
+  --shadow-card:
+    0 16px 32px -4px rgba(12, 12, 13, 0.1),
+    0 4px 4px -4px rgba(12, 12, 13, 0.05);
+
+  /* Typography scale — one utility per role, size+leading+tracking+weight bundled */
+  --text-display: 99px;
+  --text-display--line-height: 1.09;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 800;
+
+  --text-brand: 40px;
+  --text-brand--line-height: 1.05;
+  --text-brand--letter-spacing: -0.03em;
+  --text-brand--font-weight: 800;
+
+  --text-title: 26px;
+  --text-title--line-height: 1.17;
+  --text-title--letter-spacing: -0.01em;
+  --text-title--font-weight: 500;
+
+  --text-nav: 16px;
+  --text-nav--line-height: 1.5;
+
+  --text-body: 14px;
+  --text-body--line-height: 1.33;
+
+  --text-meta: 12px;
+  --text-meta--line-height: 1.4;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
 }
+
+/*
+ * The Figma file only designs the desktop (1440px) layout, so the bento
+ * placement below is opt-in above the `md` breakpoint. Below it, every
+ * .work-card just stacks full-width in source order (see BentoGrid.tsx).
+ */
+@media (min-width: 768px) {
+  .work-card {
+    grid-column: var(--card-col-start) / span var(--card-col-span);
+    grid-row-start: var(--card-row-start);
+  }
+}
+
+/*
+ * The scrollable content column (.scroll-area, in ScrollArea.tsx) draws
+ * its own scrollbar thumb as a real element so hover can animate
+ * smoothly — `::-webkit-scrollbar-thumb` doesn't reliably transition in
+ * Chromium. The native scrollbar is just hidden here.
+ */
+.scroll-area {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-area::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
