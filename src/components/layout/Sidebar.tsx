@@ -36,7 +36,7 @@ export function Sidebar() {
               // purposes (same trick as the card hover backdrop) so the
               // gray pill can bleed past the text without nudging the
               // other nav items around it.
-              className={`relative -mx-3 -my-1 inline-block self-start px-3 py-1 font-sans text-nav text-ink transition-colors duration-400 ease-in-out hover:bg-surface-hover ${
+              className={`relative -mx-1 -my-1.5 inline-block self-start px-1 py-1.5 font-sans text-nav text-ink transition-colors duration-400 ease-in-out hover:bg-surface-hover ${
                 active ? "bg-surface-hover" : ""
               }`}
             >
