@@ -37,7 +37,11 @@
   --spacing-nav: 32px;
   --spacing-content: 56px;
   --spacing-gutter: 24px;
-  --spacing-rhythm: 88px;
+  --spacing-rhythm: 110px;
+  /* Sidebar header-to-menu gap only — kept separate from
+     --spacing-rhythm so it can move without affecting BentoGrid row
+     gaps, WorkCard offsetTop, or the page-header-to-content margin. */
+  --spacing-menu: 80px;
 
   /* Shadow (Drop Shadow/400 in the Figma library) */
   --shadow-card:

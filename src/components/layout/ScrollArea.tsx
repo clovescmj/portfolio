@@ -136,7 +136,7 @@ export function ScrollArea({ children }: { children: React.ReactNode }) {
     <div className="relative min-h-0 min-w-0 flex-1" onPointerEnter={pulse} onPointerMove={pulse}>
       <main
         ref={scrollRef}
-        className="scroll-area px-6 py-10 md:h-full md:overflow-y-auto md:px-content md:py-12"
+        className="scroll-area px-6 py-10 md:h-full md:overflow-y-auto md:px-content md:py-[40px]"
       >
         <div ref={contentRef}>{children}</div>
       </main>

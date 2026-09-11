@@ -3,7 +3,7 @@ export const site = {
   greeting: "Hi!",
   title: "I'm Clóves.",
   bio: "A Product Designer with over 10 years of experience turning real user problems into experiences that drive business impact.",
-  footer: "Designed by a human.\nBuilt together with AI.",
+  footer: "Designed by a human.\nBuilt with AI.",
 };
 
 export interface NavItem {
@@ -14,4 +14,20 @@ export interface NavItem {
 export const nav: NavItem[] = [
   { label: "Work", href: "/" },
   { label: "About me", href: "/about" },
+];
+
+export interface SecondaryLink {
+  label: string;
+  href: string;
+  /**
+   * External links open in a new tab and are used as-is. Internal ones
+   * (external: false) go through assetPath() and get a download
+   * attribute — the only two shapes this footer group needs.
+   */
+  external: boolean;
+}
+
+export const secondaryLinks: SecondaryLink[] = [
+  { label: "LinkedIn", href: "https://linkedin.com/in/clovescardoso", external: true },
+  { label: "Resumé", href: "/files/resume.pdf", external: false },
 ];

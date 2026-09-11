@@ -2,20 +2,26 @@ export function PageHeader({ title }: { title: string }) {
   return (
     <header>
       {/*
-        text-box-trim/text-box-edge crop the line box down to cap-height,
-        matching Figma's own export for this text — without it, the
-        99px font's 123px line-height pads the box well past the visible
-        glyph, throwing off alignment with anything next to it.
+        Desktop: text-display's 123px line-height is taller than Figma's
+        72px Page Header box, so negative top/bottom margins on the h2
+        itself pull surrounding layout in to a net 72px footprint — the
+        (4px-nudged) split is -21.5px top / -29.5px bottom rather than an
+        even -25.5/-25.5, shifting the glyph down slightly to align its
+        cap-height with "Hi!"'s.
 
-        The mobile size/leading/tracking/weight below are max-md: on
-        purpose, not bare utilities: text-display bundles those same
-        properties via Tailwind's shared --tw-leading/--tw-tracking/
-        --tw-font-weight custom properties, so a bare (unprefixed)
-        leading-[...] here would keep winning at the md: breakpoint too,
-        silently overriding text-display's own 123px line-height — that's
-        exactly what was happening before this was scoped.
+        This is deliberately NOT a fixed-height flex-centered wrapper
+        with overflowing content (what was here before): Chromium clips
+        painted content that overflows its own box against a scrolling
+        ancestor (main here) as soon as it's scrolled by any amount —
+        negative margins don't have that problem since the h2's own box
+        genuinely is 123px tall, nothing paints outside it; only the
+        space siblings see around it is collapsed.
+
+        Mobile keeps text-box-trim instead: it crops the line box down to
+        cap-height so this aligns tightly with neighboring elements there
+        (no fixed reference box like the desktop 72px one to match).
       */}
-      <h2 className="[text-box-edge:cap_alphabetic] [text-box-trim:trim-both] font-sans max-md:text-[55px] max-md:leading-[1.05] max-md:tracking-[-0.03em] max-md:font-bold text-ink md:text-display">
+      <h2 className="max-md:[text-box-edge:cap_alphabetic] max-md:[text-box-trim:trim-both] font-sans max-md:text-[55px] max-md:leading-[1.05] max-md:tracking-[-0.03em] max-md:font-bold text-ink md:-mt-[21.5px] md:-mb-[29.5px] md:text-display">
         {title}
       </h2>
     </header>
