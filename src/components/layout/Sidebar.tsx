@@ -32,11 +32,11 @@ export function Sidebar() {
                 event.preventDefault();
                 navigate(item.href);
               }}
-              // Padding + an equal negative margin cancel out for layout
-              // purposes (same trick as the card hover backdrop) so the
-              // gray pill can bleed past the text without nudging the
-              // other nav items around it.
-              className={`relative -mx-1 -my-1.5 inline-block self-start px-1 py-1.5 font-sans text-nav text-ink transition-colors duration-400 ease-in-out hover:bg-surface-hover ${
+              // Real padding, not bled via a canceling negative margin —
+              // per Figma, the pill is a real box and the gap between nav
+              // items (gap-2) is measured between these padded boxes, not
+              // between the text baselines.
+              className={`relative inline-block self-start px-1.5 py-1 font-sans text-nav text-ink transition-colors duration-400 ease-in-out hover:bg-surface-hover ${
                 active ? "bg-surface-hover" : ""
               }`}
             >
