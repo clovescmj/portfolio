@@ -143,7 +143,7 @@ export function ScrollArea({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="relative min-w-0 flex-1" onPointerEnter={pulse} onPointerMove={pulse}>
+    <div className="relative min-h-0 min-w-0 flex-1" onPointerEnter={pulse} onPointerMove={pulse}>
       <main
         ref={scrollRef}
         className="scroll-area h-full overflow-y-auto px-6 py-10 md:px-content md:py-12"
