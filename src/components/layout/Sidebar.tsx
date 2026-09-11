@@ -9,12 +9,7 @@ export function Sidebar() {
 
   return (
     <aside className="flex w-full shrink-0 flex-col gap-6 overflow-y-auto px-6 py-8 md:w-[280px] md:gap-rhythm md:px-nav md:py-[48px]">
-      {/*
-        md:gap-[68px] — text-box-trim crops the title block shorter than
-        it visually reads, so gap-6 left the bio sitting well above the
-        first work card; this lines their tops up.
-      */}
-      <div className="flex flex-col gap-4 md:gap-[68px]">
+      <div className="flex flex-col gap-4 md:gap-6">
         {/*
           max-md: here, not bare utilities — text-brand bundles the same
           size/leading/tracking/weight via Tailwind's shared --tw-leading/
