@@ -5,6 +5,7 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { PageTransitionProvider } from "@/components/layout/PageTransitionContext";
 import { ScrollArea } from "@/components/layout/ScrollArea";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Clóves — Portfolio",
@@ -36,6 +37,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <Sidebar />
             <ScrollArea>
               <PageTransition>{children}</PageTransition>
+              {/*
+                On desktop this same line lives in Sidebar, pinned to the
+                bottom of the (fixed-height) sidebar column via mt-auto —
+                independent of how long the page content is. Mobile has no
+                separate pinned sidebar (sidebar and content scroll together
+                as one block, see #shell above), so there's no "bottom of
+                the sidebar" to pin it to; it sits after the page content
+                instead, as a real page footer.
+              */}
+              <p className="mt-16 whitespace-pre-line font-sans text-meta text-muted md:hidden">
+                {site.footer}
+              </p>
             </ScrollArea>
           </div>
         </PageTransitionProvider>
