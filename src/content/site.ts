@@ -8,10 +8,12 @@ export const site = {
 export interface NavItem {
   label: string;
   href: string;
+  /** Extra path prefixes that should also count as active for this item — e.g. individual case studies under Work. */
+  activePrefixes?: string[];
 }
 
 export const nav: NavItem[] = [
-  { label: "Work", href: "/" },
+  { label: "Work", href: "/", activePrefixes: ["/work"] },
   { label: "About me", href: "/about" },
 ];
 

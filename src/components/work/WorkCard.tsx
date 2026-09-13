@@ -1,4 +1,8 @@
-import type { CSSProperties } from "react";
+"use client";
+
+import type { CSSProperties, ReactNode } from "react";
+import { usePageTransition } from "@/components/layout/PageTransitionContext";
+import { caseStudies } from "@/content/case-studies";
 import type { Project } from "@/types/project";
 import { ProjectImage } from "./ProjectImage";
 import { ProjectMeta } from "./ProjectMeta";
@@ -20,6 +24,8 @@ import { ProjectMeta } from "./ProjectMeta";
  */
 export function WorkCard({ project, priority = false }: { project: Project; priority?: boolean }) {
   const { layout, image } = project;
+  const { navigate } = usePageTransition();
+  const href = caseStudies[project.slug] ? `/work/${project.slug}` : undefined;
 
   const style = {
     "--card-col-start": layout.colStart,
@@ -39,8 +45,16 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
         hovering "reveals" a surface bleeding 16px past the card into the
         surrounding gutter, instead of pushing neighbors around. A border
         would only draw a ring, not a filled backdrop like this.
+
+        Only cards with a real case study (see src/content/case-studies/)
+        link anywhere — the rest are placeholders without a page to go to
+        yet, so they render as a plain div instead of an inert <a>.
       */}
-      <div className="@container -m-4 flex flex-col gap-4 p-4 transition-colors duration-400 ease-in-out hover:bg-surface-hover">
+      <Wrapper
+        href={href}
+        onNavigate={navigate}
+        className="@container -m-4 flex flex-col gap-4 p-4 transition-colors duration-400 ease-in-out hover:bg-surface-hover"
+      >
         <ProjectImage image={image} priority={priority} />
 
         {!layout.imageOnly && (
@@ -62,7 +76,35 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
             </div>
           </div>
         )}
-      </div>
+      </Wrapper>
     </article>
+  );
+}
+
+/** A real <a> when there's somewhere to go, a plain div otherwise — never an inert link. */
+function Wrapper({
+  href,
+  onNavigate,
+  className,
+  children,
+}: {
+  href?: string;
+  onNavigate: (href: string) => void;
+  className: string;
+  children: ReactNode;
+}) {
+  if (!href) return <div className={className}>{children}</div>;
+
+  return (
+    <a
+      href={href}
+      onClick={(event) => {
+        event.preventDefault();
+        onNavigate(href);
+      }}
+      className={className}
+    >
+      {children}
+    </a>
   );
 }

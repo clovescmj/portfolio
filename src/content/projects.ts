@@ -17,9 +17,9 @@ export const projects: Project[] = [
     slug: "contract-template-management",
     title: "Contract Template Management",
     client: "QuintoAndar",
-    tags: ["Operational Efficiency", "Compliance", "UI Design", "Systems Thinking"],
+    tags: ["UI Design", "Systems Thinking", "Product Strategy", "Stakeholder Management"],
     description:
-      "The rental and property management contract was built in HTML, hosted on Google Drive. Any update, such as a clause change or a legal text edit.",
+      "Contract templates lived in hand-coded HTML, taking engineers weeks to update and leaving one attachment type editable with no audit trail. I designed a system giving the legal team direct control, closing a compliance risk ahead of the company's IPO.",
     image: {
       src: "/images/projects/contract-template-management.png",
       alt: "Contract Template Management screenshot",
@@ -31,45 +31,45 @@ export const projects: Project[] = [
     slug: "fixing-ui-debt",
     title: "Fixing UI Debt in Contract Template Management",
     client: "QuintoAndar",
-    tags: ["Operational Efficiency", "Compliance", "UI Design", "Systems Thinking"],
+    tags: ["UI Design", "Frontend Development", "AI-Assisted Development"],
     description:
-      "The rental and property management contract was built in HTML, hosted on Google Drive. Any update, such as a clause change or a legal text edit, required an engineer to rewrite the template.",
+      "After that tool shipped, I reviewed what had actually gone live, found real gaps between design and implementation, and fixed all four myself in code, with AI support, using the team's real design system.",
     layout: { colStart: 5, colSpan: 2, rowStart: 1, offsetTop: true },
   },
   {
     slug: "loft-app",
     title: "Loft App",
     client: "Loft",
-    tags: ["Operational Efficiency", "Compliance", "UI Design", "Systems Thinking"],
+    tags: ["UI Design", "UX Design", "User Research", "Product Strategy"],
     description:
-      "The rental and property management contract was built in HTML, hosted on Google Drive. Any update, such as a clause change or a legal text edit, required an engineer to rewrite the template.",
+      "Loft had no mobile app, only a slow, high-bounce mobile site. As founding product designer, I led the app from MVP to a personalized native experience, raising lead-to-schedule conversion 16% and ranking top 10 in its App Store category.",
     layout: { colStart: 2, colSpan: 4, rowStart: 2 },
   },
   {
     slug: "comms-map-skill",
     title: "Comms Map Skill",
     client: "QuintoAndar",
-    tags: ["Operational Efficiency", "Compliance", "UI Design", "Systems Thinking"],
+    tags: ["AI Tooling", "Internal Tools", "Workflow Automation"],
     description:
-      "The rental and property management contract was built in HTML, hosted on Google Drive. Any update, such as a clause change or a legal text edit, required an engineer to rewrite the template.",
+      "QuintoAndar's messaging system had grown to 500+ rules and 2,500+ templates with no unified view of what a customer actually received. I built an AI agent skill that maps any communication journey on demand, no ticket to engineering needed.",
     layout: { colStart: 1, colSpan: 2, rowStart: 3 },
   },
   {
     slug: "third-party-claims",
     title: "Third-party Claims",
-    client: "Youse Seguros",
-    tags: ["Operational Efficiency", "Compliance", "UI Design", "Systems Thinking"],
+    client: "Youse",
+    tags: ["UI Design", "UX Design", "User Research", "Usability Testing"],
     description:
-      "The rental and property management contract was built in HTML, hosted on Google Drive. Any update, such as a clause change or a legal text edit, required an engineer to rewrite the template.",
+      "Third parties in a car accident had to call support to file a claim, driving cost and frustration. I designed and validated a digital self-service journey that moved 40% of claims off the phone within a month of launch.",
     layout: { colStart: 4, colSpan: 3, rowStart: 3, offsetTop: true },
   },
   {
     slug: "career-development-plan",
     title: "Career Development Plan",
     client: "unico IDtech",
-    tags: ["Operational Efficiency", "Compliance", "UI Design", "Systems Thinking"],
+    tags: ["Team Mentorship", "People Management", "Career Development"],
     description:
-      "The rental and property management contract was built in HTML, hosted on Google Drive. Any update, such as a clause change or a legal text edit, required an engineer to rewrite the template.",
+      "As design manager, I built a concrete development plan with a mid-level designer to close specific skill gaps and make her impact visible to the promotion committee. She earned 5/5 ratings and was promoted to senior.",
     layout: { colStart: 2, colSpan: 2, rowStart: 4 },
   },
 ];

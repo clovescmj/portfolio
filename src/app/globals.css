@@ -20,6 +20,7 @@
   --color-muted: #73787a;
   --color-accent: #f84d2c;
   --color-placeholder: #ededed;
+  --color-lightgrey: #d7d7dd;
 
   /*
    * The one real typeface, self-hosted via next/font/local (see
@@ -92,6 +93,35 @@
   /* Body XSmall in Figma (card tags) */
   --text-meta: 11px;
   --text-meta--line-height: 1.483636; /* 16.32px = 11 + 5.32, same reciprocal-model constant */
+
+  /*
+   * The next four are read straight off the case-study node (15:2) via
+   * get_design_context/get_variable_defs rather than derived from the
+   * reciprocal model above — Figma gives these an explicit line-height
+   * already, so that's what's encoded here (as a unitless ratio, per
+   * the project's line-height convention), not re-derived from `a`.
+   */
+
+  /* Heading 1 in Figma (case study title) */
+  --text-heading-1: 47px;
+  --text-heading-1--line-height: 1.02;
+  --text-heading-1--letter-spacing: -0.01em;
+  --text-heading-1--font-weight: 700;
+
+  /* Heading 2 in Figma (case study section labels: Problem, Solution, Impact) */
+  --text-heading-2: 31px;
+  --text-heading-2--line-height: 1.06;
+  --text-heading-2--letter-spacing: -0.01em;
+  --text-heading-2--font-weight: 500;
+
+  /* Heading 3 in Figma (Approval flow / Attachment library headings) */
+  --text-heading-3: 17px;
+  --text-heading-3--line-height: 1.14;
+  --text-heading-3--font-weight: 500;
+
+  /* Body Small in Figma (case-study meta line, image captions) */
+  --text-caption: 11px;
+  --text-caption--line-height: 1.333333; /* Figma's literal ratio, kept when the size was hand-tuned from 12px to 11px */
 }
 
 body {

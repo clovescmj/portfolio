@@ -40,7 +40,9 @@ export function Sidebar() {
 
       <nav className="flex flex-row gap-6 md:flex-col md:gap-2">
         {nav.map((item) => {
-          const active = activePath === item.href;
+          const active =
+            activePath === item.href ||
+            item.activePrefixes?.some((prefix) => activePath.startsWith(prefix));
           return (
             <Link
               key={item.href}
