@@ -5,7 +5,7 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { PageTransitionProvider } from "@/components/layout/PageTransitionContext";
 import { ScrollArea } from "@/components/layout/ScrollArea";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { secondaryLinks, site } from "@/content/site";
+import { secondaryLinks } from "@/content/site";
 import { assetPath } from "@/lib/asset-path";
 
 export const metadata: Metadata = {
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <ScrollArea>
               <PageTransition>{children}</PageTransition>
               {/*
-                On desktop this same line lives in Sidebar, pinned to the
+                On desktop this same block lives in Sidebar, pinned to the
                 bottom of the (fixed-height) sidebar column via mt-auto —
                 independent of how long the page content is. Mobile has no
                 separate pinned sidebar (sidebar and content scroll together
@@ -54,22 +54,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 the sidebar" to pin it to; it sits after the page content
                 instead, as a real page footer.
               */}
-              <div className="mt-16 flex flex-col gap-10 md:hidden">
-                <div className="flex flex-col gap-2">
-                  {secondaryLinks.map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.external ? link.href : assetPath(link.href)}
-                      {...(link.external
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : { download: true })}
-                      className="self-start font-sans text-[14px] leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent"
-                    >
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
-                <p className="whitespace-pre-line font-sans text-caption text-muted">{site.footer}</p>
+              <div className="mt-16 flex flex-col gap-2 md:hidden">
+                {secondaryLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.external ? link.href : assetPath(link.href)}
+                    {...(link.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : { download: true })}
+                    className="self-start font-sans text-[14px] leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent"
+                  >
+                    {link.label}
+                  </a>
+                ))}
               </div>
             </ScrollArea>
           </div>
