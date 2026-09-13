@@ -5,11 +5,11 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { PageTransitionProvider } from "@/components/layout/PageTransitionContext";
 import { ScrollArea } from "@/components/layout/ScrollArea";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { secondaryLinks } from "@/content/site";
+import { secondaryLinks, site } from "@/content/site";
 import { assetPath } from "@/lib/asset-path";
 
 export const metadata: Metadata = {
-  title: "Clóves — Portfolio",
+  title: "Clóves Cardoso — Staff Product Designer",
   description:
     "Product Designer with over 10 years of experience turning real user problems into experiences that drive business impact.",
 };
@@ -67,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                     {link.label}
                   </a>
                 ))}
+                <p className="whitespace-pre-line font-sans text-meta text-muted">{site.footer}</p>
               </div>
             </ScrollArea>
           </div>

@@ -78,6 +78,7 @@ export function Sidebar() {
             </a>
           ))}
         </div>
+        <p className="whitespace-pre-line font-sans text-meta text-muted">{site.footer}</p>
       </div>
     </aside>
   );
