@@ -55,7 +55,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 instead, as a real page footer.
               */}
               <div className="mt-16 flex flex-col gap-10 md:hidden">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   {secondaryLinks.map((link) => (
                     <a
                       key={link.href}
@@ -63,13 +63,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                       {...(link.external
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : { download: true })}
-                      className="self-start font-sans text-[14px] text-muted transition-colors duration-400 ease-in-out hover:text-ink"
+                      className="self-start font-sans text-[14px] leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent"
                     >
                       {link.label}
                     </a>
                   ))}
                 </div>
-                <p className="whitespace-pre-line font-sans text-meta text-muted">{site.footer}</p>
+                <p className="whitespace-pre-line font-sans text-caption text-muted">{site.footer}</p>
               </div>
             </ScrollArea>
           </div>

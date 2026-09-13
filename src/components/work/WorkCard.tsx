@@ -7,11 +7,16 @@ import { ProjectMeta } from "./ProjectMeta";
  * A single project card in the Work bento grid.
  *
  * Position and size come entirely from `project.layout` (see
- * src/types/project.ts). Whether the title/description sit side by side
- * or stacked adapts on its own via a CSS container query, based on how
- * wide the card ends up once placed on the grid — no per-card variant
- * switch to maintain by hand. Title/body/meta font sizes are fixed and
- * the same on every card regardless of width, by design.
+ * src/types/project.ts). At the md breakpoint and up, whether the
+ * title/description sit side by side or stacked adapts on its own via a
+ * CSS container query, based on how wide the card ends up once placed
+ * on the grid, no per-card variant switch to maintain by hand. Below
+ * md, they always stack: on a wide phone a card can still render past
+ * the 420px container threshold, and a mobile card splitting into two
+ * columns reads as a bug, not a size-driven layout choice, so the
+ * container query itself is scoped to md: (`md:@min-[420px]:flex-row`)
+ * rather than being unconditional. Title/body/meta font sizes are fixed
+ * and the same on every card regardless of width, by design.
  */
 export function WorkCard({ project, priority = false }: { project: Project; priority?: boolean }) {
   const { layout, image } = project;
@@ -39,8 +44,16 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
         <ProjectImage image={image} priority={priority} />
 
         {!layout.imageOnly && (
-          <div className="flex flex-col gap-2 md:gap-4 @min-[420px]:flex-row @min-[420px]:gap-6">
-            <h3 className="flex-1 font-sans text-[19px] leading-[1.15] tracking-[-0.01em] font-medium text-ink md:text-title">
+          <div className="flex flex-col gap-2 md:gap-4 md:@min-[420px]:flex-row md:@min-[420px]:gap-6">
+            {/*
+              max-md: here, not bare utilities — same reason as
+              PageHeader/Sidebar: text-title bundles size/leading/
+              tracking/weight via Tailwind's shared --tw-leading/
+              --tw-tracking/--tw-font-weight custom properties, so an
+              unprefixed leading-[...] here would keep winning over
+              text-title's own line-height at the md: breakpoint too.
+            */}
+            <h3 className="flex-1 font-sans max-md:text-[19px] max-md:leading-[1.15] max-md:tracking-[-0.01em] max-md:font-medium text-ink md:text-title">
               {project.title}
             </h3>
             <div className="flex flex-1 flex-col gap-2 md:gap-4">

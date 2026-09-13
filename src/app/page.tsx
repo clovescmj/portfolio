@@ -4,11 +4,11 @@ import { projects } from "@/content/projects";
 
 export default function HomePage() {
   return (
-    <>
+    <div className="flex flex-col md:gap-header">
       <PageHeader title="Work" />
-      <div className="mt-10 md:mt-rhythm">
+      <div className="mt-10 md:mt-0">
         <BentoGrid projects={projects} />
       </div>
-    </>
+    </div>
   );
 }

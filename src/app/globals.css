@@ -19,10 +19,7 @@
   --color-ink: #2e3031;
   --color-muted: #73787a;
   --color-accent: #f84d2c;
-  --color-placeholder: #eef0f2;
-  --color-placeholder-deep: #7e7f80;
-  --color-placeholder-strong: #e3e4e5;
-  --color-placeholder-soft: #fbfdff;
+  --color-placeholder: #ededed;
 
   /*
    * The one real typeface, self-hosted via next/font/local (see
@@ -37,41 +34,68 @@
   --spacing-nav: 32px;
   --spacing-content: 56px;
   --spacing-gutter: 24px;
-  --spacing-rhythm: 110px;
+  --spacing-rhythm: 100px;
   /* Sidebar header-to-menu gap only — kept separate from
      --spacing-rhythm so it can move without affecting BentoGrid row
      gaps, WorkCard offsetTop, or the page-header-to-content margin. */
   --spacing-menu: 80px;
+  /* Page Header-to-content gap. A real flex gap, not a margin, so it
+     isn't affected by PageHeader's own negative-margin footprint trick
+     (margins collapse into an adjacent margin; gap never does). */
+  --spacing-header: 56px;
 
   /* Shadow (Drop Shadow/400 in the Figma library) */
   --shadow-card:
     0 16px 32px -4px rgba(12, 12, 13, 0.1),
     0 4px 4px -4px rgba(12, 12, 13, 0.05);
 
-  /* Typography scale — one utility per role, size+leading+tracking+weight bundled */
-  --text-display: 99px;
-  --text-display--line-height: 123px;
+  /*
+   * Typography scale — one utility per role, size+leading+tracking+weight
+   * bundled. Sizes match the named text styles tokenized in the Figma
+   * file (Page Title, Title, Body Large / Bold, Card Title, Body
+   * Default, Body XSmall, Body Small — see get_variable_defs on node
+   * 7:2). Line-heights instead follow the reciprocal model
+   * (precise-type.com/models-line-height.html): line-height = font-size
+   * + a, where a = (base-line-height - base-font-size) is held constant
+   * across the scale. Base is text-body (14px, ratio 1.38, so a = 5.32).
+   * Larger sizes end up proportionally tighter, smaller ones proportionally
+   * looser, without retuning each one by hand.
+   */
+  --text-display: 111px;
+  /* No --text-display--line-height on purpose: browser-default "normal"
+     line-height, per a live DevTools tuning pass that disabled this
+     token's line-height/margin-bottom overrides and hand-set margin-top
+     instead — see PageHeader.tsx. */
   --text-display--letter-spacing: -0.03em;
   --text-display--font-weight: 700;
 
-  --text-brand: 41px;
-  --text-brand--line-height: 41px;
+  /* Title in Figma (sidebar "Hi! I'm Clóves.") */
+  --text-brand: 43px;
+  --text-brand--line-height: 1.123721; /* 48.32px = 43 + 5.32 */
   --text-brand--letter-spacing: -0.03em;
   --text-brand--font-weight: 700;
 
-  --text-title: 25px;
-  --text-title--line-height: 1.12;
+  /* Card Title in Figma */
+  --text-title: 23px;
+  --text-title--line-height: 1.221667; /* 29.32px = 24 + 5.32 */
   --text-title--letter-spacing: -0.01em;
   --text-title--font-weight: 500;
 
+  /* Body Large / Body Large Bold in Figma (nav items) */
   --text-nav: 15px;
-  --text-nav--line-height: 1.45;
+  --text-nav--line-height: 1.3325; /* 21.32px = 16 + 5.32 */
 
+  /* Body Default in Figma (bio, card descriptions) — the base of the scale */
   --text-body: 13px;
-  --text-body--line-height: 1.4;
+  --text-body--line-height: 1.38; /* 19.32px = 14 + 5.32 */
 
+  /* Body XSmall in Figma (card tags) */
   --text-meta: 11px;
-  --text-meta--line-height: 1.35;
+  --text-meta--line-height: 1.483636; /* 16.32px = 11 + 5.32, same reciprocal-model constant */
+
+  /* Body Small in Figma (sidebar footer credit line) */
+  --text-caption: 11px;
+  --text-caption--line-height: 1.443333; /* 17.32px = 12 + 5.32 */
 }
 
 body {
