@@ -75,7 +75,7 @@ export function Sidebar() {
       {/* No room for it in the Figma mobile frame — every card already
           makes for a long single-column page there. */}
       <div className="mt-auto hidden flex-col gap-10 md:flex">
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-3">
           {secondaryLinks.map((link) => (
             <a
               key={link.href}
