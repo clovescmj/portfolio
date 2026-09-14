@@ -23,7 +23,9 @@ export default async function CaseStudyPage({
 
   return (
     <div className="flex flex-col gap-0 md:gap-[88px]">
-      <BackLink href="/" label="Back to Work" />
+      <div className="max-md:sticky max-md:top-0 max-md:z-10 max-md:-mx-6 max-md:w-[calc(100%+48px)] max-md:bg-surface max-md:px-6">
+        <BackLink href="/" label="Back to Work" />
+      </div>
 
       {/*
         Cancels ScrollArea's shared left+right inset once for the whole

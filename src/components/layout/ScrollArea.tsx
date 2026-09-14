@@ -1,7 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { usePageTransition } from "./PageTransitionContext";
 
 const TOP_INSET = 18;
 const BOTTOM_INSET = 18;
@@ -27,8 +27,11 @@ interface ThumbMetrics {
  * sits still inside the area without moving.
  */
 export function ScrollArea({ children }: { children: React.ReactNode }) {
-  const { activePath } = usePageTransition();
-  const isCaseStudy = activePath.startsWith("/work/");
+  // The real route, not the transition context's `activePath` — see the
+  // matching note in Sidebar.tsx. This padding toggle must land only once
+  // the outgoing page has actually faded out, not the instant a nav link
+  // is clicked.
+  const isCaseStudy = usePathname().startsWith("/work/");
   const scrollRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [thumb, setThumb] = useState<ThumbMetrics | null>(null);

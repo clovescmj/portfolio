@@ -1,18 +1,25 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { nav, secondaryLinks, site } from "@/content/site";
 import { assetPath } from "@/lib/asset-path";
 import { EmailLink } from "./EmailLink";
-import { usePageTransition } from "./PageTransitionContext";
+import { FADE_DURATION, usePageTransition } from "./PageTransitionContext";
 
 export function Sidebar() {
-  const { navigate, activePath } = usePageTransition();
-  const isCaseStudy = activePath.startsWith("/work/");
+  const { navigate, activePath, visible } = usePageTransition();
+  // The real route, not `activePath` (which flips to the clicked href
+  // immediately on click, before the fade-out finishes) — layout-affecting
+  // toggles like this one must wait for the actual swap, or the outgoing
+  // page visibly jumps mid-fade. `activePath` stays reserved for the nav
+  // link highlight, which is supposed to update that instantly.
+  const isCaseStudy = usePathname().startsWith("/work/");
 
   return (
     <aside
-      className={`w-full shrink-0 flex-col gap-6 overflow-y-auto px-6 py-8 md:w-[280px] md:gap-menu md:px-nav md:py-[40px] ${isCaseStudy ? "hidden md:flex" : "flex"}`}
+      style={{ transitionDuration: `${FADE_DURATION}ms` }}
+      className={`w-full shrink-0 flex-col gap-6 overflow-y-auto px-6 py-8 md:w-[280px] md:gap-menu md:px-nav md:py-[40px] max-md:transition-opacity max-md:ease-out ${visible ? "max-md:opacity-100" : "max-md:opacity-0"} ${isCaseStudy ? "hidden md:flex" : "flex"}`}
     >
       <div className="flex flex-col gap-4 md:gap-4">
         {/*
