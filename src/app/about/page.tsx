@@ -24,7 +24,7 @@ export default function AboutPage() {
     <div className="flex flex-col md:gap-[54px]">
       <PageHeader title="About me" />
 
-      <div className="flex flex-col gap-12 md:-mx-content md:w-[calc(100%+112px)] md:pl-content">
+      <div className="mt-10 flex flex-col gap-12 md:-mx-content md:mt-0 md:w-[calc(100%+112px)] md:pl-content">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-8 md:pr-content">
           <p className="font-sans text-title text-ink md:col-span-2 md:col-start-1">
             With over 10 years of experience designing digital products, I bring a unique blend of hands-on design
@@ -38,6 +38,16 @@ export default function AboutPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8">
+          <div className="relative -mx-6 aspect-square w-[calc(100%+48px)] overflow-hidden bg-placeholder md:col-span-4 md:col-start-3 md:row-start-1 md:mx-0 md:aspect-[712/393] md:w-full">
+            <Image
+              src={assetPath("/images/about/cloves.webp")}
+              alt="Clóves Cardoso"
+              fill
+              sizes="(min-width: 768px) 66vw, 100vw"
+              className="object-cover object-top grayscale"
+            />
+          </div>
+
           <div className="flex flex-col md:col-span-2 md:col-start-1 md:row-start-1">
             <h2 className="mb-10 font-sans text-heading-2 text-ink md:mb-6">Achievements</h2>
 
@@ -78,16 +88,6 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-
-          <div className="relative aspect-[712/393] w-full overflow-hidden bg-placeholder md:col-span-4 md:col-start-3 md:row-start-1">
-            <Image
-              src={assetPath("/images/about/cloves.webp")}
-              alt="Clóves Cardoso"
-              fill
-              sizes="(min-width: 768px) 66vw, 100vw"
-              className="object-cover object-top grayscale"
-            />
-          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-6 md:pr-content">
@@ -109,7 +109,7 @@ export default function AboutPage() {
           </div>
 
           <blockquote className="flex flex-col gap-3 md:col-span-2 md:col-start-5 md:-mt-[160px]">
-            <div className="md:-mb-[65px] md:ml-10">
+            <div className="-mb-[65px] md:ml-10">
               <Image
                 aria-hidden="true"
                 src={assetPath("/images/about/quote.svg")}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { usePageTransition } from "./PageTransitionContext";
 
 const TOP_INSET = 18;
 const BOTTOM_INSET = 18;
@@ -26,6 +27,8 @@ interface ThumbMetrics {
  * sits still inside the area without moving.
  */
 export function ScrollArea({ children }: { children: React.ReactNode }) {
+  const { activePath } = usePageTransition();
+  const isCaseStudy = activePath.startsWith("/work/");
   const scrollRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [thumb, setThumb] = useState<ThumbMetrics | null>(null);
@@ -136,7 +139,7 @@ export function ScrollArea({ children }: { children: React.ReactNode }) {
     <div className="relative min-h-0 min-w-0 flex-1" onPointerEnter={pulse} onPointerMove={pulse}>
       <main
         ref={scrollRef}
-        className="scroll-area px-6 py-10 md:h-full md:overflow-y-auto md:px-content md:py-[40px]"
+        className={`scroll-area px-6 pb-10 md:h-full md:overflow-y-auto md:px-content md:py-[40px] ${isCaseStudy ? "max-md:pt-0" : "pt-10"}`}
       >
         <div ref={contentRef}>{children}</div>
       </main>

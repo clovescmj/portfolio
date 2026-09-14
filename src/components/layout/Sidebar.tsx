@@ -8,9 +8,12 @@ import { usePageTransition } from "./PageTransitionContext";
 
 export function Sidebar() {
   const { navigate, activePath } = usePageTransition();
+  const isCaseStudy = activePath.startsWith("/work/");
 
   return (
-    <aside className="flex w-full shrink-0 flex-col gap-6 overflow-y-auto px-6 py-8 md:w-[280px] md:gap-menu md:px-nav md:py-[40px]">
+    <aside
+      className={`w-full shrink-0 flex-col gap-6 overflow-y-auto px-6 py-8 md:w-[280px] md:gap-menu md:px-nav md:py-[40px] ${isCaseStudy ? "hidden md:flex" : "flex"}`}
+    >
       <div className="flex flex-col gap-4 md:gap-4">
         {/*
           max-md: here, not bare utilities. text-brand bundles the same
@@ -65,7 +68,7 @@ export function Sidebar() {
       {/* No room for it in the Figma mobile frame — every card already
           makes for a long single-column page there. */}
       <div className="mt-auto hidden flex-col gap-10 md:flex">
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-10">
           {secondaryLinks.map((link) => (
             <a
               key={link.href}

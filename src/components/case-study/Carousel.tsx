@@ -80,7 +80,7 @@ export function Carousel({ slides }: { slides: CaseStudySlide[] }) {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 bg-placeholder pb-6 pt-6 md:gap-6 md:pb-10 md:pt-8">
+    <div className="-mx-6 flex w-[calc(100%+48px)] flex-col gap-4 bg-placeholder pb-6 pt-6 md:mx-0 md:w-auto md:gap-6 md:pb-10 md:pt-8">
       {hasMultiple && (
         <div className="flex justify-end gap-4 px-6 md:px-0 md:pr-content">
           <button

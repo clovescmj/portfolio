@@ -30,7 +30,7 @@ const ZOOM = 0.8;
  */
 export function EmbedFrame({ src, title }: { src: string; title: string }) {
   return (
-    <div className="h-[480px] w-full bg-placeholder p-6 md:h-[720px]">
+    <div className="-mx-6 h-[616px] w-[calc(100%+48px)] bg-placeholder p-6 md:mx-0 md:h-[720px] md:w-full">
       <div className="h-full w-full overflow-hidden rounded-[4px] border border-lightgrey">
         <iframe
           src={assetPath(src)}

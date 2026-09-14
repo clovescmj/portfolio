@@ -15,9 +15,9 @@ export function BackLink({ href, label }: { href: string; label: string }) {
         event.preventDefault();
         navigate(href);
       }}
-      className="inline-flex w-fit text-ink transition-colors duration-400 ease-in-out hover:text-accent"
+      className="inline-flex w-fit max-md:py-3 text-ink transition-colors duration-400 ease-in-out hover:text-accent"
     >
-      <ArrowIcon direction="left" size={24} />
+      <ArrowIcon direction="left" size={20} />
     </a>
   );
 }

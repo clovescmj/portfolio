@@ -15,7 +15,7 @@ export function CaseStudyIntro({
   paragraphs: string[];
 }) {
   return (
-    <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-gutter md:gap-y-10 md:pr-content">
+    <div className="grid grid-cols-1 gap-3 md:grid-cols-6 md:gap-x-gutter md:gap-y-10 md:pr-content">
       <div className="flex flex-col gap-6 md:col-span-2 md:col-start-1">
         <h1 className="break-words font-sans text-heading-1 text-ink">{title}</h1>
         <p className="font-sans text-caption text-ink">

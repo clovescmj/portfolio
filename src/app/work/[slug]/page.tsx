@@ -22,7 +22,7 @@ export default async function CaseStudyPage({
   if (!caseStudy) notFound();
 
   return (
-    <div className="flex flex-col gap-10 md:gap-[88px]">
+    <div className="flex flex-col gap-0 md:gap-[88px]">
       <BackLink href="/" label="Back to Work" />
 
       {/*
@@ -32,7 +32,7 @@ export default async function CaseStudyPage({
         each block below decides its own right edge (most add their own
         pr-content back; Hero/Carousel/dividers don't, so they bleed).
       */}
-      <div className="flex flex-col gap-12 md:-mx-content md:w-[calc(100%+112px)] md:pl-content">
+      <div className="flex flex-col gap-8 md:-mx-content md:w-[calc(100%+112px)] md:gap-12 md:pl-content">
         <Hero image={caseStudy.heroImage} />
 
         <div className="flex flex-col gap-12">

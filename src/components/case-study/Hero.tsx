@@ -10,7 +10,7 @@ import { assetPath } from "@/lib/asset-path";
  */
 export function Hero({ image }: { image: { src: string; alt: string } }) {
   return (
-    <div className="relative aspect-[4500/1716] w-full overflow-hidden bg-placeholder">
+    <div className="relative -mx-6 aspect-[4/3] w-[calc(100%+48px)] overflow-hidden bg-placeholder md:mx-0 md:aspect-[4500/1716] md:w-full">
       <Image
         src={assetPath(image.src)}
         alt={image.alt}
