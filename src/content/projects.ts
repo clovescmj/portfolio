@@ -21,7 +21,7 @@ export const projects: Project[] = [
     description:
       "Contract templates lived in hand-coded HTML, taking engineers weeks to update and leaving one attachment type editable with no audit trail. I designed a system giving the legal team direct control, closing a compliance risk ahead of the company's IPO.",
     image: {
-      src: "/images/projects/contract-template-management.png",
+      src: "/images/projects/contract-template-management.webp",
       alt: "Contract Template Management screenshot",
       treatment: "framed",
     },

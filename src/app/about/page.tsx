@@ -81,7 +81,7 @@ export default function AboutPage() {
 
           <div className="relative aspect-[712/393] w-full overflow-hidden bg-placeholder md:col-span-4 md:col-start-3 md:row-start-1">
             <Image
-              src={assetPath("/images/about/cloves.jpg")}
+              src={assetPath("/images/about/cloves.webp")}
               alt="Clóves Cardoso"
               fill
               sizes="(min-width: 768px) 66vw, 100vw"

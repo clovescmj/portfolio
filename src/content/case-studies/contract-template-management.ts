@@ -6,7 +6,7 @@ export const contractTemplateManagement: CaseStudy = {
   client: "QuintoAndar",
   tags: ["Operational Efficiency", "Compliance", "UI Design", "Systems Thinking"],
   heroImage: {
-    src: "/images/projects/contract-template-management.png",
+    src: "/images/projects/contract-template-management.webp",
     alt: "Contract Template Management, versions list screen",
   },
   intro: [
@@ -34,19 +34,19 @@ export const contractTemplateManagement: CaseStudy = {
   ],
   carousel: [
     {
-      src: "/images/projects/contract-template-management-home.png",
+      src: "/images/projects/contract-template-management-home.webp",
       alt: "Contract Template Management, versions list screen",
       caption:
         "The approval process behind both template types. A new version or attachment gets created, reviewed by the legal team, submitted with a linked spec document, tested in staging, and only goes live once it is explicitly approved.",
     },
     {
-      src: "/images/projects/contract-template-management-new-version.png",
+      src: "/images/projects/contract-template-management-new-version.webp",
       alt: "Creating a new contract template version",
       caption:
         "Starting a new version of a contract template. From the version list, the legal team picks the type of contract, defines whether it is a simple fix or a broader revision, and links the standardized spreadsheet before sending it for approval.",
     },
     {
-      src: "/images/projects/contract-template-management-version-details.png",
+      src: "/images/projects/contract-template-management-version-details.webp",
       alt: "Contract template version details and approval status",
       // No matching slide in the Figma file (it only mocks the first two) —
       // placeholder copy, needs a real caption from Clóves.
