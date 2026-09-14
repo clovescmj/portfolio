@@ -28,14 +28,14 @@ export function Sidebar() {
           barely any leading to trim in the first place. Dropping it
           costs nothing visible.
         */}
-        <h1 className="w-full font-sans text-ink md:w-[216px]">
+        <p className="w-full font-sans text-ink md:w-[216px]">
           <span className="block max-md:text-[32px] max-md:leading-[1] max-md:tracking-[-0.03em] max-md:font-bold md:text-brand">
             {site.greeting}
           </span>
           <span className="block max-md:text-[32px] max-md:leading-[1] max-md:tracking-[-0.03em] max-md:font-bold md:text-brand">
             {site.title}
           </span>
-        </h1>
+        </p>
         <p className="w-full font-sans text-body text-ink md:w-[216px]">{site.bio}</p>
       </div>
 

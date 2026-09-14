@@ -21,9 +21,9 @@ export function PageHeader({ title }: { title: string }) {
         cap-height so this aligns tightly with neighboring elements there
         (no fixed reference box like the desktop 72px one to match).
       */}
-      <h2 className="max-md:[text-box-edge:cap_alphabetic] max-md:[text-box-trim:trim-both] font-sans max-md:text-[55px] max-md:leading-[1.05] max-md:tracking-[-0.03em] max-md:font-bold text-ink md:-mt-[37.16px] md:text-display">
+      <h1 className="max-md:[text-box-edge:cap_alphabetic] max-md:[text-box-trim:trim-both] font-sans max-md:text-[55px] max-md:leading-[1.05] max-md:tracking-[-0.03em] max-md:font-bold text-ink md:-mt-[37.16px] md:text-display">
         {title}
-      </h2>
+      </h1>
     </header>
   );
 }
