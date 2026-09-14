@@ -53,9 +53,9 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
       <Wrapper
         href={href}
         onNavigate={navigate}
-        className="@container -m-4 flex flex-col gap-4 p-4 transition-colors duration-400 ease-in-out hover:bg-surface-hover"
+        className="group @container -m-4 flex flex-col gap-4 p-4 transition-colors duration-400 ease-in-out hover:bg-placeholder"
       >
-        <ProjectImage image={image} priority={priority} />
+        <ProjectImage image={image} priority={priority} comingSoon={!href} />
 
         {!layout.imageOnly && (
           <div className="flex flex-col gap-2 md:gap-4 md:@min-[420px]:flex-row md:@min-[420px]:gap-6">

@@ -26,7 +26,7 @@ export function DeepDive({
 }) {
   return (
     <section className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-10 md:pr-content">
-      <div className="flex flex-col gap-4 md:col-span-2 md:col-start-1 md:row-start-1">
+      <div className="flex flex-col gap-3 md:col-span-2 md:col-start-1 md:row-start-1">
         <h2 className="font-sans text-heading-3 text-ink">Approval flow</h2>
         <div className="flex flex-col gap-2 font-sans text-body text-ink">
           <p>{approvalFlow.intro}</p>
@@ -43,7 +43,7 @@ export function DeepDive({
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 md:col-span-2 md:col-start-4 md:row-start-1">
+      <div className="flex flex-col gap-3 md:col-span-2 md:col-start-4 md:row-start-1">
         <h2 className="font-sans text-heading-3 text-ink">Attachment library</h2>
         <div className="flex flex-col gap-2 font-sans text-body text-ink">
           {attachmentLibrary.body.map((paragraph) => (
@@ -52,7 +52,7 @@ export function DeepDive({
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 md:col-span-2 md:col-start-1 md:row-start-2">
+      <div className="flex flex-col gap-3 md:col-span-2 md:col-start-1 md:row-start-2">
         <h2 className="font-sans text-heading-3 text-ink">Scaling with AI-assisted tooling</h2>
         <div className="flex flex-col gap-2 font-sans text-body text-ink">
           {scaling.map((paragraph) => (

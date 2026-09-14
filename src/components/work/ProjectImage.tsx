@@ -20,13 +20,24 @@ const SIZES = "(min-width: 768px) 50vw, 100vw";
 export function ProjectImage({
   image,
   priority = false,
+  comingSoon = false,
 }: {
   image?: ProjectImageData;
   /** Set for the card(s) visible above the fold, e.g. the first in the grid. */
   priority?: boolean;
+  /** Set when the project has no case study page yet — labels the placeholder instead of leaving it blank. */
+  comingSoon?: boolean;
 }) {
   if (!image) {
-    return <div className={`${IMAGE_HEIGHT} w-full bg-placeholder`} />;
+    return (
+      <div className={`flex ${IMAGE_HEIGHT} w-full items-center justify-center bg-placeholder`}>
+        {comingSoon && (
+          <p className="font-sans text-heading-3 text-muted opacity-0 transition-opacity duration-400 ease-in-out group-hover:opacity-100">
+            Coming Soon
+          </p>
+        )}
+      </div>
+    );
   }
 
   if (image.treatment === "framed") {

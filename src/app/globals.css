@@ -13,14 +13,15 @@
  */
 @theme {
   /* Colors */
-  --color-canvas: #2e3031;
+  --color-canvas: #222121;
   --color-surface: #ffffff;
   --color-surface-hover: #f7f7f7;
-  --color-ink: #2e3031;
-  --color-muted: #73787a;
+  --color-ink: #222121;
+  --color-muted: #7a7979;
   --color-accent: #f84d2c;
   --color-placeholder: #ededed;
   --color-lightgrey: #d7d7dd;
+  --color-lightergrey: #edebeb;
 
   /*
    * The one real typeface, self-hosted via next/font/local (see
@@ -57,10 +58,13 @@
    * Default, Body XSmall, Body Small — see get_variable_defs on node
    * 7:2). Line-heights instead follow the reciprocal model
    * (precise-type.com/models-line-height.html): line-height = font-size
-   * + a, where a = (base-line-height - base-font-size) is held constant
-   * across the scale. Base is text-body (14px, ratio 1.38, so a = 5.32).
-   * Larger sizes end up proportionally tighter, smaller ones proportionally
-   * looser, without retuning each one by hand.
+   * + a, where a = 5.32px is held constant across the scale (text-meta,
+   * 11px, ratio 1.483636, gives 16.32 = 11 + 5.32). Larger sizes end up
+   * proportionally tighter, smaller ones proportionally looser, without
+   * retuning each one by hand. When a size is hand-tuned, its
+   * line-height ratio must be recomputed against `a` too, or it goes
+   * stale — as text-title/text-nav/text-body's did after each lost 1px
+   * and kept the old ratio.
    */
   --text-display: 111px;
   /* No --text-display--line-height on purpose: browser-default "normal"
@@ -78,17 +82,17 @@
 
   /* Card Title in Figma */
   --text-title: 23px;
-  --text-title--line-height: 1.221667; /* 29.32px = 24 + 5.32 */
+  --text-title--line-height: 1.231304; /* 28.32px = 23 + 5.32 */
   --text-title--letter-spacing: -0.01em;
   --text-title--font-weight: 500;
 
   /* Body Large / Body Large Bold in Figma (nav items) */
   --text-nav: 15px;
-  --text-nav--line-height: 1.3325; /* 21.32px = 16 + 5.32 */
+  --text-nav--line-height: 1.354667; /* 20.32px = 15 + 5.32 */
 
-  /* Body Default in Figma (bio, card descriptions) — the base of the scale */
+  /* Body Default in Figma (bio, card descriptions) */
   --text-body: 13px;
-  --text-body--line-height: 1.38; /* 19.32px = 14 + 5.32 */
+  --text-body--line-height: 1.409231; /* 18.32px = 13 + 5.32 */
 
   /* Body XSmall in Figma (card tags) */
   --text-meta: 11px;
