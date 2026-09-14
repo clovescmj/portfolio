@@ -32,9 +32,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       */}
       <body className="h-full overflow-hidden p-3 md:p-gutter">
         <Script
-          type="module"
-          src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon='{"token": "79478fc3011641a3a68e200237cff3af"}'
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="78a29146-a745-4f41-9ed0-9c6aab5ea570"
         />
         <PageTransitionProvider>
           <div
