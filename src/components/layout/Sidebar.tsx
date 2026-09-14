@@ -66,7 +66,6 @@ export function Sidebar() {
           makes for a long single-column page there. */}
       <div className="mt-auto hidden flex-col gap-10 md:flex">
         <div className="flex flex-col gap-3">
-          <EmailLink className="self-start font-sans text-body leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent" />
           {secondaryLinks.map((link) => (
             <a
               key={link.href}
@@ -79,6 +78,7 @@ export function Sidebar() {
               {link.label}
             </a>
           ))}
+          <EmailLink className="self-start font-sans text-body leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent" />
         </div>
         <p className="whitespace-pre-line font-sans text-meta text-muted">{site.footer}</p>
       </div>

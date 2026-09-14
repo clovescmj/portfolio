@@ -62,7 +62,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 instead, as a real page footer.
               */}
               <div className="mt-16 flex flex-col gap-2 md:hidden">
-                <EmailLink className="self-start font-sans text-[14px] leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent" />
                 {secondaryLinks.map((link) => (
                   <a
                     key={link.href}
@@ -75,6 +74,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                     {link.label}
                   </a>
                 ))}
+                <EmailLink className="self-start font-sans text-[14px] leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent" />
                 <p className="whitespace-pre-line font-sans text-meta text-muted">{site.footer}</p>
               </div>
             </ScrollArea>
