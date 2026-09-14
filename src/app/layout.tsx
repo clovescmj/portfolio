@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { braunLinear } from "./fonts";
+import { EmailLink } from "@/components/layout/EmailLink";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { PageTransitionProvider } from "@/components/layout/PageTransitionContext";
 import { ScrollArea } from "@/components/layout/ScrollArea";
@@ -61,15 +62,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 instead, as a real page footer.
               */}
               <div className="mt-16 flex flex-col gap-2 md:hidden">
+                <EmailLink className="self-start font-sans text-[14px] leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent" />
                 {secondaryLinks.map((link) => (
                   <a
                     key={link.href}
                     href={link.external ? link.href : assetPath(link.href)}
-                    {...(link.href.startsWith("mailto:")
-                      ? {}
-                      : link.external
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : { download: true })}
+                    {...(link.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : { download: true })}
                     className="self-start font-sans text-[14px] leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent"
                   >
                     {link.label}

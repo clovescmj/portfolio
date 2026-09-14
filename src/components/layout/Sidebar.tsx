@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { nav, secondaryLinks, site } from "@/content/site";
 import { assetPath } from "@/lib/asset-path";
+import { EmailLink } from "./EmailLink";
 import { usePageTransition } from "./PageTransitionContext";
 
 export function Sidebar() {
@@ -65,15 +66,14 @@ export function Sidebar() {
           makes for a long single-column page there. */}
       <div className="mt-auto hidden flex-col gap-10 md:flex">
         <div className="flex flex-col gap-3">
+          <EmailLink className="self-start font-sans text-body leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent" />
           {secondaryLinks.map((link) => (
             <a
               key={link.href}
               href={link.external ? link.href : assetPath(link.href)}
-              {...(link.href.startsWith("mailto:")
-                ? {}
-                : link.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : { download: true })}
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : { download: true })}
               className="self-start font-sans text-body leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent"
             >
               {link.label}
