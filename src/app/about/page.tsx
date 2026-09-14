@@ -108,8 +108,8 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <blockquote className="flex flex-col gap-3 md:col-span-2 md:col-start-5 -mt-[160px]">
-            <div className="-mb-[65px] ml-10">
+          <blockquote className="flex flex-col gap-3 md:col-span-2 md:col-start-5 md:-mt-[160px]">
+            <div className="md:-mb-[65px] md:ml-10">
               <Image
                 aria-hidden="true"
                 src={assetPath("/images/about/quote.svg")}
@@ -118,10 +118,10 @@ export default function AboutPage() {
                 height={78}
               />
             </div>
-            <p className="font-sans text-brand text-ink text-right">
+            <p className="font-sans text-brand text-ink md:text-right">
               You cannot understand good design if you do not understand people; design is made for people.
             </p>
-            <cite className="font-sans text-body text-muted not-italic text-right">— Dieter Rams</cite>
+            <cite className="font-sans text-body text-muted not-italic md:text-right">— Dieter Rams</cite>
           </blockquote>
         </div>
 
