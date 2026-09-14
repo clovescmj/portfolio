@@ -30,6 +30,7 @@ export interface SecondaryLink {
 }
 
 export const secondaryLinks: SecondaryLink[] = [
+  { label: "Email", href: "mailto:cloves.cmj@gmail.com", external: true },
   { label: "LinkedIn", href: "https://linkedin.com/in/clovescardoso", external: true },
   { label: "Resumé", href: "/files/resume.pdf", external: false },
 ];

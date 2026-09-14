@@ -69,9 +69,11 @@ export function Sidebar() {
             <a
               key={link.href}
               href={link.external ? link.href : assetPath(link.href)}
-              {...(link.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : { download: true })}
+              {...(link.href.startsWith("mailto:")
+                ? {}
+                : link.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : { download: true })}
               className="self-start font-sans text-body leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent"
             >
               {link.label}
