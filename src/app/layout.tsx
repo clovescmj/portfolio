@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { braunLinear } from "./fonts";
 import { PageTransition } from "@/components/layout/PageTransition";
@@ -30,6 +31,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         and sidebar + content scroll together as one block within it.
       */}
       <body className="h-full overflow-hidden p-3 md:p-gutter">
+        <Script
+          type="module"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "79478fc3011641a3a68e200237cff3af"}'
+        />
         <PageTransitionProvider>
           <div
             id="shell"
