@@ -25,7 +25,7 @@ function Column({ column }: { column: LabeledColumn }) {
               <h4 className="font-sans text-nav font-medium text-ink">{item.title}</h4>
               {item.body && <p>{item.body}</p>}
               {item.list && (
-                <ul className="flex flex-col gap-1">
+                <ul className="flex flex-col gap-2">
                   {item.list.map((entry) => (
                     <li key={entry} className="flex gap-2">
                       <span aria-hidden className="text-muted">
@@ -91,7 +91,7 @@ export function LabeledRow({
 }) {
   return (
     <section className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-10 md:gap-x-8 md:pr-content">
-      <div className="flex flex-col gap-6 md:col-span-1 md:col-start-1">
+      <div className="flex flex-col gap-6 md:col-span-2 md:col-start-1">
         <h2 className="font-sans text-heading-2 text-ink">{label}</h2>
         {sublabel && <h3 className="font-sans text-heading-3 text-ink">{sublabel}</h3>}
       </div>

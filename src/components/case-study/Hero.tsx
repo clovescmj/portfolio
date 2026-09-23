@@ -20,11 +20,9 @@ const DESKTOP_ASPECT_CLASSES = {
  * this is simply the one block that doesn't add its own back.
  *
  * The device-mockup exports (hero.png for every project) are transparent
- * cutouts, not opaque screenshots — Figma fills the frame behind them
- * with a linear gradient, top to bottom, #222121 (--color-ink) to #D4D2D2,
- * confirmed directly on that fill in Figma. A flat `bg-placeholder` showed
- * through as plain grey instead of that fade, so this reproduces the
- * gradient itself rather than a solid color.
+ * cutouts, not opaque screenshots — Figma fills the frame behind them with
+ * its "lighter grey" fill token (--color-lightergrey, #edebeb), confirmed
+ * directly on that fill in Figma.
  */
 export function Hero({
   image,
@@ -33,7 +31,7 @@ export function Hero({
 }) {
   return (
     <div
-      className={`relative -mx-6 aspect-[4/3] w-[calc(100%+48px)] overflow-hidden bg-[linear-gradient(to_bottom,#222121_0%,#d4d2d2_100%)] md:mx-0 md:w-full ${DESKTOP_ASPECT_CLASSES[image.desktopAspect ?? "wide"]}`}
+      className={`relative -mx-6 aspect-[4/3] w-[calc(100%+48px)] overflow-hidden bg-lightergrey md:mx-0 md:w-full ${DESKTOP_ASPECT_CLASSES[image.desktopAspect ?? "wide"]}`}
     >
       <Image
         src={assetPath(image.src)}

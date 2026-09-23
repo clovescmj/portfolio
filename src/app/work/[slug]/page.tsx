@@ -21,12 +21,13 @@ export default async function CaseStudyPage({
   const caseStudy = caseStudies[slug];
   if (!caseStudy) notFound();
 
-  // Contract's Figma measures a uniform 48px between every row; Loft's
-  // measures 72px, divider or not (the divider itself is a 0-height line,
-  // so a "divided" gap is just two of these back to back). Both cases are
-  // one flat rhythm — the JIT-unfriendly arbitrary value is why this is a
-  // style prop instead of a `gap-*` class.
-  const rowGapStyle = { gap: `${caseStudy.rowGap ?? 48}px` };
+  // Both case studies use a flat 72px rhythm between top-level ("mãe")
+  // blocks, divider or not (the divider itself is a 0-height line, so a
+  // "divided" gap is just two of these back to back) — see the note on
+  // `CaseStudy.rowGap`. Kept overridable rather than hardcoded, in case a
+  // future case study measures differently; the JIT-unfriendly arbitrary
+  // value is why this is a style prop instead of a `gap-*` class.
+  const rowGapStyle = { gap: `${caseStudy.rowGap ?? 72}px` };
 
   return (
     <div className="flex flex-col gap-0 md:gap-[88px]">
@@ -63,6 +64,22 @@ export default async function CaseStudyPage({
                 <hr key={`divider-${i}`} className={dividerLight ? "border-lightergrey" : "border-ink"} />
               ) : null;
             if (block.kind === "section") {
+              // A section with its own filhas ("childGroups" — Contract's
+              // "Solution") renders them right after it, in one shared 64px
+              // child↔child column, itself a single item in the page's 72px
+              // mãe↔mãe rhythm — same pattern `SolutionGroup` uses for its
+              // own `subsections`/nested groups.
+              if (block.childGroups?.length) {
+                return [
+                  divider,
+                  <div key={`section-${i}`} className="flex flex-col gap-12 md:gap-16">
+                    <LabeledRow label={block.label} sublabel={block.sublabel} columns={block.columns} />
+                    {block.childGroups.map((childGroup, ci) => (
+                      <SolutionGroup key={`${childGroup.title}-${ci}`} group={childGroup} />
+                    ))}
+                  </div>,
+                ];
+              }
               return [
                 divider,
                 <LabeledRow key={`section-${i}`} label={block.label} sublabel={block.sublabel} columns={block.columns} />,

@@ -15,8 +15,8 @@ export function StatsGrid({ stats }: { stats: StatsBlock }) {
       {stats.items.map((item) => (
         <div key={item.label} className="flex flex-col gap-1">
           <p className="font-sans text-heading-2 text-ink">{item.value}</p>
-          <p className="font-sans text-nav text-ink">{item.label}</p>
-          {item.caption && <p className="font-sans text-meta text-muted">{item.caption}</p>}
+          <p className="font-sans text-heading-3 text-ink">{item.label}</p>
+          {item.caption && <p className="font-sans text-caption text-ink">{item.caption}</p>}
         </div>
       ))}
     </div>

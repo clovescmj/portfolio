@@ -1,8 +1,29 @@
+/** A plain image reference — src/alt plus its real pixel size, so it can
+ *  render at its own natural aspect ratio instead of being forced into a
+ *  fixed box (source screenshots vary widely: square crops, tall phone
+ *  screens, wide diagrams). Shared by `FeatureBlock.image` and
+ *  `CaseStudyGroup.imageColumns`. */
+export interface CaseStudyImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
 export interface CaseStudySlide {
   src: string;
   alt: string;
   /** Every slide gets its own caption in the Figma file — not one shared line. */
   caption: string;
+  /**
+   * Overrides the carousel's header while this slide is active — Contract's
+   * "Contract Template Management" (first 3 slides) vs. "Attachment
+   * Template Management" (last 3): one carousel covering two distinct
+   * flows, so the header should say which one is on screen, not one
+   * static label for both. Falls back to the group's own `title` (set on
+   * every slide in this case, so that fallback is mostly theoretical).
+   */
+  title?: string;
 }
 
 /** A stacked heading+body sub-entry — Loft's "Convenience/Personalization/Performance"
@@ -55,6 +76,16 @@ export interface LabeledColumns {
   /** A divider line above this block. Off by default — Figma uses these sparingly, at
    *  real chapter breaks, not between every block (see `CaseStudy.rowGap` for the rest). */
   divider?: boolean;
+  /**
+   * Full groups nested under this section, tightly (64px, the child↔child
+   * rhythm — see `CaseStudy.rowGap` for the 72px parent↔parent one) —
+   * Contract's "Solution", whose "New process", "Contract and attachment
+   * template management", and the unlabeled flush-stacked block are
+   * filhas of it, not separate 72px-gapped mãe sections of their own.
+   * Each renders via its own `SolutionGroup` call, right after this
+   * section, in the same 64px-gapped column.
+   */
+  childGroups?: CaseStudyGroup[];
 }
 
 /**
@@ -84,11 +115,7 @@ export interface FeatureBlock {
   listBoxed?: boolean;
   items?: SubItem[];
   stats?: StatsBlock;
-  image?: {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
+  image?: CaseStudyImage & {
     /** Small caption under the image, e.g. noting it's an animated recording of a click-through. */
     caption?: string;
     /** Wrap the image in a tinted card — only when Figma actually shows one behind it. Off by default:
@@ -105,19 +132,13 @@ export interface FeatureBlock {
    * been handed off), the slot renders as a placeholder the same size,
    * with the caption already in place — never a fabricated or guessed src.
    */
-  embed?: { src?: string; title: string; caption: string };
-  /**
-   * A third-level heading in the group's label column (col 1), row-locked
-   * to this topic instead of living inside its own card — Loft's App
-   * Evolution, where "User Setup"/"Bottom Navigation"/"Home Feed"/"Property
-   * Feedback" sit at the same x as the group title itself, confirmed via
-   * get_metadata (each at x=0, same column as "App Evolution"), not inside
-   * the topic's own col2/col4 cell like a normal `title`. Only meaningful
-   * on the first topic of a row (the one rendered at col-start-2).
-   */
-  colLabel?: string;
-  /** A link under `colLabel`, e.g. "View prototype" — Loft's User Setup. */
-  colLabelLink?: { label: string; href: string };
+  embed?: {
+    src?: string;
+    title: string;
+    caption: string;
+    /** A device-shaped embed (a phone prototype) — see EmbedFrame's `device` prop. */
+    device?: boolean;
+  };
 }
 
 /** A wide process diagram with its own caption, shown full width. */
@@ -185,15 +206,29 @@ export interface CaseStudyGroup {
    * Test") the same way a topic can.
    */
   miniGrid?: { title: string; body?: string; list?: string[]; tag?: string }[][];
+  /**
+   * Two independent stacked-image columns, full-width below the topic
+   * grid — Loft's "Samples". Each image renders at its own natural aspect
+   * ratio (see `CaseStudyImage`), and the two columns end up different
+   * total heights (the right column's top image is much taller than
+   * anything on the left), which the normal 2-per-row topic grid can't
+   * express — that grid syncs row height to the tallest cell in each row,
+   * which assumes matching pairs, not an independent masonry stack.
+   * Confirmed via get_metadata on node 111:12081: two 484px-wide
+   * (3-column-span) stacks with a 32px gap between items in each, and
+   * between the two columns — 998.5px tall on the left, 1217.35px on the
+   * right, not the same.
+   */
+  imageColumns?: [CaseStudyImage[], CaseStudyImage[]];
   embed?: CaseStudyEmbed;
   /**
-   * Wide diagrams shown full-width, each after a given 0-indexed topic
-   * (omit `afterTopic` to render after every topic in the row) — Loft's App
-   * Evolution has two (after User Setup, after Bottom Navigation's image),
-   * MVP/Release Plan/A-B Test have one each, some `first` (MVP, screens
-   * before the rationale text).
+   * Wide diagrams shown full-width, after every topic in this group —
+   * MVP/Release Plan have one each. A group whose diagram belongs to one
+   * specific child instead of the whole group (Loft's App Evolution: the
+   * User Setup onboarding flow) puts it on that child's own `subsections[].flows`
+   * instead, so it renders right after that child, not by index math here.
    */
-  flows?: (CaseStudyFlow & { afterTopic?: number; first?: boolean })[];
+  flows?: CaseStudyFlow[];
   carousel?: CaseStudySlide[];
   /**
    * Render `title` as the carousel's own header (full width, beside its
@@ -204,21 +239,58 @@ export interface CaseStudyGroup {
   titleAboveCarousel?: boolean;
   links?: { label: string; href: string }[];
   /**
-   * More title+content blocks stacked below the main one, tightly (48px,
-   * not the page's 72px rhythm) — Loft's "Insights" chapter, which packs
-   * "Interview & Usability Test" (title + a 3-col miniGrid), "Research
-   * Process" (title + a 4-col miniGrid), "Key Findings" (title + topics),
-   * and "A/B Test" (title + topics + flow) into one physical Figma row
-   * with no dividers or full rhythm gaps between them — confirmed via
-   * get_metadata (all 4 titles/content sit inside one un-interrupted
-   * ~1064px-tall row). Each entry reuses the same title/topics/miniGrid/
-   * flows rendering as the group itself, just without its own topLabel.
+   * The group's own children ("seções filhas") — a real hierarchy, not a
+   * position-based approximation: each entry is a fully self-contained
+   * title+content block, independently reorderable, spaced 64px from the
+   * next (the child↔child rhythm — see `CaseStudy.rowGap` for the 72px
+   * parent↔parent one). Two shapes use this:
+   *  - Loft's "Insights" chapter: "Interview & Usability Test" (title + a
+   *    3-col miniGrid), "Research Process" (title + a 4-col miniGrid),
+   *    "Key Findings" (title + topics), "A/B Test" (title + topics + flow)
+   *    — confirmed via get_metadata (all 4 pack into one un-interrupted
+   *    ~1064px-tall Figma row, no dividers or full rhythm gaps between
+   *    them, hence subsections instead of separate top-level groups).
+   *  - Loft's "App Evolution": "User Setup" / "Bottom Navigation" /
+   *    "Home Feed" / "Property Feedback", each its own named feature
+   *    (title, optional `link` like "View prototype", body/goals topics,
+   *    an optional trailing `flows` diagram) instead of the group's old
+   *    flat `topics` array with positional `colLabel`s glued together by
+   *    array-index adjacency.
+   * Each entry reuses the same title/topics/miniGrid/flows rendering the
+   * group itself uses, just without its own topLabel.
    */
   subsections?: {
     title: string;
+    /** A link under the title, e.g. "View prototype" — Loft's App Evolution "User Setup". */
+    link?: { label: string; href: string };
+    /**
+     * Keep the title at the group's narrow (140px) label column even when
+     * the group itself is `wideLabel` (312px) — Loft's App Evolution
+     * features, whose names ("Bottom Navigation") sit in the same narrow
+     * column the group title's `col-[1/span_1]` does, not the wider
+     * `col-[1/span_2]` "App Evolution" itself uses (confirmed on screen:
+     * "Bottom Navigation" wraps to two lines in the narrow column).
+     */
+    narrowLabel?: boolean;
+    /** Topics start at column 3 — see the note on `CaseStudyGroup.contentOffset3`;
+     *  a subsection sets this independently of its parent group's own value
+     *  (Loft's "Release Plan", nested under "MVP"/"Solution", needs it on
+     *  its own even though the parent uses it too). */
+    contentOffset3?: boolean;
     topics?: FeatureBlock[];
     miniGrid?: { title: string; body?: string; list?: string[]; tag?: string }[][];
-    flows?: (CaseStudyFlow & { afterTopic?: number })[];
+    /**
+     * "Research Process" specifically: its title sits flush beside the
+     * miniGrid's first row (col 1-2, same row as Plan/Recruit/Document/
+     * Iterate at col 3/4/5/6), not stacked above it like "Interview &
+     * Usability Test"'s title is above its own 3-col miniGrid — confirmed
+     * via get_metadata (both share `row-5` on node 97:13056/97:13103 vs
+     * 97:13125/97:13128/97:13131/97:13134). Only the first miniGrid row is
+     * affected; a second row (unused here) would fall back to stacking.
+     */
+    miniGridInline?: boolean;
+    /** Renders after this subsection's own topics — Loft's App Evolution "User Setup" onboarding flow. */
+    flows?: CaseStudyFlow[];
   }[];
   /** A divider line above this group. Off by default — Figma uses these sparingly, at
    *  real chapter breaks, not between every group (see `CaseStudy.rowGap` for the rest). */
@@ -326,8 +398,10 @@ export interface CaseStudy {
   };
   /** Paragraphs next to the title, under the hero image. */
   intro: string[];
-  /** Vertical gap between top-level blocks, in px. Defaults to 48 (Contract's verified
-   *  rhythm) — Loft's Figma measures a uniform 72px between every row instead. */
+  /** Vertical gap between top-level ("mãe") blocks, in px — the parent↔parent
+   *  rhythm, paired with a divider on either side wherever a block sets its own
+   *  `divider: true`. Both case studies use 72px; kept overridable per case
+   *  rather than hardcoded, in case a future one measures differently. */
   rowGap?: number;
   /** The case's main narrative, in render order — see `CaseStudyBlock`. */
   content: CaseStudyBlock[];

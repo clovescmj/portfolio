@@ -90,7 +90,7 @@ export function Sidebar() {
           ))}
           <EmailLink className="self-start font-sans text-body leading-[1] text-ink transition-colors duration-400 ease-in-out hover:text-accent" />
         </div>
-        <p className="whitespace-pre-line font-sans text-meta text-muted">{site.footer}</p>
+        <p className="whitespace-pre-line font-sans text-caption text-muted">{site.footer}</p>
       </div>
     </aside>
   );

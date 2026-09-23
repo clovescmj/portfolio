@@ -12,16 +12,19 @@ import { StatsGrid } from "./StatsGrid";
  * every one of these rows): 6 EQUAL 140px columns with a 32px gutter over
  * the 1000px usable width (1056px row minus the 56px `pr-content` reserve),
  * not a differently-sized "label track + N content tracks" approximation.
- * A group's title takes 1 column (MVP, Release Plan, App Evolution — topics
- * then start at column 2) or 2 columns (Understanding, Business
- * Opportunities, My Role, Insights' subsections — topics start at column 3)
+ * A group's title takes 1 column (Release Plan — topics then start at
+ * column 2) or 2 columns (Understanding, Business Opportunities, My Role,
+ * App Evolution, Insights' subsections — topics start at column 3)
  * depending on Figma's own `col-[1/span_N]` on that title; see `wideLabel`.
+ * A single-column title can still leave column 2 empty and start content
+ * at column 3 (MVP) — that's `contentOffset3`, independent of `wideLabel`.
  * Two topics per row either way, each spanning 2 columns. Tailwind only
  * generates CSS for class names it finds as literal text, so each index
  * looks its pair up here instead of building it with a template string.
- * Five rows deep — Loft's App Evolution needs all of them (intro row + one
- * row per feature: User Setup, Bottom Navigation, Home Feed, Property
- * Feedback).
+ * Three rows deep covers every group/subsection's own topic grid post
+ * hierarchy-refactor — the deepest is 2 rows (Understanding, Key Findings).
+ * Loft's App Evolution features each get their own `GroupBody` call now
+ * (via `subsections`), so they no longer need one shared, deeper grid.
  */
 const TOPIC_POSITION_CLASSES = [
   "md:col-start-2 md:row-start-1",
@@ -30,10 +33,6 @@ const TOPIC_POSITION_CLASSES = [
   "md:col-start-4 md:row-start-2",
   "md:col-start-2 md:row-start-3",
   "md:col-start-4 md:row-start-3",
-  "md:col-start-2 md:row-start-4",
-  "md:col-start-4 md:row-start-4",
-  "md:col-start-2 md:row-start-5",
-  "md:col-start-4 md:row-start-5",
 ];
 
 /** Same pairing, shifted one column right — for a 2-column (`wideLabel`) title. */
@@ -44,30 +43,42 @@ const WIDE_TOPIC_POSITION_CLASSES = [
   "md:col-start-5 md:row-start-2",
   "md:col-start-3 md:row-start-3",
   "md:col-start-5 md:row-start-3",
-  "md:col-start-3 md:row-start-4",
-  "md:col-start-5 md:row-start-4",
-  "md:col-start-3 md:row-start-5",
-  "md:col-start-5 md:row-start-5",
 ];
 
-/** `colLabel`'s own grid slot — column 1 (the group-title column), row-locked
- *  to its topic's row. Only the col-2 (even index) slots ever carry one. */
-const COL_LABEL_POSITION_CLASSES = [
-  "md:col-start-1 md:row-start-1",
-  "",
-  "md:col-start-1 md:row-start-2",
-  "",
-  "md:col-start-1 md:row-start-3",
-  "",
-  "md:col-start-1 md:row-start-4",
-  "",
-  "md:col-start-1 md:row-start-5",
-  "",
-];
+/** `miniGridInline`'s first row, beside a 2-column title — Loft's
+ *  "Research Process": Plan/Recruit/Document/Iterate at columns 3/4/5/6,
+ *  confirmed via get_metadata (all four share `row-5` with the title). */
+const MINI_GRID_INLINE_COL_CLASSES = ["md:col-start-3", "md:col-start-4", "md:col-start-5", "md:col-start-6"];
 
 type Topics = CaseStudyGroup["topics"];
 type MiniGrid = NonNullable<CaseStudyGroup["miniGrid"]>;
-type Flow = CaseStudyFlow & { afterTopic?: number; first?: boolean };
+
+/** One miniGrid column's content — title, optional tag/border, body or list. */
+function MiniGridColumn({ column, className }: { column: MiniGrid[number][number]; className: string }) {
+  return (
+    <div className={`flex flex-col gap-2 ${column.tag ? "border-2 border-accent p-3" : ""} ${className}`}>
+      {column.tag && (
+        <span className="w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
+          {column.tag}
+        </span>
+      )}
+      <h4 className="font-sans text-heading-3 text-ink">{column.title}</h4>
+      {column.body && <p className="font-sans text-body text-ink">{column.body}</p>}
+      {column.list && (
+        <ul className="flex flex-col gap-2 font-sans text-body text-ink">
+          {column.list.map((item) => (
+            <li key={item} className="flex gap-2">
+              <span aria-hidden className="text-muted">
+                •
+              </span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
 
 /**
  * A reserved slot for a live prototype: the real thing once `embed.src`
@@ -79,7 +90,7 @@ function EmbedSlot({ embed, topMargin }: { embed: NonNullable<Topics[number]["em
   if (embed.src) {
     return (
       <figure className={`flex flex-col gap-2 ${marginClass}`}>
-        <EmbedFrame src={embed.src} title={embed.title} />
+        <EmbedFrame src={embed.src} title={embed.title} device={embed.device} />
         <figcaption className="font-sans text-caption text-muted">{embed.caption}</figcaption>
       </figure>
     );
@@ -95,37 +106,18 @@ function EmbedSlot({ embed, topMargin }: { embed: NonNullable<Topics[number]["em
 }
 
 /** Renders one topic's card — title/tag, body, list, stacked items, a
- *  link, stats, image, or embed slot — at the given grid position, plus
- *  its own `colLabel` in column 1 if it has one (Loft's App Evolution). */
+ *  link, stats, image, or embed slot — at the given grid position. */
 function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; positionClass: string }) {
   return (
-    <>
-      {topic.colLabel && (
-        <div className={`hidden md:flex md:flex-col md:gap-1 ${COL_LABEL_POSITION_CLASSES[i] ?? ""}`}>
-          <h4 className="font-sans text-title text-ink">{topic.colLabel}</h4>
-          {topic.colLabelLink && (
-            <a
-              href={topic.colLabelLink.href}
-              target="_blank"
-              rel="noreferrer"
-              className="font-sans text-caption text-accent underline transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
-            >
-              {topic.colLabelLink.label}
-            </a>
-          )}
-        </div>
-      )}
-      <div
-        // Index-prefixed: two topics can legitimately share a title
-        // (see Loft's Key Findings, where that itself may be a content
-        // slip worth double-checking — title alone isn't a safe key).
-        key={`${i}-${topic.title ?? ""}`}
-        className={`flex flex-col gap-3 md:col-span-2 ${positionClass} ${topic.tag ? "border-2 border-accent p-3" : ""}`}
-      >
-        {/* On mobile colLabel renders inline, same as a normal title, since there's no separate column-1 to place it in. */}
-        {topic.colLabel && <h4 className="font-sans text-title text-ink md:hidden">{topic.colLabel}</h4>}
+    <div
+      // Index-prefixed: two topics can legitimately share a title
+      // (see Loft's Key Findings, where that itself may be a content
+      // slip worth double-checking — title alone isn't a safe key).
+      key={`${i}-${topic.title ?? ""}`}
+      className={`flex flex-col gap-3 md:col-span-2 ${positionClass} ${topic.tag ? "relative -m-[14px] border-2 border-accent bg-accent/[0.07] p-3" : ""}`}
+    >
         {topic.tag && (
-          <span className="w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
+          <span className="absolute -top-[11px] right-3 w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
             {topic.tag}
           </span>
         )}
@@ -138,14 +130,24 @@ function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; 
             (topic.listTwoColumn ? (
               <div className="flex flex-col gap-2">
                 {topic.listLabel && <p className="font-medium">{topic.listLabel}</p>}
-                <div className="grid grid-cols-2 gap-x-6 gap-y-2">
-                  {topic.list.map((item) => (
-                    <div key={item} className="flex gap-2">
-                      <span aria-hidden className="text-muted">
-                        •
-                      </span>
-                      <span>{item}</span>
-                    </div>
+                {/* Two independent columns (not a grid) so a wrapped item
+                    only pushes down items below it in its OWN column —
+                    a shared grid row would size both cells to the taller
+                    one, leaving a gap under the shorter neighbor. */}
+                <div className="flex gap-x-6">
+                  {[0, 1].map((col) => (
+                    <ul key={col} className="flex flex-1 flex-col gap-2">
+                      {topic.list!
+                        .filter((_, idx) => idx % 2 === col)
+                        .map((item) => (
+                          <li key={item} className="flex gap-2">
+                            <span aria-hidden className="text-muted">
+                              •
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                    </ul>
                   ))}
                 </div>
               </div>
@@ -172,7 +174,7 @@ function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; 
                   <h5 className="font-sans text-nav font-medium text-ink">{item.title}</h5>
                   {item.body && <p>{item.body}</p>}
                   {item.list && (
-                    <ul className="flex flex-col gap-1">
+                    <ul className="flex flex-col gap-2">
                       {item.list.map((entry) => (
                         <li key={entry} className="flex gap-2">
                           <span aria-hidden className="text-muted">
@@ -227,7 +229,6 @@ function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; 
           />
         )}
       </div>
-    </>
   );
 }
 
@@ -240,11 +241,15 @@ function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; 
  */
 function GroupBody({
   title,
+  titleLink,
   wideLabel,
+  narrowLabel,
   contentOffset3,
   intro,
   topics,
   miniGrid,
+  miniGridInline,
+  imageColumns,
   flows,
   links,
   embed,
@@ -254,7 +259,12 @@ function GroupBody({
   flushCaption,
 }: {
   title: string;
+  /** A link under the title, e.g. "View prototype" — Loft's App Evolution "User Setup". */
+  titleLink?: { label: string; href: string };
   wideLabel?: boolean;
+  /** Keep the title at the narrow 1-column width even when `wideLabel` is
+   *  set on the parent group — see the note on `subsections[].narrowLabel`. */
+  narrowLabel?: boolean;
   /** Topics start at column 3 (leaving column 2 as a gap) even though the
    *  title itself only spans column 1 — Contract's "New process", confirmed
    *  via get_design_context (`col-[3/span_2]`/`col-[5/span_2]` beside a
@@ -264,7 +274,10 @@ function GroupBody({
   intro?: string;
   topics: Topics;
   miniGrid?: MiniGrid;
-  flows?: Flow[];
+  /** See the note on `subsections[].miniGridInline` in the type. */
+  miniGridInline?: boolean;
+  imageColumns?: CaseStudyGroup["imageColumns"];
+  flows?: CaseStudyFlow[];
   links?: CaseStudyGroup["links"];
   embed?: CaseStudyGroup["embed"];
   flushStacked?: boolean;
@@ -347,136 +360,110 @@ function GroupBody({
   const basePositions = wideLabel || contentOffset3 ? WIDE_TOPIC_POSITION_CLASSES : TOPIC_POSITION_CLASSES;
   const topicPositions = intro ? basePositions.slice(2) : basePositions;
 
-  // Split the topic grid at each flow's `afterTopic` boundary, rendering
-  // the flow full-width in between — Loft's App Evolution has two (after
-  // User Setup, after Bottom Navigation's image).
-  const allFlows = flows ?? [];
-  const firstFlows = allFlows.filter((f) => f.first);
-  const positionedFlows = allFlows.filter((f) => !f.first);
-  const boundaries = [...new Set(positionedFlows.map((f) => f.afterTopic).filter((n): n is number => n !== undefined))].sort(
-    (a, b) => a - b,
-  );
-  const segments: { topics: Topics; startIndex: number; flowsAfter: typeof positionedFlows }[] = [];
-  let cursor = 0;
-  for (const boundary of boundaries) {
-    const end = boundary + 1;
-    segments.push({
-      topics: topics.slice(cursor, end),
-      startIndex: cursor,
-      flowsAfter: positionedFlows.filter((f) => f.afterTopic === boundary),
-    });
-    cursor = end;
-  }
-  if (cursor < topics.length || segments.length === 0) {
-    segments.push({ topics: topics.slice(cursor), startIndex: cursor, flowsAfter: [] });
-  }
-  // Any flow with no afterTopic at all renders after everything, once.
-  const trailingFlows = positionedFlows.filter((f) => f.afterTopic === undefined);
-
   return (
     <div className="flex flex-col gap-12">
-      {firstFlows.map((flow) => (
-        <FlowDiagram key={flow.src} flow={flow} />
-      ))}
-
-      {segments.map((segment, s) => (
-        <div key={s} className="flex flex-col gap-12">
-          <section className={`grid grid-cols-1 gap-y-10 ${gridColsClass} md:gap-x-8 md:pr-content`}>
-            {s === 0 && (
-              <h3
-                className={`font-sans text-title text-ink max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel ? "md:col-span-2" : "md:col-span-1"}`}
-              >
-                {title}
-              </h3>
-            )}
-
-            {s === 0 && intro && (
-              <p className="font-sans text-nav text-ink md:col-span-3 md:col-start-2 md:row-start-1">{intro}</p>
-            )}
-
-            {segment.topics.map((topic, i) => (
-              <Topic
-                key={`${segment.startIndex + i}-${topic.title ?? ""}`}
-                topic={topic}
-                i={i}
-                positionClass={(s === 0 ? topicPositions : basePositions)[i] ?? ""}
-              />
-            ))}
-
-            {s === segments.length - 1 &&
-              miniGrid?.map((row, r) => (
-                <div key={r} className="flex flex-col gap-6 sm:flex-row sm:gap-8 md:col-span-6 md:col-start-1">
-                  {row.map((column) => (
-                    <div
-                      key={column.title}
-                      className={`flex flex-1 flex-col gap-2 ${column.tag ? "border-2 border-accent p-3" : ""}`}
-                    >
-                      {column.tag && (
-                        <span className="w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
-                          {column.tag}
-                        </span>
-                      )}
-                      <h4 className="font-sans text-heading-3 text-ink">{column.title}</h4>
-                      {column.body && <p className="font-sans text-body text-ink">{column.body}</p>}
-                      {column.list && (
-                        <ul className="flex flex-col gap-2 font-sans text-body text-ink">
-                          {column.list.map((item) => (
-                            <li key={item} className="flex gap-2">
-                              <span aria-hidden className="text-muted">
-                                •
-                              </span>
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ))}
-
-            {s === segments.length - 1 && links && (
-              <ul className="flex flex-col gap-2 md:col-span-4 md:col-start-2">
-                {links.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-sans text-heading-3 text-accent underline transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {s === 0 && embed && (
-              <figure className="flex flex-col gap-3 md:col-span-3 md:col-start-4 md:row-start-1">
-                <EmbedFrame src={embed.src} title={embed.title} />
-                <figcaption className="font-sans text-caption text-muted">{embed.caption}</figcaption>
-              </figure>
-            )}
-          </section>
-
-          {segment.flowsAfter.map((flow) => (
-            <FlowDiagram key={flow.src} flow={flow} />
-          ))}
+      <section className={`grid grid-cols-1 gap-y-10 ${gridColsClass} md:gap-x-8 md:pr-content`}>
+        <div
+          className={`flex flex-col gap-1 max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel && !narrowLabel ? "md:col-span-2" : "md:col-span-1"}`}
+        >
+          <h3 className="font-sans text-title text-ink">{title}</h3>
+          {titleLink && (
+            <a
+              href={titleLink.href}
+              target="_blank"
+              rel="noreferrer"
+              className="font-sans text-caption text-accent underline transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
+            >
+              {titleLink.label}
+            </a>
+          )}
         </div>
-      ))}
 
-      {trailingFlows.map((flow) => (
-        <FlowDiagram key={flow.src} flow={flow} />
-      ))}
+        {intro && (
+          <p className="font-sans text-nav text-ink md:col-span-3 md:col-start-2 md:row-start-1">{intro}</p>
+        )}
+
+        {topics.map((topic, i) => (
+          <Topic key={`${i}-${topic.title ?? ""}`} topic={topic} i={i} positionClass={topicPositions[i] ?? ""} />
+        ))}
+
+        {miniGrid?.map((row, r) =>
+          miniGridInline && r === 0 ? (
+            // Beside the title, same row — "Research Process": the
+            // wrapper is `display: contents` so each column becomes a
+            // direct child of the section's own grid instead of a
+            // nested flex row, letting it sit at col-start-1's row.
+            <div key={r} className="contents">
+              {row.map((column, c) => (
+                <MiniGridColumn
+                  key={column.title}
+                  column={column}
+                  className={`md:row-start-1 ${MINI_GRID_INLINE_COL_CLASSES[c] ?? ""}`}
+                />
+              ))}
+            </div>
+          ) : (
+            <div key={r} className="flex flex-col gap-6 sm:flex-row sm:gap-8 md:col-span-6 md:col-start-1">
+              {row.map((column) => (
+                <MiniGridColumn key={column.title} column={column} className="flex-1" />
+              ))}
+            </div>
+          ),
+        )}
+
+        {imageColumns && (
+          <div className="flex flex-col gap-8 sm:flex-row md:col-span-6 md:col-start-1">
+            {imageColumns.map((column, c) => (
+              <div key={c} className="flex flex-1 flex-col gap-8">
+                {column.map((img) => (
+                  <Image
+                    key={img.src}
+                    src={assetPath(img.src)}
+                    alt={img.alt}
+                    width={img.width}
+                    height={img.height}
+                    className="h-auto w-full"
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {links && (
+          <ul className="flex flex-col gap-2 md:col-span-4 md:col-start-2">
+            {links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-sans text-body text-accent underline underline-offset-2 transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {embed && (
+          <figure className="flex flex-col gap-3 md:col-span-3 md:col-start-4 md:row-start-1">
+            <EmbedFrame src={embed.src} title={embed.title} />
+            <figcaption className="font-sans text-caption text-muted">{embed.caption}</figcaption>
+          </figure>
+        )}
+      </section>
+
+      {flows?.map((flow) => <FlowDiagram key={flow.src} flow={flow} />)}
     </div>
   );
 }
 
 export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
   return (
-    <div className="flex flex-col gap-12">
-      {group.topLabel && <h2 className="font-sans text-heading-2 text-ink -mb-6 md:-mb-4">{group.topLabel}</h2>}
+    <div className="flex flex-col gap-12 md:gap-16">
+      {group.topLabel && <h2 className="font-sans text-heading-2 text-ink -mb-6 md:-mb-10">{group.topLabel}</h2>}
 
       {/* Contract's "Contract and attachment template management": title only,
           rendered as the carousel's own header below — no col-1 label row of
@@ -489,6 +476,7 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
           intro={group.intro}
           topics={group.topics}
           miniGrid={group.miniGrid}
+          imageColumns={group.imageColumns}
           flows={group.flows}
           links={group.links}
           embed={group.embed}
@@ -500,15 +488,22 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
       )}
 
       {/* Loft's "Insights" chapter: several more title+content blocks packed
-          tightly (48px) under the same "Insights" topLabel above, not the
-          page's normal 72px rhythm — see `subsections` on the type. */}
+          tightly (64px, confirmed via get_metadata — the tallest column's
+          bottom edge to the next chapter's title, consistently, at every
+          boundary in node 97:13056) under the same "Insights" topLabel
+          above, not the page's normal 72px rhythm — see `subsections` on
+          the type. */}
       {group.subsections?.map((subsection) => (
         <GroupBody
           key={subsection.title}
           title={subsection.title}
+          titleLink={subsection.link}
           wideLabel={group.wideLabel}
+          narrowLabel={subsection.narrowLabel}
+          contentOffset3={subsection.contentOffset3}
           topics={subsection.topics ?? []}
           miniGrid={subsection.miniGrid}
+          miniGridInline={subsection.miniGridInline}
           flows={subsection.flows}
         />
       ))}

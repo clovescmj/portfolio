@@ -28,9 +28,52 @@ const ZOOM = 0.8;
  * stay a true fixed size regardless of ZOOM, and it clips the oversized
  * (then scaled-down) iframe to size.
  */
-export function EmbedFrame({ src, title }: { src: string; title: string }) {
+export function EmbedFrame({
+  src,
+  title,
+  device,
+}: {
+  src: string;
+  title: string;
+  /** A device-shaped embed (Loft's Home Feed/Property Feedback phone
+   *  prototypes): width auto (the grid column already sets it), height
+   *  auto off that via Figma's own 312×630 reserved-slot ratio (confirmed
+   *  directly by Clóves) — no border either, since the device skin
+   *  (bezel, notch, home indicator) is already the visual edge.
+   *
+   *  Figma's own player wraps the device in `.prototype--viewerContainer`
+   *  with `margin: calc(12px + var(--toolbar-height)) 48px` — found by
+   *  Clóves via devtools, and measured directly at 48px left/right,
+   *  60px top/bottom (so `--toolbar-height` is live at 48px even with
+   *  `hide-ui=1`, not 0). That's inside Figma's cross-origin document, so
+   *  it can't be overridden from here; instead the iframe is rendered
+   *  oversized by exactly that fixed margin (96px/120px) and shifted
+   *  up-left by the same amount, so the margin lands outside this box's
+   *  overflow-hidden crop and only the device itself remains visible. */
+  device?: boolean;
+}) {
+  if (device) {
+    return (
+      <div className="relative aspect-[312/630] w-full overflow-hidden">
+        <iframe
+          src={assetPath(src)}
+          title={title}
+          loading="lazy"
+          className="absolute border-0"
+          style={{ width: "calc(100% + 96px)", height: "calc(100% + 120px)", left: "-48px", top: "-60px" }}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className="-mx-6 h-[616px] w-[calc(100%+48px)] md:mx-0 md:h-[720px] md:w-full">
+    // Fixed height on mobile (single-column stack, no sibling to match);
+    // `md:h-full` on desktop instead, so this stretches to the grid row's
+    // real height — the taller of this and its text sibling, via CSS
+    // Grid's own default `align-items: stretch` on the parent `<section>`
+    // — rather than a fixed px guess that can leave blank space under a
+    // shorter iframe or clip a taller one.
+    <div className="-mx-6 h-[616px] w-[calc(100%+48px)] md:mx-0 md:h-full md:w-full">
       <div className="h-full w-full overflow-hidden rounded-[4px] border border-lightgrey">
         <iframe
           src={assetPath(src)}

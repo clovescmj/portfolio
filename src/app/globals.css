@@ -53,18 +53,25 @@
 
   /*
    * Typography scale — one utility per role, size+leading+tracking+weight
-   * bundled. Sizes match the named text styles tokenized in the Figma
-   * file (Page Title, Title, Body Large / Bold, Card Title, Body
-   * Default, Body XSmall, Body Small — see get_variable_defs on node
-   * 7:2). Line-heights instead follow the reciprocal model
+   * bundled. Every size below is deliberately hand-rounded UP to the
+   * nearest even number from the named Figma text style it's based on
+   * (confirmed directly via get_variable_defs on the home node 7:2 and
+   * the case-study node 87:4056) — a clean 10/12/14/16/18/24/32/48 scale
+   * instead of Figma's odd raw values (11/13/15/17/23/31/47). Each
+   * token's comment below states the exact Figma style name and its raw
+   * px, so the rounding stays visible and intentional rather than
+   * looking like drift. --text-brand (42px, Figma's "Title" at 43px) is
+   * the one exception — rounded DOWN, not up, kept as-is on purpose (not
+   * part of this rounding pass). --text-meta (10px) needs no rounding at
+   * all: its Figma source ("Body XSmall") is already an even 10px.
+   * Line-heights instead follow the reciprocal model
    * (precise-type.com/models-line-height.html): line-height = font-size
-   * + a, where a = 5.32px is held constant across the scale (text-meta,
-   * 11px, ratio 1.483636, gives 16.32 = 11 + 5.32). Larger sizes end up
-   * proportionally tighter, smaller ones proportionally looser, without
-   * retuning each one by hand. When a size is hand-tuned, its
-   * line-height ratio must be recomputed against `a` too, or it goes
-   * stale — as text-title/text-nav/text-body's did after each lost 1px
-   * and kept the old ratio.
+   * + a, where a = 5.32px is held constant across the scale, UNLESS a
+   * token's comment says its line-height is Figma's own explicit value
+   * instead (get_design_context/get_variable_defs give one directly for
+   * several of these, more reliable than re-deriving it). When a size is
+   * hand-tuned, any reciprocal-model line-height must be recomputed
+   * against `a` too, or it goes stale.
    */
   --text-display: 111px;
   /* No --text-display--line-height on purpose: browser-default "normal"
@@ -74,83 +81,101 @@
   --text-display--letter-spacing: -0.03em;
   --text-display--font-weight: 700;
 
-  /* Title in Figma (sidebar "Hi! I'm Clóves.") */
-  --text-brand: 43px;
+  /* "Title" in Figma (sidebar "Hi! I'm Clóves."), 43px raw — rounded DOWN
+     to 42px, the one token that breaks this scale's round-up rule; left
+     as-is rather than "corrected" to 44px, Clóves' explicit call. */
+  --text-brand: 42px;
   --text-brand--line-height: 1.123721; /* 48.32px = 43 + 5.32 */
   --text-brand--letter-spacing: -0.03em;
   --text-brand--font-weight: 700;
 
-  /* Card Title in Figma — also Figma's "Heading 3" (23px) on case-study
-     pages (Understanding, MVP, Release Plan group titles, etc.). Line-height
-     1.14 and no letter-spacing are Figma's own values for that style,
-     confirmed directly (get_design_context) on the Loft case-study file
-     across many nodes — not the reciprocal-model estimate this used to be. */
-  --text-title: 23px;
+  /* "Card Title" (home) / "Heading 3" (case-study pages: Understanding,
+     MVP, Release Plan group titles, etc.) in Figma, 23px raw, rounded up
+     to 24px. Line-height 1.14 and no letter-spacing are Figma's own
+     values for that style, confirmed directly (get_design_context) on
+     the Loft case-study file across many nodes — not the reciprocal-model
+     estimate this used to be. */
+  --text-title: 24px;
   --text-title--line-height: 1.14;
   --text-title--font-weight: 500;
 
-  /* Body Large / Body Large Bold in Figma (nav items) — also Figma's "Body
-     Large Medium" (15px) on case-study pages. Line-height 1.3 is Figma's
-     own value, confirmed directly on the Loft file. */
-  --text-nav: 15px;
+  /* "Body Large"/"Body Large Medium" (nav items, case-study pages) in
+     Figma, 15px raw, rounded up to 16px. Line-height 1.3 is Figma's own
+     value, confirmed directly on the Loft file. */
+  --text-nav: 16px;
   --text-nav--line-height: 1.3;
 
-  /* Body Default in Figma (bio, card descriptions) — also Figma's "Body
-     Regular" (13px) on case-study pages. Line-height 1.38 is Figma's own
-     value, confirmed directly on the Loft file. */
-  --text-body: 13px;
+  /* "Body Regular"/"Body Regular Medium" (bio, card descriptions,
+     case-study pages) in Figma, 13px raw, rounded up to 14px.
+     Line-height 1.38 is Figma's own value, confirmed directly on the
+     Loft file. */
+  --text-body: 14px;
   --text-body--line-height: 1.38;
 
-  /* Body XSmall in Figma (card tags) — also Figma's "Body Small" (11px) on
-     case-study pages (stat captions, etc.). Figma gives this style an
-     absolute 16px line-height, confirmed directly on the Loft file; kept
-     here as the equivalent unitless ratio (16 / 11), per this project's
-     line-height convention. */
-  --text-meta: 11px;
-  --text-meta--line-height: 1.454545;
+  /* "Body XSmall" (home page card tags) in Figma, 10px raw — already
+     even, no rounding needed. Figma gives this style an absolute
+     1.3 line-height ratio, confirmed directly via get_variable_defs on
+     node 7:2. */
+  --text-meta: 10px;
+  --text-meta--line-height: 1.3;
 
   /*
-   * The next four are read straight off the case-study node (15:2) via
+   * The next four are read straight off the case-study node (87:4056) via
    * get_design_context/get_variable_defs rather than derived from the
    * reciprocal model above — Figma gives these an explicit line-height
    * already, so that's what's encoded here (as a unitless ratio, per
    * the project's line-height convention), not re-derived from `a`.
    */
 
-  /* Heading 1 in Figma (case study title) */
-  --text-heading-1: 47px;
+  /* "Heading 1" (case-study title) in Figma, 47px raw, rounded up to 48px. */
+  --text-heading-1: 48px;
   --text-heading-1--line-height: 1.02;
   --text-heading-1--letter-spacing: -0.01em;
   --text-heading-1--font-weight: 700;
 
-  /* Heading 2 in Figma (case study section labels: Problem, Solution, Impact).
-     Line-height 1.12 is Figma's own value, confirmed directly (get_design_context)
-     on the Loft case-study file across many nodes — not the reciprocal-model
+  /* "Heading 2" (case-study section labels: Problem, Solution, Impact) in
+     Figma, 31px raw, rounded up to 32px. Line-height 1.12 is Figma's own
+     value, confirmed directly (get_design_context) on the Loft
+     case-study file across many nodes — not the reciprocal-model
      estimate this used to be. */
-  --text-heading-2: 31px;
+  --text-heading-2: 32px;
   --text-heading-2--line-height: 1.12;
   --text-heading-2--letter-spacing: -0.01em;
   --text-heading-2--font-weight: 500;
 
-  /* Approval flow / Attachment library headings — also Figma's "Heading 4"
-     (17px) on case-study pages (topic titles, "Usage Data", "User Research",
-     etc.). Line-height 1.28 is Figma's own value, confirmed directly on the
-     Loft file. */
-  --text-heading-3: 17px;
+  /* "Heading 4" (case-study topic titles — "Usage Data", "User Research",
+     etc.) in Figma, 17px raw, rounded up to 18px. Line-height 1.28 is
+     Figma's own value, confirmed directly on the Loft file. */
+  --text-heading-3: 18px;
   --text-heading-3--line-height: 1.28;
   --text-heading-3--font-weight: 500;
 
-  /* Body Small in Figma (case-study meta line, image captions) — same 11px
-     "Body Small" style as --text-meta (16px absolute line-height in Figma,
-     16 / 11 as a ratio); kept as its own token since it serves a visually
-     distinct role, not because the value should differ. */
-  --text-caption: 11px;
+  /* "Body Small" (case-study meta line, image captions, stat captions) in
+     Figma, 11px raw, rounded up to 12px — same source style as
+     --text-meta's "Body XSmall" role, kept as its own token since it
+     serves a visually distinct role on a different page family, not
+     because the value should differ. Figma gives this style an absolute
+     16px line-height (16/11 as a ratio), confirmed directly on the Loft
+     file. */
+  --text-caption: 12px;
   --text-caption--line-height: 1.454545;
 }
 
 body {
   background: var(--color-canvas);
   color: var(--color-ink);
+}
+
+/* Carousel.tsx's header fades in on each swap (contract vs. attachment
+   template management) — keyed by its own text so React remounts the
+   node and replays this on every change, not just the first mount. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /*
