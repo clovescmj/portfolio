@@ -21,7 +21,7 @@ export const projects: Project[] = [
     description:
       "Contract templates lived in hand-coded HTML, taking engineers weeks to update and leaving one attachment type editable with no audit trail. I designed a system giving the legal team direct control, closing a compliance risk ahead of the company's IPO.",
     image: {
-      src: "/images/projects/contract-template-management.webp",
+      src: "/images/projects/contract-template-management/hero.webp",
       alt: "Contract Template Management screenshot",
       treatment: "framed",
     },
@@ -43,6 +43,14 @@ export const projects: Project[] = [
     tags: ["UI Design", "UX Design", "User Research", "Product Strategy"],
     description:
       "Loft had no mobile app, only a slow, high-bounce mobile site. As founding product designer, I led the app from MVP to a personalized native experience, raising lead-to-schedule conversion 16% and ranking top 10 in its App Store category.",
+    image: {
+      // hero3.png is what Clóves wants here, but the file he sent is
+      // currently corrupted (0 bytes on disk) — reverted to the known-good
+      // asset until he resends it.
+      src: "/images/projects/loft/hero.webp",
+      alt: "Five Loft app screens fanned out: splashscreen, welcome screen, and the city selection step",
+      treatment: "framed",
+    },
     layout: { colStart: 2, colSpan: 4, rowStart: 2 },
   },
   {

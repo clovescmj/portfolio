@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { BackLink } from "@/components/case-study/BackLink";
-import { Carousel } from "@/components/case-study/Carousel";
 import { CaseStudyIntro } from "@/components/case-study/CaseStudyIntro";
-import { DeepDive } from "@/components/case-study/DeepDive";
 import { Hero } from "@/components/case-study/Hero";
 import { Impact } from "@/components/case-study/Impact";
 import { LabeledRow } from "@/components/case-study/LabeledRow";
+import { ProductVisionSpotlight } from "@/components/case-study/ProductVisionSpotlight";
+import { SolutionGroup } from "@/components/case-study/SolutionGroup";
 import { caseStudies } from "@/content/case-studies";
 
 export function generateStaticParams() {
@@ -20,6 +20,13 @@ export default async function CaseStudyPage({
   const { slug } = await params;
   const caseStudy = caseStudies[slug];
   if (!caseStudy) notFound();
+
+  // Contract's Figma measures a uniform 48px between every row; Loft's
+  // measures 72px, divider or not (the divider itself is a 0-height line,
+  // so a "divided" gap is just two of these back to back). Both cases are
+  // one flat rhythm — the JIT-unfriendly arbitrary value is why this is a
+  // style prop instead of a `gap-*` class.
+  const rowGapStyle = { gap: `${caseStudy.rowGap ?? 48}px` };
 
   return (
     <div className="flex flex-col gap-0 md:gap-[88px]">
@@ -37,7 +44,7 @@ export default async function CaseStudyPage({
       <div className="flex flex-col gap-8 md:-mx-content md:w-[calc(100%+112px)] md:gap-12 md:pl-content">
         <Hero image={caseStudy.heroImage} />
 
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col" style={rowGapStyle}>
           <CaseStudyIntro
             title={caseStudy.title}
             client={caseStudy.client}
@@ -45,30 +52,36 @@ export default async function CaseStudyPage({
             paragraphs={caseStudy.intro}
           />
 
+          {caseStudy.content.flatMap((block, i) => {
+            // Every divider is a plain sibling in this same flex column, not
+            // nested inside its block's own wrapper — that's what makes the
+            // gap on both sides of it match the ungapped rhythm everywhere
+            // else, instead of a smaller, component-local gap.
+            const dividerLight = block.kind === "group" && block.dividerLight;
+            const divider =
+              "divider" in block && block.divider ? (
+                <hr key={`divider-${i}`} className={dividerLight ? "border-lightergrey" : "border-ink"} />
+              ) : null;
+            if (block.kind === "section") {
+              return [
+                divider,
+                <LabeledRow key={`section-${i}`} label={block.label} sublabel={block.sublabel} columns={block.columns} />,
+              ];
+            }
+            if (block.kind === "spotlight") {
+              return [<ProductVisionSpotlight key={`spotlight-${i}`} spotlight={block} />];
+            }
+            return [divider, <SolutionGroup key={`group-${i}`} group={block} />];
+          })}
+
           <hr className="border-ink" />
 
-          <LabeledRow label="Problem" columns={caseStudy.problem} />
+          <Impact intro={caseStudy.impact.intro} lists={caseStudy.impact.lists} groups={caseStudy.impact.groups} />
 
-          <hr className="border-ink" />
-
-          <LabeledRow label="Solution" columns={caseStudy.solution} />
-
-          <Carousel slides={caseStudy.carousel} />
-
-          <DeepDive
-            approvalFlow={caseStudy.approvalFlow}
-            attachmentLibrary={caseStudy.attachmentLibrary}
-            scaling={caseStudy.scaling}
-            embed={caseStudy.embed}
-          />
-
-          <hr className="border-ink" />
-
-          <Impact
-            intro={caseStudy.impact.intro}
-            itemsLeft={caseStudy.impact.itemsLeft}
-            itemsRight={caseStudy.impact.itemsRight}
-          />
+          {caseStudy.closingGroups?.flatMap((group, i) => [
+            group.divider ? <hr key={`closing-divider-${i}`} className="border-ink" /> : null,
+            <SolutionGroup key={`closing-group-${i}`} group={group} />,
+          ])}
         </div>
       </div>
     </div>

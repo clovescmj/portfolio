@@ -39,7 +39,7 @@ import { ArrowIcon } from "./ArrowIcon";
  * yet the resting one) still bleeds all the way to the backdrop's true
  * edge instead of stopping short of it.
  */
-export function Carousel({ slides }: { slides: CaseStudySlide[] }) {
+export function Carousel({ slides, title }: { slides: CaseStudySlide[]; title?: string }) {
   const [index, setIndex] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -81,28 +81,37 @@ export function Carousel({ slides }: { slides: CaseStudySlide[] }) {
 
   return (
     <div className="-mx-6 flex w-[calc(100%+48px)] flex-col gap-4 bg-placeholder pb-6 pt-6 md:mx-0 md:w-auto md:gap-6 md:pb-10 md:pt-8">
-      {hasMultiple && (
-        <div className="flex justify-end gap-4 px-6 md:px-0 md:pr-content">
-          <button
-            type="button"
-            aria-label="Previous image"
-            disabled={index === 0}
-            onMouseDown={(event) => event.preventDefault()}
-            onClick={() => goTo(index - 1)}
-            className="cursor-pointer text-ink transition-[color,opacity] duration-400 ease-in-out hover:text-accent disabled:pointer-events-none disabled:cursor-default disabled:opacity-30"
-          >
-            <ArrowIcon direction="left" size={16} />
-          </button>
-          <button
-            type="button"
-            aria-label="Next image"
-            disabled={index === slides.length - 1}
-            onMouseDown={(event) => event.preventDefault()}
-            onClick={() => goTo(index + 1)}
-            className="cursor-pointer text-ink transition-[color,opacity] duration-400 ease-in-out hover:text-accent disabled:pointer-events-none disabled:cursor-default disabled:opacity-30"
-          >
-            <ArrowIcon direction="right" size={16} />
-          </button>
+      {(title || hasMultiple) && (
+        // md:pl-10 matches the first slide's own md:ml-10 below, so the
+        // title lines up with the image instead of sitting 40px short of
+        // it (confirmed at the real 1440px desktop width — a narrower
+        // viewport can mask this gap without actually closing it).
+        <div className="flex items-center justify-between gap-4 px-6 md:px-0 md:pl-10 md:pr-content">
+          {title ? <p className="font-sans text-heading-3 text-ink">{title}</p> : <span />}
+          {hasMultiple && (
+            <div className="flex gap-4">
+              <button
+                type="button"
+                aria-label="Previous image"
+                disabled={index === 0}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => goTo(index - 1)}
+                className="cursor-pointer text-ink transition-[color,opacity] duration-400 ease-in-out hover:text-accent disabled:pointer-events-none disabled:cursor-default disabled:opacity-30"
+              >
+                <ArrowIcon direction="left" size={16} />
+              </button>
+              <button
+                type="button"
+                aria-label="Next image"
+                disabled={index === slides.length - 1}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => goTo(index + 1)}
+                className="cursor-pointer text-ink transition-[color,opacity] duration-400 ease-in-out hover:text-accent disabled:pointer-events-none disabled:cursor-default disabled:opacity-30"
+              >
+                <ArrowIcon direction="right" size={16} />
+              </button>
+            </div>
+          )}
         </div>
       )}
 

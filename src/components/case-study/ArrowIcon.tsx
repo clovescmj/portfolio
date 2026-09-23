@@ -8,8 +8,10 @@ const RIGHT_PATH =
  * against the surrounding text color — an externally-referenced <img> SVG
  * is opaque to the page's CSS and can't pick up hover color changes.
  *
- * Left/right are two distinct paths (from public/images/projects/
- * arrow-left.svg and arrow-right.svg), not one mirrored via CSS — they
+ * Left/right are two distinct paths (from public/images/projects/arrow-left.svg
+ * and arrow-right.svg — shared across every case, so they stay at the
+ * projects folder's root, not inside one project's subfolder), not one
+ * mirrored via CSS — they
  * aren't quite symmetric. `size` sets the rendered height; width follows
  * the source's 28:24 aspect ratio.
  */

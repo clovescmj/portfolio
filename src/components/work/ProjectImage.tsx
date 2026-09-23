@@ -40,9 +40,14 @@ export function ProjectImage({
     );
   }
 
+  // Same transparent device-mockup exports the case-study Hero uses, with
+  // the same Figma gradient fill behind them (#222121 to #D4D2D2, top to
+  // bottom) — see the note on Hero.tsx.
+  const gradientBg = "bg-[linear-gradient(to_bottom,#222121_0%,#d4d2d2_100%)]";
+
   if (image.treatment === "framed") {
     return (
-      <div className={`relative ${IMAGE_HEIGHT} w-full overflow-hidden bg-placeholder`}>
+      <div className={`relative ${IMAGE_HEIGHT} w-full overflow-hidden ${gradientBg}`}>
         <Image
           src={assetPath(image.src)}
           alt={image.alt}
@@ -56,7 +61,7 @@ export function ProjectImage({
   }
 
   return (
-    <div className={`relative ${IMAGE_HEIGHT} w-full overflow-hidden bg-placeholder`}>
+    <div className={`relative ${IMAGE_HEIGHT} w-full overflow-hidden ${gradientBg}`}>
       <Image
         src={assetPath(image.src)}
         alt={image.alt}

@@ -8,15 +8,15 @@ import { assetPath } from "@/lib/asset-path";
 const ZOOM = 0.8;
 
 /**
- * Same gray backdrop as the carousel (bg-placeholder) with real padding
- * around the iframe, rather than the plain edge-to-edge white card this
- * was before.
+ * No backdrop or padding around the iframe — plain, edge-to-edge, per
+ * Clóves' direct instruction (a bg-placeholder card behind it read as an
+ * unwanted extra frame, not something Figma itself shows here).
  *
  * In Figma this slot instead shows a static screenshot of the drawer;
  * per instruction, this is the one deliberate deviation from the file —
  * a live iframe of the actual HTML prototype instead of a picture of it.
  *
- * drawer-anexo.html's own drawer panel is already responsive
+ * add-attachment.html's own drawer panel is already responsive
  * (`width: min(640px, 100%)`), so this needs no fixed sizing to fill its
  * column — just the zoom-out transform above.
  *
@@ -30,7 +30,7 @@ const ZOOM = 0.8;
  */
 export function EmbedFrame({ src, title }: { src: string; title: string }) {
   return (
-    <div className="-mx-6 h-[616px] w-[calc(100%+48px)] bg-placeholder p-6 md:mx-0 md:h-[720px] md:w-full">
+    <div className="-mx-6 h-[616px] w-[calc(100%+48px)] md:mx-0 md:h-[720px] md:w-full">
       <div className="h-full w-full overflow-hidden rounded-[4px] border border-lightgrey">
         <iframe
           src={assetPath(src)}

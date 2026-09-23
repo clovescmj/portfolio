@@ -1,5 +1,6 @@
 import type { CaseStudy } from "@/types/case-study";
 import { contractTemplateManagement } from "./contract-template-management";
+import { loftApp } from "./loft-app";
 
 /**
  * Full project case studies, keyed by the same `slug` used in
@@ -12,4 +13,5 @@ import { contractTemplateManagement } from "./contract-template-management";
  */
 export const caseStudies: Record<string, CaseStudy> = {
   [contractTemplateManagement.slug]: contractTemplateManagement,
+  [loftApp.slug]: loftApp,
 };
