@@ -152,6 +152,8 @@ export interface FeatureBlock {
     device?: boolean;
     /** Show a "Loading prototype" placeholder behind a device embed until it loads. */
     placeholder?: boolean;
+    /** Static image shown instead of the iframe on touch devices, where Figma's player drops the device skin. */
+    fallback?: string;
   };
 }
 

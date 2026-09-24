@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { assetPath } from "@/lib/asset-path";
 
 // Zooms the drawer's content out a bit so more of it is visible at once
@@ -48,6 +49,8 @@ type EmbedFrameProps = { src: string; title: string } & (
       device: true;
       /** Light-grey bordered box with "Loading prototype" sitting behind the iframe until Figma paints over it. */
       placeholder?: boolean;
+      /** Image shown in place of the iframe on touch devices (`pointer: coarse`). */
+      fallbackSrc?: string;
     }
   | {
       device?: false;
@@ -92,11 +95,20 @@ export function EmbedFrame(props: EmbedFrameProps) {
             </p>
           </>
         )}
+        {props.fallbackSrc && (
+          <Image
+            src={assetPath(props.fallbackSrc)}
+            alt={title}
+            fill
+            sizes="(min-width: 768px) 312px, calc(100vw - 48px)"
+            className="hidden object-cover pointer-coarse:block"
+          />
+        )}
         <iframe
           src={assetPath(src)}
           title={title}
           loading="lazy"
-          className="absolute border-0"
+          className={`absolute border-0 ${props.fallbackSrc ? "pointer-coarse:hidden" : ""}`}
           style={{ width: "calc(100% + 96px)", height: "calc(100% + 120px)", left: "-48px", top: "-60px" }}
         />
       </div>

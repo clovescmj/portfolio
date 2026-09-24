@@ -110,11 +110,15 @@ function EmbedSlot({ embed, topMargin }: { embed: NonNullable<Topics[number]["em
     return (
       <figure className={`flex flex-col gap-2 ${marginClass}`}>
         {embed.device ? (
-          <EmbedFrame src={embed.src} title={embed.title} device placeholder={embed.placeholder} />
+          <EmbedFrame src={embed.src} title={embed.title} device placeholder={embed.placeholder} fallbackSrc={embed.fallback} />
         ) : (
           <EmbedFrame src={embed.src} title={embed.title} />
         )}
-        <figcaption className="font-sans text-caption text-muted">{embed.caption}</figcaption>
+        <figcaption
+          className={`font-sans text-caption text-muted ${embed.device && embed.fallback ? "pointer-coarse:hidden" : ""}`}
+        >
+          {embed.caption}
+        </figcaption>
       </figure>
     );
   }

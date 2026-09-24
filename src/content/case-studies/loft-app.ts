@@ -346,6 +346,7 @@ export const loftApp: CaseStudy = {
               embed: {
                 src: "https://embed.figma.com/proto/ybSunSwwHgQMKjleqmU4V1?node-id=2022-9345&t=VmWmKHpo8vPLkJwV-0&scaling=scale-down&content-scaling=fixed&starting-point-node-id=2022%3A9345&embed-host=share&hide-ui=1",
                 title: "Home Feed prototype",
+                fallback: "/images/projects/loft/fallback-home-feed.png",
                 placeholder: true,
                 caption: "Interactive prototype that shows the interaction with Home Feed lists.",
                 device: true,
@@ -368,6 +369,7 @@ export const loftApp: CaseStudy = {
               embed: {
                 src: "https://embed.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=8-7737&t=VmWmKHpo8vPLkJwV-0&scaling=scale-down&content-scaling=fixed&starting-point-node-id=8%3A7737&embed-host=share&hide-ui=1",
                 title: "Property Feedback prototype",
+                fallback: "/images/projects/loft/fallback-property-feedback.png",
                 placeholder: true,
                 caption:
                   'Interactive prototype that shows the interaction with "like" and "dislike" buttons of the property feedback banner.',
@@ -604,6 +606,10 @@ export const loftApp: CaseStudy = {
         {
           label: "User Setup Prototype",
           href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=1-5896&p=f&viewport=59%2C932%2C0.28&t=T7CbjHFrZBjwV0Ai-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A5890&page-id=0%3A1",
+        },
+        {
+          label: "Home Feed Prototype",
+          href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=2022-9345&page-id=2%3A5281&starting-point-node-id=2022%3A9345",
         },
         {
           label: "Property Feedback Interaction",

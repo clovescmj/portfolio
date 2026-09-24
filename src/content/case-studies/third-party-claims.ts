@@ -276,17 +276,17 @@ export const thirdPartyClaims: CaseStudy = {
       },
     ],
   },
-  // closingGroups: [
-  //   {
-  //     title: "Files and Prototypes",
-  //     divider: true,
-  //     topics: [],
-  //     links: [
-  //       {
-  //         label: "Third-party Claims",
-  //         href: "https://www.figma.com/proto/01LDFvddOYPR1gJceGKmWB/Third-party-Claims?node-id=0-2989&page-id=0%3A2988&t=sPfoXLtTVc3nidCe-1",
-  //       },
-  //     ],
-  //   },
-  // ],
+  closingGroups: [
+    {
+      title: "Files and Prototypes",
+      divider: true,
+      topics: [],
+      links: [
+        {
+          label: "Third-party Claims Prototype",
+          href: "https://www.figma.com/proto/01LDFvddOYPR1gJceGKmWB/Third-party-Claims?node-id=5002-1405&page-id=0%3A2988",
+        },
+      ],
+    },
+  ],
 };
