@@ -371,8 +371,10 @@ function GroupBody({
                   the image's own natural aspect ratio — confirmed via
                   get_metadata (the source image is wider than its frame and
                   offset negative-x, i.e. cropped, not letterboxed). */}
-              <div className="relative aspect-[656/707.5] w-full overflow-hidden">
-                <Image src={assetPath(wideImage.src)} alt={wideImage.alt} fill className="object-cover" />
+              <div className="px-14">
+                <div className="relative aspect-[656/707.5] w-full overflow-hidden">
+                  <Image src={assetPath(wideImage.src)} alt={wideImage.alt} fill className="object-cover" />
+                </div>
               </div>
             </figure>
           )
@@ -493,21 +495,26 @@ function GroupBody({
             {imageColumns.map((column, c) => (
               <div key={c} className="flex flex-1 flex-col gap-8">
                 {column.map((img) => (
-                  <div key={img.src} className={img.background ? "w-full bg-placeholder pt-6 px-6" : "w-full"}>
-                    {img.crop ? (
-                      <div className="relative aspect-[436/270] w-full overflow-hidden">
-                        <Image src={assetPath(img.src)} alt={img.alt} fill className="object-cover" />
-                      </div>
-                    ) : (
-                      <Image
-                        src={assetPath(img.src)}
-                        alt={img.alt}
-                        width={img.width}
-                        height={img.height}
-                        className="h-auto w-full"
-                      />
+                  <figure key={img.src} className="flex w-full flex-col gap-2">
+                    <div className={img.background ? "w-full bg-placeholder pt-6 px-6" : "w-full"}>
+                      {img.crop ? (
+                        <div className="relative aspect-[436/270] w-full overflow-hidden">
+                          <Image src={assetPath(img.src)} alt={img.alt} fill className="object-cover" />
+                        </div>
+                      ) : (
+                        <Image
+                          src={assetPath(img.src)}
+                          alt={img.alt}
+                          width={img.width}
+                          height={img.height}
+                          className="h-auto w-full"
+                        />
+                      )}
+                    </div>
+                    {img.caption && (
+                      <figcaption className="font-sans text-caption text-muted">{img.caption}</figcaption>
                     )}
-                  </div>
+                  </figure>
                 ))}
               </div>
             ))}

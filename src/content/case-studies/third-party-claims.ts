@@ -158,11 +158,10 @@ export const thirdPartyClaims: CaseStudy = {
           wideImageSpan: 3,
         },
         {
-          title: "Interface",
+          title: "Interactive Prototype",
           highlightEmbed: {
-            src: "https://embed.figma.com/proto/01LDFvddOYPR1gJceGKmWB/Third-party-Claims?node-id=5002-1405&page-id=0%3A2988&scaling=scale-down&content-scaling=fixed&embed-host=share&hide-ui=1",
+            src: "https://embed.figma.com/proto/01LDFvddOYPR1gJceGKmWB/Third-party-Claims?node-id=5002-1405&page-id=0%3A2988&scaling=scale-down-width&content-scaling=fixed&embed-host=share&hide-ui=1",
             title: "Third-party Claims prototype",
-            caption: "Live prototype, walk through the third-party claim flow yourself.",
           },
         },
       ],
@@ -195,6 +194,7 @@ export const thirdPartyClaims: CaseStudy = {
             width: 2312,
             height: 1390,
             background: true,
+            caption: "Research canvas is a tool to help organize a research.",
           },
         ],
         [
@@ -204,6 +204,7 @@ export const thirdPartyClaims: CaseStudy = {
             width: 2312,
             height: 1390,
             background: true,
+            caption: "Research plan for interview and usability tests.",
           },
         ],
       ],

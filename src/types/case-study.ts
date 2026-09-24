@@ -22,6 +22,12 @@ export interface CaseStudyImage {
   crop?: boolean;
 }
 
+/** A `CaseStudyImage` with its own small caption underneath — `FeatureBlock.image`
+ *  and each `imageColumns` entry. */
+export interface CaptionedImage extends CaseStudyImage {
+  caption?: string;
+}
+
 export interface CaseStudySlide {
   src: string;
   alt: string;
@@ -127,10 +133,7 @@ export interface FeatureBlock {
   listBoxed?: boolean;
   items?: SubItem[];
   stats?: StatsBlock;
-  image?: CaseStudyImage & {
-    /** Small caption under the image, e.g. noting it's an animated recording of a click-through. */
-    caption?: string;
-  };
+  image?: CaptionedImage;
   /** A small badge above the topic, e.g. "A/B Test" — pairs with an accent-bordered highlight. */
   tag?: string;
   /** A plain external link, e.g. "View prototype" pointing at a Figma proto URL. */
@@ -163,11 +166,13 @@ export interface CaseStudyFlow {
   background?: boolean;
 }
 
-/** A live, interactive prototype shown in an iframe, with its own caption. */
+/** A live, interactive prototype shown in an iframe. */
 export interface CaseStudyEmbed {
   src: string;
   title: string;
-  caption: string;
+  /** Shown under a group-level `embed`. Unused by `highlightEmbed` —
+   *  PrototypeHighlight renders the prototype alone, no caption. */
+  caption?: string;
 }
 
 /**
@@ -228,7 +233,7 @@ export interface CaseStudyGroup {
    * between the two columns — 998.5px tall on the left, 1217.35px on the
    * right, not the same.
    */
-  imageColumns?: [CaseStudyImage[], CaseStudyImage[]];
+  imageColumns?: [CaptionedImage[], CaptionedImage[]];
   embed?: CaseStudyEmbed;
   /**
    * Wide diagrams shown full-width, after every topic in this group —

@@ -32,6 +32,8 @@ export function EmbedFrame({
   src,
   title,
   device,
+  bordered = true,
+  fit = false,
 }: {
   src: string;
   title: string;
@@ -51,6 +53,19 @@ export function EmbedFrame({
    *  up-left by the same amount, so the margin lands outside this box's
    *  overflow-hidden crop and only the device itself remains visible. */
   device?: boolean;
+  /** Off for the Third-party Claims prototype: it already sits inside
+   *  HighlightBlock's own tinted shell, so its own border read as a
+   *  redundant extra outline around the whole embed. */
+  bordered?: boolean;
+  /** For a live Figma prototype embed, which already scales itself to
+   *  fill its box via the URL's own `scaling=scale-down-width` — the
+   *  ZOOM transform below is for the Contract drawer's plain HTML page,
+   *  which has no such built-in scaling of its own. Stacking both here
+   *  double-scaled the content and left it not actually filling its
+   *  box. `fit` renders the iframe at a plain 100%/100%, no transform,
+   *  so the parent's own `aspect-[]` (sized to the real Figma frame's
+   *  ratio) is what the visible content actually hugs. */
+  fit?: boolean;
 }) {
   if (device) {
     return (
@@ -73,15 +88,21 @@ export function EmbedFrame({
     // Grid's own default `align-items: stretch` on the parent `<section>`
     // — rather than a fixed px guess that can leave blank space under a
     // shorter iframe or clip a taller one.
-    <div className="-mx-6 h-[616px] w-[calc(100%+48px)] md:mx-0 md:h-full md:w-full">
-      <div className="h-full w-full overflow-hidden rounded-[4px] border border-lightgrey">
-        <iframe
-          src={assetPath(src)}
-          title={title}
-          loading="lazy"
-          className="origin-top-left border-0"
-          style={{ width: `${100 / ZOOM}%`, height: `${100 / ZOOM}%`, transform: `scale(${ZOOM})` }}
-        />
+    <div className={fit ? "h-full w-full" : "-mx-6 h-[616px] w-[calc(100%+48px)] md:mx-0 md:h-full md:w-full"}>
+      <div
+        className={`h-full w-full overflow-hidden ${fit ? "" : "rounded-[4px]"} ${bordered ? "border border-lightgrey" : ""}`}
+      >
+        {fit ? (
+          <iframe src={assetPath(src)} title={title} loading="lazy" className="h-full w-full border-0" />
+        ) : (
+          <iframe
+            src={assetPath(src)}
+            title={title}
+            loading="lazy"
+            className="origin-top-left border-0"
+            style={{ width: `${100 / ZOOM}%`, height: `${100 / ZOOM}%`, transform: `scale(${ZOOM})` }}
+          />
+        )}
       </div>
     </div>
   );
