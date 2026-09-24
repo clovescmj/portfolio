@@ -4,7 +4,7 @@ export const careerDevelopmentPlan: Article = {
   slug: "career-development-plan",
   title: "Coaching a Designer from Mid-Level to Senior",
   company: "unico IDtech",
-  role: "Design Manager",
+  role: "Team Mentorship, People Management, Career Development",
   lead: "As design manager, I built and ran a development plan with a mid-level designer that led to her promotion to senior after two review cycles.",
   tldr: [
     {

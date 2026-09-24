@@ -4,7 +4,7 @@ export const fixingUiDebt: Article = {
   slug: "fixing-ui-debt",
   title: "Fixing UI Debt in Contract Template Management",
   company: "QuintoAndar",
-  role: "Staff Product Designer",
+  role: "UI Design, Frontend Development, AI-Assisted Development",
   note: {
     text: "This follows the Contract Template Management case. During the sprint that shipped that system, the team cut some visual refinements to deliver the functional core on time.",
     link: { label: "Contract Template Management", href: "/work/contract-template-management" },
