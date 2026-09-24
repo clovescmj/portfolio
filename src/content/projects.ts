@@ -46,7 +46,7 @@ export const projects: Project[] = [
     // Row 2, right (shares its row with Third-party Claims, not Contract
     // Template Management) — confirmed via get_metadata, node 8:178
     // (x=682.67 → colStart 5, y=609 → row 2, image y-offset 88 → offsetTop).
-    layout: { colStart: 5, colSpan: 2, rowStart: 2, offsetTop: true },
+    layout: { colStart: 4, colSpan: 2, rowStart: 3 },
   },
   {
     slug: "loft-app",
@@ -77,7 +77,7 @@ export const projects: Project[] = [
     kind: "article",
     // Row 3, left — confirmed via get_metadata, node 8:220 (x=0, y=1267 →
     // row 3, image y-offset 88 → offsetTop, unlike its row partner below).
-    layout: { colStart: 1, colSpan: 2, rowStart: 3, offsetTop: true },
+    layout: { colStart: 5, colSpan: 2, rowStart: 2, offsetTop: true },
   },
   {
     slug: "third-party-claims",
@@ -106,8 +106,6 @@ export const projects: Project[] = [
     description:
       "As design manager, I built a concrete development plan with a mid-level designer to close specific skill gaps and make her impact visible to the promotion committee. She earned 5/5 ratings and was promoted to senior.",
     kind: "article",
-    // Row 3, right — confirmed via get_metadata, node 8:266 (x=512 →
-    // colStart 4, y=1267 → row 3, image y=0 → no offsetTop).
-    layout: { colStart: 4, colSpan: 2, rowStart: 3 },
+    layout: { colStart: 1, colSpan: 2, rowStart: 3, offsetTop: true },
   },
 ];
