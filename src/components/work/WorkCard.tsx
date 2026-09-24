@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { usePageTransition } from "@/components/layout/PageTransitionContext";
+import { isPlainLeftClick, usePageTransition } from "@/components/layout/PageTransitionContext";
 import { caseStudies } from "@/content/case-studies";
 import type { Project } from "@/types/project";
 import { ProjectImage } from "./ProjectImage";
@@ -99,6 +99,7 @@ function Wrapper({
     <a
       href={href}
       onClick={(event) => {
+        if (!isPlainLeftClick(event)) return;
         event.preventDefault();
         onNavigate(href);
       }}

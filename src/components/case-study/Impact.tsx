@@ -87,12 +87,16 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
           {/* Full 4-column width when stats are the only content in the row
               (Loft's "Product") — narrowed to 2 columns, beside the topic
               at col-start-3, when a group has both (Third-party Claims'
-              single-paragraph result + its 40% stat, side by side). */}
+              single-paragraph result + its 40% stat, side by side). Row is
+              always auto, never pinned: the label above shares the same
+              auto-placement pass (its own row is auto too), so an explicit
+              row here would fix stats/topics to a row that doesn't
+              necessarily match wherever the label actually lands. */}
           {group.stats && (
             <div
               className={
                 group.topics?.length
-                  ? "md:col-span-2 md:col-start-5 md:row-start-1"
+                  ? "md:col-span-2 md:col-start-5"
                   : "md:col-span-4 md:col-start-3"
               }
             >
@@ -100,10 +104,7 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
             </div>
           )}
           {group.topics?.map((topic, i) => (
-            <div
-              key={topic.title}
-              className={`flex flex-col gap-3 md:col-span-2 ${LIST_POSITION_CLASSES[i % 2]} ${group.stats ? "md:row-start-1" : ""}`}
-            >
+            <div key={topic.title} className={`flex flex-col gap-3 md:col-span-2 ${LIST_POSITION_CLASSES[i % 2]}`}>
               <h4 className="font-sans text-nav font-medium text-ink">{topic.title}</h4>
               {topic.body?.map((paragraph) => (
                 <p key={paragraph} className="font-sans text-body text-ink">

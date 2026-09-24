@@ -5,7 +5,7 @@ import Link from "next/link";
 import { nav, secondaryLinks, site } from "@/content/site";
 import { assetPath } from "@/lib/asset-path";
 import { EmailLink } from "./EmailLink";
-import { FADE_DURATION, usePageTransition } from "./PageTransitionContext";
+import { FADE_DURATION, isPlainLeftClick, usePageTransition } from "./PageTransitionContext";
 
 export function Sidebar() {
   const { navigate, activePath, visible } = usePageTransition();
@@ -59,6 +59,7 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               onClick={(event) => {
+                if (!isPlainLeftClick(event)) return;
                 event.preventDefault();
                 navigate(item.href);
               }}

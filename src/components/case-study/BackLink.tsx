@@ -1,6 +1,6 @@
 "use client";
 
-import { usePageTransition } from "@/components/layout/PageTransitionContext";
+import { isPlainLeftClick, usePageTransition } from "@/components/layout/PageTransitionContext";
 import { ArrowIcon } from "./ArrowIcon";
 
 /** Same fade-transition navigation as the sidebar nav links, not a plain <Link>. */
@@ -12,6 +12,7 @@ export function BackLink({ href, label }: { href: string; label: string }) {
       href={href}
       aria-label={label}
       onClick={(event) => {
+        if (!isPlainLeftClick(event)) return;
         event.preventDefault();
         navigate(href);
       }}

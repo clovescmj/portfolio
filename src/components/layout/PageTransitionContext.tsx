@@ -2,9 +2,21 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import type { MouseEvent } from "react";
 
 /** Shared with PageTransition.tsx, which applies this as its CSS transition duration. */
 export const FADE_DURATION = 150;
+
+/**
+ * True only for a plain left-click with no modifier keys — the one case
+ * the custom fade transition should intercept. Every other case (Cmd/Ctrl
+ * for a new tab, Shift for a new window, middle-click, right-click) must
+ * fall through to the anchor's native behavior, or the browser's own
+ * "open in new tab" gesture silently does nothing.
+ */
+export function isPlainLeftClick(event: MouseEvent) {
+  return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+}
 
 interface PageTransitionContextValue {
   visible: boolean;
