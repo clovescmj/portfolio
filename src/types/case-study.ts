@@ -150,6 +150,8 @@ export interface FeatureBlock {
     caption: string;
     /** A device-shaped embed (a phone prototype) — see EmbedFrame's `device` prop. */
     device?: boolean;
+    /** Show a "Loading prototype" placeholder behind a device embed until it loads. */
+    placeholder?: boolean;
   };
 }
 

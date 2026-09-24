@@ -20,7 +20,7 @@ export function PrototypeHighlight({ title, embed }: { title?: string; embed: Ca
               px height, so there's no leftover empty space above/below
               the mockup at any width — mobile included, same box. */}
           <div className="aspect-[584/372] w-full">
-            <EmbedFrame src={embed.src} title={embed.title} bordered={false} fit />
+            <EmbedFrame src={embed.src} title={embed.title} bordered={false} fit placeholder />
           </div>
         </figure>
       </div>

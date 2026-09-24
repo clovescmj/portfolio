@@ -211,3 +211,18 @@ body {
   height: 0;
 }
 
+
+/* Loading skeleton: a soft highlight sweeping across the light-grey box. */
+@keyframes skeleton-sweep {
+  to {
+    background-position: -200% 0;
+  }
+}
+.skeleton-shimmer {
+  background: linear-gradient(100deg, var(--color-lightergrey) 30%, #fff 50%, var(--color-lightergrey) 70%) 0 0 / 200% 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton-shimmer {
+    animation: skeleton-sweep 1.6s linear infinite;
+  }
+}

@@ -46,6 +46,8 @@ type EmbedFrameProps = { src: string; title: string } & (
        *  up-left by the same amount, so the margin lands outside this box's
        *  overflow-hidden crop and only the device itself remains visible. */
       device: true;
+      /** Light-grey bordered box with "Loading prototype" sitting behind the iframe until Figma paints over it. */
+      placeholder?: boolean;
     }
   | {
       device?: false;
@@ -62,6 +64,8 @@ type EmbedFrameProps = { src: string; title: string } & (
        *  so the parent's own `aspect-[]` (sized to the real Figma frame's
        *  ratio) is what the visible content actually hugs. */
       fit?: boolean;
+      /** Same loading skeleton as the device variant, with an 8px radius. */
+      placeholder?: boolean;
     }
 );
 
@@ -74,9 +78,20 @@ export function EmbedFrame(props: EmbedFrameProps) {
   const { src, title, device } = props;
   const bordered = device ? true : (props.bordered ?? true);
   const fit = device ? false : (props.fit ?? false);
+  const placeholder = device ? false : (props.placeholder ?? false);
   if (device) {
     return (
-      <div className="relative aspect-[312/630] w-full overflow-hidden">
+      <div
+        className={`relative aspect-[312/630] w-full overflow-hidden ${props.placeholder ? "rounded-[60px] border border-lightgrey" : ""}`}
+      >
+        {props.placeholder && (
+          <>
+            <div aria-hidden className="absolute inset-0 skeleton-shimmer" />
+            <p className="absolute inset-0 flex items-center justify-center font-sans text-caption text-muted">
+              Loading prototype
+            </p>
+          </>
+        )}
         <iframe
           src={assetPath(src)}
           title={title}
@@ -97,10 +112,23 @@ export function EmbedFrame(props: EmbedFrameProps) {
     // shorter iframe or clip a taller one.
     <div className={fit ? "h-full w-full" : "-mx-6 h-[616px] w-[calc(100%+48px)] md:mx-0 md:h-full md:w-full"}>
       <div
-        className={`h-full w-full overflow-hidden ${fit ? "" : "rounded-[4px]"} ${bordered ? "border border-lightgrey" : ""}`}
+        className={`relative h-full w-full overflow-hidden ${fit ? "" : "rounded-[4px]"} ${bordered ? "border border-lightgrey" : ""} ${placeholder ? "rounded-[8px]" : ""}`}
       >
+        {placeholder && (
+          <>
+            <div aria-hidden className="absolute inset-0 skeleton-shimmer" />
+            <p className="absolute inset-0 flex items-center justify-center font-sans text-caption text-muted">
+              Loading prototype
+            </p>
+          </>
+        )}
         {fit ? (
-          <iframe src={assetPath(src)} title={title} loading="lazy" className="h-full w-full border-0" />
+          <iframe
+            src={assetPath(src)}
+            title={title}
+            loading="lazy"
+            className={`h-full w-full border-0 ${placeholder ? "relative" : ""}`}
+          />
         ) : (
           <iframe
             src={assetPath(src)}
