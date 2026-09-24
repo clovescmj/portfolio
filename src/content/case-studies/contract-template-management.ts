@@ -247,7 +247,7 @@ export const contractTemplateManagement: CaseStudy = {
           href: "https://www.figma.com/design/Y3nWK2wDPb1qB9qY4bs1gg/Contract-Template-Management?node-id=0-1&p=f&t=6vIFpxiyDKUWXCJu-0",
         },
         {
-          label: "Add attachment prototype",
+          label: "Add Attachment Prototype",
           href: "/files/add-attachment.html",
         },
       ],
