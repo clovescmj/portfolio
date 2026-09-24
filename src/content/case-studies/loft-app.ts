@@ -605,15 +605,19 @@ export const loftApp: CaseStudy = {
         },
         {
           label: "User Setup Prototype",
-          href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=1-5896&p=f&viewport=59%2C932%2C0.28&t=T7CbjHFrZBjwV0Ai-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A5890&page-id=0%3A1",
+          href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=1-5896&p=f&viewport=59%2C932%2C0.28&t=T7CbjHFrZBjwV0Ai-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A5890&page-id=0%3A1&hide-ui=1",
+        },
+        {
+          label: "City Selection Prototype",
+          href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=5-10885&page-id=0%3A1&starting-point-node-id=5%3A10885&scaling=scale-down&content-scaling=fixed&hide-ui=1",
         },
         {
           label: "Home Feed Prototype",
-          href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=2022-9345&page-id=2%3A5281&starting-point-node-id=2022%3A9345",
+          href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=2022-9345&page-id=2%3A5281&starting-point-node-id=2022%3A9345&hide-ui=1",
         },
         {
           label: "Property Feedback Interaction",
-          href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=8-7737&viewport=1%2C1029%2C0.5&t=gjSm7qoWJLV5vRdD-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=8%3A7737&page-id=2%3A5282",
+          href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=8-7737&viewport=1%2C1029%2C0.5&t=gjSm7qoWJLV5vRdD-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=8%3A7737&page-id=2%3A5282&hide-ui=1",
         },
       ],
     },

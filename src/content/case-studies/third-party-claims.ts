@@ -284,7 +284,7 @@ export const thirdPartyClaims: CaseStudy = {
       links: [
         {
           label: "Third-party Claims Prototype",
-          href: "https://www.figma.com/proto/01LDFvddOYPR1gJceGKmWB/Third-party-Claims?node-id=5002-1405&page-id=0%3A2988",
+          href: "https://www.figma.com/proto/01LDFvddOYPR1gJceGKmWB/Third-party-Claims?node-id=5002-1405&page-id=0%3A2988&hide-ui=1",
         },
       ],
     },
