@@ -32,6 +32,7 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
     "--card-col-start": layout.colStart,
     "--card-col-span": layout.colSpan,
     "--card-row-start": layout.rowStart,
+    "--card-row-span": layout.rowSpan ?? 1,
   } as CSSProperties;
 
   return (

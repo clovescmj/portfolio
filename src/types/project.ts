@@ -16,6 +16,8 @@ export interface ProjectLayout {
   colStart: 1 | 2 | 3 | 4 | 5 | 6;
   colSpan: 1 | 2 | 3 | 4 | 5 | 6;
   rowStart: number;
+  /** Rows the card spans (default 1) — lets a tall card share its rows with a stack of shorter ones. */
+  rowSpan?: number;
   offsetTop?: boolean;
   /** Card renders only the image, no title/description/tags. */
   imageOnly?: boolean;

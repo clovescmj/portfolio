@@ -14,6 +14,25 @@ import type { Project } from "@/types/project";
  */
 export const projects: Project[] = [
   {
+    slug: "loft-app",
+    title: "Loft App",
+    client: "Loft",
+    tags: ["UI Design", "UX Design", "User Research", "Product Strategy"],
+    description:
+      "Loft had no mobile app, only a slow, high-bounce mobile site. As founding product designer, I led the app from MVP to a personalized native experience, raising lead-to-schedule conversion 16% and ranking top 10 in its App Store category.",
+    image: {
+      // Points at the raw PNG on purpose — see the note on this same
+      // asset in content/case-studies/loft-app.ts.
+      src: "/images/projects/loft/hero.png",
+      alt: "Two Loft app screens tilted against a plain grey backdrop: the welcome screen and the city selection step",
+      treatment: "framed",
+    },
+    // Row 1, right (shares its row with Contract Template Management) —
+    // confirmed via get_metadata, node 8:203 (x=512 → colStart 4,
+    // width=488 → colSpan 3, y=0 → row 1, image y-offset 88 → offsetTop).
+    layout: { colStart: 4, colSpan: 3, rowStart: 1, offsetTop: true },
+  },
+  {
     slug: "contract-template-management",
     title: "Contract Template Management",
     client: "QuintoAndar",
@@ -36,37 +55,6 @@ export const projects: Project[] = [
     layout: { colStart: 1, colSpan: 2, rowStart: 1 },
   },
   {
-    slug: "loft-app",
-    title: "Loft App",
-    client: "Loft",
-    tags: ["UI Design", "UX Design", "User Research", "Product Strategy"],
-    description:
-      "Loft had no mobile app, only a slow, high-bounce mobile site. As founding product designer, I led the app from MVP to a personalized native experience, raising lead-to-schedule conversion 16% and ranking top 10 in its App Store category.",
-    image: {
-      // Points at the raw PNG on purpose — see the note on this same
-      // asset in content/case-studies/loft-app.ts.
-      src: "/images/projects/loft/hero.png",
-      alt: "Two Loft app screens tilted against a plain grey backdrop: the welcome screen and the city selection step",
-      treatment: "framed",
-    },
-    // Row 1, right (shares its row with Contract Template Management) —
-    // confirmed via get_metadata, node 8:203 (x=512 → colStart 4,
-    // width=488 → colSpan 3, y=0 → row 1, image y-offset 88 → offsetTop).
-    layout: { colStart: 4, colSpan: 3, rowStart: 1, offsetTop: true },
-  },
-  {
-    slug: "comms-map-skill",
-    title: "Building a Skill for Communications Visibility",
-    client: "QuintoAndar",
-    tags: ["AI Tooling", "Internal Tools", "Workflow Automation"],
-    description:
-      "QuintoAndar's messaging system had grown to 500+ rules and 2,500+ templates with no unified view of what a customer actually received. I built an AI agent skill that maps any communication journey on demand, no ticket to engineering needed.",
-    kind: "article",
-    // Row 3, left — confirmed via get_metadata, node 8:220 (x=0, y=1267 →
-    // row 3, image y-offset 88 → offsetTop, unlike its row partner below).
-    layout: { colStart: 5, colSpan: 2, rowStart: 2, offsetTop: true },
-  },
-  {
     slug: "third-party-claims",
     title: "Third-party Claims",
     client: "Youse Seguros",
@@ -83,7 +71,19 @@ export const projects: Project[] = [
     // Row 2, left (shares its row with Fixing UI Debt) — confirmed via
     // get_metadata, node 8:245 (x=0 → colStart 1, width=488 → colSpan 3,
     // y=609 → row 2, image y=0 → no offsetTop, unlike its row partner).
-    layout: { colStart: 1, colSpan: 3, rowStart: 2 },
+    layout: { colStart: 1, colSpan: 3, rowStart: 2, rowSpan: 2 },
+  },
+  {
+    slug: "comms-map-skill",
+    title: "Building a Skill for Communications Visibility",
+    client: "QuintoAndar",
+    tags: ["AI Tooling", "Internal Tools", "Workflow Automation"],
+    description:
+      "QuintoAndar's messaging system had grown to 500+ rules and 2,500+ templates with no unified view of what a customer actually received. I built an AI agent skill that maps any communication journey on demand, no ticket to engineering needed.",
+    kind: "article",
+    // Row 3, left — confirmed via get_metadata, node 8:220 (x=0, y=1267 →
+    // row 3, image y-offset 88 → offsetTop, unlike its row partner below).
+    layout: { colStart: 5, colSpan: 2, rowStart: 2, offsetTop: true },
   },
   {
     slug: "career-development-plan",
@@ -93,6 +93,6 @@ export const projects: Project[] = [
     description:
       "As design manager, I built a concrete development plan with a mid-level designer to close specific skill gaps and make her impact visible to the promotion committee. She earned 5/5 ratings and was promoted to senior.",
     kind: "article",
-    layout: { colStart: 1, colSpan: 2, rowStart: 3, offsetTop: true },
+    layout: { colStart: 5, colSpan: 2, rowStart: 3 },
   },
 ];

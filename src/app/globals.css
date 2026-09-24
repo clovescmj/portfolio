@@ -186,7 +186,7 @@ body {
 @media (min-width: 768px) {
   .work-card {
     grid-column: var(--card-col-start) / span var(--card-col-span);
-    grid-row-start: var(--card-row-start);
+    grid-row: var(--card-row-start) / span var(--card-row-span, 1);
   }
 }
 
