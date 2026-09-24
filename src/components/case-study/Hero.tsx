@@ -37,7 +37,7 @@ export function Hero({
         src={assetPath(image.src)}
         alt={image.alt}
         fill
-        sizes="100vw"
+        sizes="(min-width: 768px) 1000px, 100vw"
         priority
         className="object-cover"
       />

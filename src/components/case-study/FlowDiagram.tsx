@@ -21,7 +21,7 @@ export function FlowDiagram({ flow }: { flow: CaseStudyFlow }) {
       <div
         className={`scroll-area -mx-6 w-[calc(100%+48px)] overflow-x-auto md:mx-0 md:w-full md:overflow-visible ${flow.background ? "bg-placeholder p-6 md:p-8" : ""}`}
       >
-        <Image
+        <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
           src={assetPath(flow.src)}
           alt={flow.alt}
           width={flow.width}

@@ -27,7 +27,7 @@ function Block({ block }: { block: ArticleBlock }) {
     );
   }
   return (
-    <Image
+    <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
       src={assetPath(block.src)}
       alt={block.alt}
       width={block.width}
@@ -89,7 +89,7 @@ function SideImageSection({ section, id }: { section: ArticleSection; id: string
               auto`'s specificity regardless of breakpoint, so that
               version never actually let stretch take over, confirmed via
               getBoundingClientRect before this fix. */}
-          <Image
+          <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
             src={assetPath(imageBlock.src)}
             alt={imageBlock.alt}
             fill

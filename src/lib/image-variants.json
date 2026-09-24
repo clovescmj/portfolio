@@ -1,0 +1,89 @@
+{
+  "/images/about/cloves.webp": [
+    720,
+    1440
+  ],
+  "/images/articles/comms-map-skill/comms-map.png": [
+    720
+  ],
+  "/images/articles/fixing-ui-debt/review.png": [
+    720
+  ],
+  "/images/projects/contract-template-management/attachment-details.png": [
+    720
+  ],
+  "/images/projects/contract-template-management/attachment-list.png": [
+    720
+  ],
+  "/images/projects/contract-template-management/attachment-new.png": [
+    720
+  ],
+  "/images/projects/contract-template-management/creation-process.webp": [
+    720,
+    1440
+  ],
+  "/images/projects/contract-template-management/hero.png": [
+    720,
+    1440
+  ],
+  "/images/projects/contract-template-management/home.webp": [
+    720,
+    1440
+  ],
+  "/images/projects/contract-template-management/new-version.webp": [
+    720,
+    1440
+  ],
+  "/images/projects/contract-template-management/version-details.webp": [
+    720,
+    1440
+  ],
+  "/images/projects/loft/abtest.png": [
+    720,
+    1440
+  ],
+  "/images/projects/loft/bottom-navigation-before-after.webp": [
+    720,
+    1440
+  ],
+  "/images/projects/loft/hero.png": [
+    720,
+    1440
+  ],
+  "/images/projects/loft/mvp.png": [
+    720,
+    1440
+  ],
+  "/images/projects/loft/property-filter-onboarding.webp": [
+    720
+  ],
+  "/images/projects/loft/release-plan.png": [
+    720,
+    1440
+  ],
+  "/images/projects/loft/user-setup-flow.webp": [
+    720,
+    1440
+  ],
+  "/images/projects/third-party-claims/content-map.png": [
+    720
+  ],
+  "/images/projects/third-party-claims/hero.png": [
+    720,
+    1440
+  ],
+  "/images/projects/third-party-claims/research-canvas.png": [
+    720
+  ],
+  "/images/projects/third-party-claims/research-plan.png": [
+    720
+  ],
+  "/images/projects/third-party-claims/user-journey-new.png": [
+    720,
+    1440
+  ],
+  "/images/projects/third-party-claims/user-journey-old.png": [
+    720,
+    1440
+  ]
+}

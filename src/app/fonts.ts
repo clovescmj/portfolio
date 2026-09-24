@@ -7,9 +7,9 @@ import localFont from "next/font/local";
  */
 export const braunLinear = localFont({
   src: [
-    { path: "../fonts/BraunLinear-Regular.ttf", weight: "400", style: "normal" },
-    { path: "../fonts/BraunLinear-Medium.ttf", weight: "500", style: "normal" },
-    { path: "../fonts/BraunLinear-Bold.ttf", weight: "700", style: "normal" },
+    { path: "../fonts/BraunLinear-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/BraunLinear-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/BraunLinear-Bold.woff2", weight: "700", style: "normal" },
   ],
   variable: "--font-braun-linear",
   display: "swap",

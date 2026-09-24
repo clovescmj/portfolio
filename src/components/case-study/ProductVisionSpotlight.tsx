@@ -67,7 +67,7 @@ export function ProductVisionSpotlight({ spotlight }: { spotlight: CaseStudySpot
         </div>
 
         <div className="relative aspect-[529/793] w-full md:col-span-2 md:aspect-auto">
-          <Image
+          <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
             src={assetPath(spotlight.image.src)}
             alt={spotlight.image.alt}
             fill

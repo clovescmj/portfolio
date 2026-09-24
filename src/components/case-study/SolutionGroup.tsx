@@ -224,7 +224,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
         <figure
           className={`flex flex-col gap-2 ${hasLeadContent ? "mt-2" : ""} ${topic.image.background ? "bg-placeholder p-4" : ""}`}
         >
-          <Image
+          <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
             src={assetPath(topic.image.src)}
             alt={topic.image.alt}
             width={topic.image.width}
@@ -360,7 +360,7 @@ function GroupBody({
                   offset negative-x, i.e. cropped, not letterboxed). */}
               <div className="px-14">
                 <div className="relative aspect-[656/707.5] w-full overflow-hidden">
-                  <Image src={assetPath(wideImage.src)} alt={wideImage.alt} fill className="object-cover" />
+                  <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)" src={assetPath(wideImage.src)} alt={wideImage.alt} fill className="object-cover" />
                 </div>
               </div>
             </figure>
@@ -491,10 +491,10 @@ function GroupBody({
                     <div className={img.background ? "w-full bg-placeholder pt-6 px-6" : "w-full"}>
                       {img.crop ? (
                         <div className="relative aspect-[436/270] w-full overflow-hidden">
-                          <Image src={assetPath(img.src)} alt={img.alt} fill className="object-cover" />
+                          <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)" src={assetPath(img.src)} alt={img.alt} fill className="object-cover" />
                         </div>
                       ) : (
-                        <Image
+                        <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
                           src={assetPath(img.src)}
                           alt={img.alt}
                           width={img.width}
