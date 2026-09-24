@@ -4,7 +4,7 @@ import { assetPath } from "@/lib/asset-path";
 /**
  * Desktop banner shape. "wide" matches a landscape screenshot (Contract's
  * laptop shot). "portrait" gives a shorter, closer-to-square box for a
- * source image taller than it is wide — a phone mockup, say — so an
+ * source image taller than it is wide, a phone mockup say, so an
  * object-cover crop against a very wide box doesn't lose most of it.
  */
 const DESKTOP_ASPECT_CLASSES = {

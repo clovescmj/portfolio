@@ -80,10 +80,17 @@ export const projects: Project[] = [
   {
     slug: "third-party-claims",
     title: "Third-party Claims",
-    client: "Youse",
+    client: "Youse Seguros",
     tags: ["UI Design", "UX Design", "User Research", "Usability Testing"],
     description:
       "Third parties in a car accident had to call support to file a claim, driving cost and frustration. I designed and validated a digital self-service journey that moved 40% of claims off the phone within a month of launch.",
+    image: {
+      // Same hero.png as the case study's own hero — same convention as
+      // Contract/Loft's cards.
+      src: "/images/projects/third-party-claims/hero.png",
+      alt: "The third-party claim flow on a laptop and phone browser",
+      treatment: "framed",
+    },
     // Row 2, left (shares its row with Fixing UI Debt) — confirmed via
     // get_metadata, node 8:245 (x=0 → colStart 1, width=488 → colSpan 3,
     // y=609 → row 2, image y=0 → no offsetTop, unlike its row partner).

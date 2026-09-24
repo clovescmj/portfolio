@@ -8,6 +8,18 @@ export interface CaseStudyImage {
   alt: string;
   width: number;
   height: number;
+  /** Wrap the image in a tinted card — only when Figma actually shows one behind it. Off by default:
+   *  most source exports are transparent-cutout mockups meant to sit on plain white. */
+  background?: boolean;
+  /** Only meaningful with `background: true` — crop to a fixed 270px-tall
+   *  box (object-cover) instead of the image's own natural aspect ratio.
+   *  Third-party Claims' research-canvas image (confirmed via
+   *  get_design_context on node 148:19353: `h-[270px]` + `object-cover`
+   *  inside a `p-[24px]` tinted card). Left off for a source image that's
+   *  much taller than it is wide (e.g. a portrait document pair), where
+   *  this crop would cut off most of the content — natural aspect stays
+   *  the right call there even though Figma's own box is the same size. */
+  crop?: boolean;
 }
 
 export interface CaseStudySlide {
@@ -118,9 +130,6 @@ export interface FeatureBlock {
   image?: CaseStudyImage & {
     /** Small caption under the image, e.g. noting it's an animated recording of a click-through. */
     caption?: string;
-    /** Wrap the image in a tinted card — only when Figma actually shows one behind it. Off by default:
-     *  most source exports are transparent-cutout mockups meant to sit on plain white. */
-    background?: boolean;
   };
   /** A small badge above the topic, e.g. "A/B Test" — pairs with an accent-bordered highlight. */
   tag?: string;
@@ -237,6 +246,15 @@ export interface CaseStudyGroup {
    * content in the row. Only meaningful together with `carousel`.
    */
   titleAboveCarousel?: boolean;
+  /**
+   * Render this whole group as a single live prototype inside the
+   * full-bleed tinted HighlightBlock shell (see PrototypeHighlight) —
+   * Third-party Claims' "Prototype" block, standing in for a static
+   * carousel where the real thing is more convincing than screenshots of
+   * it. Mutually exclusive with the normal GroupBody render, the same way
+   * `titleAboveCarousel` replaces it for a carousel.
+   */
+  highlightEmbed?: CaseStudyEmbed;
   links?: { label: string; href: string }[];
   /**
    * The group's own children ("seções filhas") — a real hierarchy, not a
@@ -289,8 +307,44 @@ export interface CaseStudyGroup {
      * affected; a second row (unused here) would fall back to stacking.
      */
     miniGridInline?: boolean;
+    /**
+     * Packs miniGrid into a narrow 2-column block at col3-4 (each row its
+     * own pair, stacked, instead of one row of N equal columns spanning
+     * col3-6) so a `quote` can sit beside it at col5-6 instead of full
+     * width below, Third-party Claims' "Interview Findings" (a 2x2 of
+     * Anguish/Frustration/Anxiety/Mistrust beside the pull-quote),
+     * confirmed via get_metadata on node 145:17868 after Clóves reworked
+     * this subsection's layout in Figma. Only meaningful together with
+     * `quote`; every row must have exactly 2 columns.
+     */
+    miniGridCompact?: boolean;
     /** Renders after this subsection's own topics — Loft's App Evolution "User Setup" onboarding flow. */
     flows?: CaseStudyFlow[];
+    /** A short pull-quote with attribution. Renders full width under the
+     *  topic/miniGrid content by default, or beside a `miniGridCompact`
+     *  block at col5-6, same row — Third-party Claims' "Interview
+     *  Findings". The attribution's leading dash is UI chrome added by the
+     *  component, not part of the stored value. */
+    quote?: { text: string; attribution: string };
+    /** See the note on `CaseStudyGroup.flushStacked` — Third-party Claims'
+     *  "Content Mapping", nested under "Solution", needs the same flush
+     *  text-stacked-beside-a-wide-image treatment Contract's top-level
+     *  childGroups use, just one level deeper (a subsection, not a
+     *  childGroup). Only meaningful with exactly 1-2 topics and `wideImage`
+     *  or `wideEmbed` set. */
+    flushStacked?: boolean;
+    wideImage?: { src: string; alt: string };
+    /** See the note on `WIDE_SPAN_CLASSES` in SolutionGroup.tsx — 3 or 4
+     *  grid columns for `wideImage`/`wideEmbed`, defaulting to 4. */
+    wideImageSpan?: 3 | 4;
+    wideEmbed?: { src: string; title: string };
+    flushCaption?: string;
+    /** Render this subsection as a single live prototype inside the
+     *  full-bleed HighlightBlock shell instead of the normal GroupBody —
+     *  see the note on `CaseStudyGroup.highlightEmbed`. Third-party
+     *  Claims' "Interface", a subsection of "Solution" alongside "Content
+     *  Mapping", not a top-level chapter of its own. */
+    highlightEmbed?: CaseStudyEmbed;
   }[];
   /** A divider line above this group. Off by default — Figma uses these sparingly, at
    *  real chapter breaks, not between every group (see `CaseStudy.rowGap` for the rest). */
@@ -389,10 +443,11 @@ export interface CaseStudy {
     alt: string;
     /**
      * Desktop banner shape. "wide" (default) matches a landscape
-     * screenshot, like Contract's laptop shot. "portrait" gives a
-     * shorter, more square box instead, for a source image — a phone
-     * mockup, say — that's taller than it is wide, so an object-cover
-     * crop against a very wide box wouldn't lose most of it.
+     * screenshot — Contract, Loft, and Third-party Claims' hero.png all
+     * share the same ~2.03:1 ratio (2250x1108). "portrait" gives a
+     * shorter, more square box instead, for a source image, a phone
+     * mockup say, that's taller than it is wide, so an object-cover
+     * crop against a very wide box doesn't lose most of it.
      */
     desktopAspect?: "wide" | "portrait";
   };

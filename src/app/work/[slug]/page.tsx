@@ -21,13 +21,22 @@ export default async function CaseStudyPage({
   const caseStudy = caseStudies[slug];
   if (!caseStudy) notFound();
 
-  // Both case studies use a flat 72px rhythm between top-level ("mãe")
-  // blocks, divider or not (the divider itself is a 0-height line, so a
-  // "divided" gap is just two of these back to back) — see the note on
-  // `CaseStudy.rowGap`. Kept overridable rather than hardcoded, in case a
-  // future case study measures differently; the JIT-unfriendly arbitrary
-  // value is why this is a style prop instead of a `gap-*` class.
-  const rowGapStyle = { gap: `${caseStudy.rowGap ?? 72}px` };
+  // Both case studies use a 72px rhythm between top-level ("mãe") blocks
+  // at desktop width, divider or not (the divider itself is a 0-height
+  // line, so a "divided" gap is just two of these back to back) — see the
+  // note on `CaseStudy.rowGap`. Scales down proportionally below that
+  // (not a hard breakpoint jump) via `clamp()`, floored at a bit over
+  // half the desktop value; the vw coefficient is derived from `rowGap`
+  // itself so it still lands exactly on `rowGap` at the 1440px desktop
+  // width the whole scale is measured against, even if a future case
+  // study overrides `rowGap` to something other than 72. Kept overridable
+  // rather than hardcoded, in case a future case study measures
+  // differently; the JIT-unfriendly arbitrary value is why this is a
+  // style prop instead of a `gap-*` class.
+  const rowGap = caseStudy.rowGap ?? 72;
+  const rowGapMin = Math.round(rowGap * 0.56);
+  const rowGapVw = ((rowGap / 1440) * 100).toFixed(3);
+  const rowGapStyle = { gap: `clamp(${rowGapMin}px, ${rowGapVw}vw, ${rowGap}px)` };
 
   return (
     <div className="flex flex-col gap-0 md:gap-[88px]">
@@ -72,7 +81,7 @@ export default async function CaseStudyPage({
               if (block.childGroups?.length) {
                 return [
                   divider,
-                  <div key={`section-${i}`} className="flex flex-col gap-12 md:gap-16">
+                  <div key={`section-${i}`} className="flex flex-col gap-[clamp(36px,4.444vw,64px)]">
                     <LabeledRow label={block.label} sublabel={block.sublabel} columns={block.columns} />
                     {block.childGroups.map((childGroup, ci) => (
                       <SolutionGroup key={`${childGroup.title}-${ci}`} group={childGroup} />

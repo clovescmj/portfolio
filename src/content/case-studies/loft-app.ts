@@ -192,8 +192,8 @@ export const loftApp: CaseStudy = {
         {
           src: "/images/projects/loft/mvp.png",
           alt: "MVP screens: a native splashscreen and welcome screen, plus five webview screens for city selection, property listing, property details, and visit scheduling",
-          width: 1658,
-          height: 617,
+          width: 2834,
+          height: 1001,
         },
       ],
       subsections: [
@@ -231,8 +231,8 @@ export const loftApp: CaseStudy = {
             {
               src: "/images/projects/loft/release-plan.png",
               alt: "Release plan timeline, from MVP Alpha and Beta through Release 1 launch to Release 4",
-              width: 2000,
-              height: 322,
+              width: 1056,
+              height: 161,
             },
           ],
         },
@@ -275,10 +275,6 @@ export const loftApp: CaseStudy = {
         {
           title: "User Setup",
           narrowLabel: true,
-          link: {
-            label: "View prototype",
-            href: "https://www.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=1-5896&p=f&viewport=59%2C932%2C0.28&t=T7CbjHFrZBjwV0Ai-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A5890&page-id=0%3A1",
-          },
           topics: [
             {
               body: [
@@ -477,10 +473,10 @@ export const loftApp: CaseStudy = {
           ],
           flows: [
             {
-              src: "/images/projects/loft/abtest.webp",
+              src: "/images/projects/loft/abtest.png",
               alt: "A/B test comparison of the onboarding flow, before and after removing the filter-first steps, with a 16% increase in L2S conversion rate",
-              width: 3724,
-              height: 883,
+              width: 1862,
+              height: 442,
             },
           ],
         },

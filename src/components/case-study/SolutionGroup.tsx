@@ -3,6 +3,7 @@ import { assetPath } from "@/lib/asset-path";
 import type { CaseStudyFlow, CaseStudyGroup } from "@/types/case-study";
 import { Carousel } from "./Carousel";
 import { EmbedFrame } from "./EmbedFrame";
+import { PrototypeHighlight } from "./PrototypeHighlight";
 import { FlowDiagram } from "./FlowDiagram";
 import { StatsGrid } from "./StatsGrid";
 
@@ -49,6 +50,23 @@ const WIDE_TOPIC_POSITION_CLASSES = [
  *  "Research Process": Plan/Recruit/Document/Iterate at columns 3/4/5/6,
  *  confirmed via get_metadata (all four share `row-5` with the title). */
 const MINI_GRID_INLINE_COL_CLASSES = ["md:col-start-3", "md:col-start-4", "md:col-start-5", "md:col-start-6"];
+
+/** `miniGridCompact`'s 2-column pack at col3-4, one row per array row —
+ *  Third-party Claims' "Interview Findings" 2x2 (Anguish/Frustration on
+ *  row 1, Anxiety/Mistrust on row 2), confirmed via get_metadata on node
+ *  145:17868. Only 2 columns per row is meaningful here (col5-6 is the
+ *  quote beside it); a 3rd column would have nowhere to go. */
+const MINI_GRID_COMPACT_COL_CLASSES = ["md:col-start-3", "md:col-start-4"];
+const MINI_GRID_COMPACT_ROW_CLASSES = ["md:row-start-1", "md:row-start-2", "md:row-start-3"];
+
+/** `flushStacked`'s wideImage/wideEmbed width — Contract's "Adding an
+ *  attachment" measures 4 columns (656px, the `aspect-[656/707.5]` crop
+ *  below is sized for that), but Third-party Claims' "Content Mapping"
+ *  (a subsection, not a top-level childGroup) measures 3 columns (484px)
+ *  on the same asset shape, confirmed via get_design_context
+ *  (`col-[3/span_3]`, not `span_4`). Defaults to 4 so Contract's own
+ *  measurement stays exact without passing anything. */
+const WIDE_SPAN_CLASSES = { 3: "md:col-span-3", 4: "md:col-span-4" } as const;
 
 type Topics = CaseStudyGroup["topics"];
 type MiniGrid = NonNullable<CaseStudyGroup["miniGrid"]>;
@@ -249,6 +267,7 @@ function GroupBody({
   topics,
   miniGrid,
   miniGridInline,
+  miniGridCompact,
   imageColumns,
   flows,
   links,
@@ -256,7 +275,9 @@ function GroupBody({
   flushStacked,
   wideImage,
   wideEmbed,
+  wideImageSpan,
   flushCaption,
+  quote,
 }: {
   title: string;
   /** A link under the title, e.g. "View prototype" — Loft's App Evolution "User Setup". */
@@ -276,6 +297,8 @@ function GroupBody({
   miniGrid?: MiniGrid;
   /** See the note on `subsections[].miniGridInline` in the type. */
   miniGridInline?: boolean;
+  /** See the note on `subsections[].miniGridCompact` in the type. */
+  miniGridCompact?: boolean;
   imageColumns?: CaseStudyGroup["imageColumns"];
   flows?: CaseStudyFlow[];
   links?: CaseStudyGroup["links"];
@@ -283,7 +306,10 @@ function GroupBody({
   flushStacked?: boolean;
   wideImage?: CaseStudyGroup["wideImage"];
   wideEmbed?: CaseStudyGroup["wideEmbed"];
+  /** See the note on `WIDE_SPAN_CLASSES`. Defaults to 4 (Contract's own measurement). */
+  wideImageSpan?: 3 | 4;
   flushCaption?: string;
+  quote?: { text: string; attribution: string };
 }) {
   if (flushStacked) {
     return (
@@ -333,12 +359,14 @@ function GroupBody({
         </div>
 
         {wideEmbed ? (
-          <div className="md:col-span-4 md:col-start-3 md:row-start-1">
+          <div className={`${WIDE_SPAN_CLASSES[wideImageSpan ?? 4]} md:col-start-3 md:row-start-1`}>
             <EmbedFrame src={wideEmbed.src} title={wideEmbed.title} />
           </div>
         ) : (
           wideImage && (
-            <figure className="flex flex-col gap-2 md:col-span-4 md:col-start-3 md:row-start-1">
+            <figure
+              className={`flex flex-col gap-2 ${WIDE_SPAN_CLASSES[wideImageSpan ?? 4]} md:col-start-3 md:row-start-1`}
+            >
               {/* Figma crops this one to fill its column (object-cover), not
                   the image's own natural aspect ratio — confirmed via
                   get_metadata (the source image is wider than its frame and
@@ -359,14 +387,24 @@ function GroupBody({
   const gridColsClass = "md:grid-cols-[repeat(6,minmax(0,1fr))]";
   const basePositions = wideLabel || contentOffset3 ? WIDE_TOPIC_POSITION_CLASSES : TOPIC_POSITION_CLASSES;
   const topicPositions = intro ? basePositions.slice(2) : basePositions;
+  // Skip the grid section entirely when it would render nothing but the
+  // empty label column, the flows-only case (Third-party Claims'
+  // Customer Journey subsection: no title, no topics, just a diagram) —
+  // same reasoning as SolutionGroup's own skip for an empty main
+  // GroupBody call. Left unskipped, it's a zero-height flex child that
+  // still costs a full `gap-12` before the flows figure right after it.
+  const hasSectionContent = Boolean(
+    title || titleLink || topics.length > 0 || miniGrid || quote || imageColumns || links || embed,
+  );
 
   return (
     <div className="flex flex-col gap-12">
-      <section className={`grid grid-cols-1 gap-y-10 ${gridColsClass} md:gap-x-8 md:pr-content`}>
+      {hasSectionContent && (
+        <section className={`grid grid-cols-1 gap-y-10 ${gridColsClass} md:gap-x-8 md:pr-content`}>
         <div
           className={`flex flex-col gap-1 max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel && !narrowLabel ? "md:col-span-2" : "md:col-span-1"}`}
         >
-          <h3 className="font-sans text-title text-ink">{title}</h3>
+          {title && <h3 className="font-sans text-title text-ink">{title}</h3>}
           {titleLink && (
             <a
               href={titleLink.href}
@@ -388,7 +426,21 @@ function GroupBody({
         ))}
 
         {miniGrid?.map((row, r) =>
-          miniGridInline && r === 0 ? (
+          miniGridCompact ? (
+            // Packed into col3-4, one array row per grid row, so a
+            // `quote` can sit beside it at col5-6 — same `display:
+            // contents` trick `miniGridInline` uses, just 2 columns wide
+            // and row-aware instead of 4-across in row 1 only.
+            <div key={r} className="contents">
+              {row.map((column, c) => (
+                <MiniGridColumn
+                  key={column.title}
+                  column={column}
+                  className={`${MINI_GRID_COMPACT_ROW_CLASSES[r] ?? ""} ${MINI_GRID_COMPACT_COL_CLASSES[c] ?? ""}`}
+                />
+              ))}
+            </div>
+          ) : miniGridInline && r === 0 ? (
             // Beside the title, same row — "Research Process": the
             // wrapper is `display: contents` so each column becomes a
             // direct child of the section's own grid instead of a
@@ -411,19 +463,51 @@ function GroupBody({
           ),
         )}
 
+        {quote && (
+          <figure
+            className={
+              miniGridCompact
+                ? "relative isolate flex flex-col gap-3 md:col-span-2 md:col-start-5 md:row-start-1 md:row-span-2"
+                : "relative isolate flex flex-col gap-3 md:col-span-4 md:col-start-3"
+            }
+          >
+            {/* Absolutely positioned so it floats above-left of the text
+                instead of taking up its own row in the flex flow —
+                matches Figma's own technique on node 148:19368
+                (`top-[-13.79px] left-[-15px]`, absolute, not a margin
+                push or a normal-flow sibling). Sits behind the text
+                (-z-10 vs the text's own relative z-0 stacking context). */}
+            <div className="absolute -top-3.5 -left-[15px] -z-10">
+              <Image aria-hidden src={assetPath("/images/about/quote.svg")} alt="" width={45} height={39}/>
+            </div>
+            <p className="relative font-sans text-title text-ink">{quote.text}</p>
+            <figcaption className="relative font-sans text-caption text-muted">
+              <span aria-hidden>— </span>
+              {quote.attribution}
+            </figcaption>
+          </figure>
+        )}
+
         {imageColumns && (
           <div className="flex flex-col gap-8 sm:flex-row md:col-span-6 md:col-start-1">
             {imageColumns.map((column, c) => (
               <div key={c} className="flex flex-1 flex-col gap-8">
                 {column.map((img) => (
-                  <Image
-                    key={img.src}
-                    src={assetPath(img.src)}
-                    alt={img.alt}
-                    width={img.width}
-                    height={img.height}
-                    className="h-auto w-full"
-                  />
+                  <div key={img.src} className={img.background ? "w-full bg-placeholder pt-6 px-6" : "w-full"}>
+                    {img.crop ? (
+                      <div className="relative aspect-[436/270] w-full overflow-hidden">
+                        <Image src={assetPath(img.src)} alt={img.alt} fill className="object-cover" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={assetPath(img.src)}
+                        alt={img.alt}
+                        width={img.width}
+                        height={img.height}
+                        className="h-auto w-full"
+                      />
+                    )}
+                  </div>
                 ))}
               </div>
             ))}
@@ -453,7 +537,8 @@ function GroupBody({
             <figcaption className="font-sans text-caption text-muted">{embed.caption}</figcaption>
           </figure>
         )}
-      </section>
+        </section>
+      )}
 
       {flows?.map((flow) => <FlowDiagram key={flow.src} flow={flow} />)}
     </div>
@@ -461,14 +546,37 @@ function GroupBody({
 }
 
 export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
+  // The child↔child ("filha") rhythm: 64px at the 1440px desktop width,
+  // scaling down proportionally (not a hard breakpoint jump) to a 36px
+  // floor — same `clamp()` approach as the page's own 72px mãe↔mãe rhythm
+  // in work/[slug]/page.tsx, and the matching duplicate there for a
+  // section's own `childGroups`. 4.444vw is 64/1440*100, so this still
+  // lands exactly on 64px at that width.
   return (
-    <div className="flex flex-col gap-12 md:gap-16">
+    <div className="flex flex-col gap-[clamp(36px,4.444vw,64px)]">
       {group.topLabel && <h2 className="font-sans text-heading-2 text-ink -mb-6 md:-mb-10">{group.topLabel}</h2>}
 
-      {/* Contract's "Contract and attachment template management": title only,
-          rendered as the carousel's own header below — no col-1 label row of
-          its own, nothing else in it. */}
-      {!group.titleAboveCarousel && (
+      {group.highlightEmbed && <PrototypeHighlight title={group.title} embed={group.highlightEmbed} />}
+
+      {/* Skip the main GroupBody call entirely when it would render nothing,
+          Third-party Claims' "Understanding", whose topLabel and
+          subsections carry the whole group, with no title/topics/flows of
+          its own. Rendering it anyway leaves a zero-height flex child that
+          still costs a full gap on each side (the h2's own -mb-10 only
+          cancels the FIRST of those two), nearly doubling the visible space
+          before the first subsection. Solution, by contrast, DOES have
+          content here (its own `flows`), so it still needs to render. */}
+      {(group.title ||
+        group.topics.length > 0 ||
+        group.flows?.length ||
+        group.miniGrid ||
+        group.imageColumns ||
+        group.embed ||
+        group.wideImage ||
+        group.wideEmbed ||
+        group.links?.length) &&
+        !group.titleAboveCarousel &&
+        !group.highlightEmbed && (
         <GroupBody
           title={group.title}
           wideLabel={group.wideLabel}
@@ -493,20 +601,35 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
           boundary in node 97:13056) under the same "Insights" topLabel
           above, not the page's normal 72px rhythm — see `subsections` on
           the type. */}
-      {group.subsections?.map((subsection) => (
-        <GroupBody
-          key={subsection.title}
-          title={subsection.title}
-          titleLink={subsection.link}
-          wideLabel={group.wideLabel}
-          narrowLabel={subsection.narrowLabel}
-          contentOffset3={subsection.contentOffset3}
-          topics={subsection.topics ?? []}
-          miniGrid={subsection.miniGrid}
-          miniGridInline={subsection.miniGridInline}
-          flows={subsection.flows}
-        />
-      ))}
+      {group.subsections?.map((subsection) =>
+        subsection.highlightEmbed ? (
+          <PrototypeHighlight
+            key={subsection.title}
+            title={subsection.title}
+            embed={subsection.highlightEmbed}
+          />
+        ) : (
+          <GroupBody
+            key={subsection.title}
+            title={subsection.title}
+            titleLink={subsection.link}
+            wideLabel={group.wideLabel}
+            narrowLabel={subsection.narrowLabel}
+            contentOffset3={subsection.contentOffset3}
+            topics={subsection.topics ?? []}
+            miniGrid={subsection.miniGrid}
+            miniGridInline={subsection.miniGridInline}
+            miniGridCompact={subsection.miniGridCompact}
+            flows={subsection.flows}
+            quote={subsection.quote}
+            flushStacked={subsection.flushStacked}
+            wideImage={subsection.wideImage}
+            wideEmbed={subsection.wideEmbed}
+            wideImageSpan={subsection.wideImageSpan}
+            flushCaption={subsection.flushCaption}
+          />
+        ),
+      )}
 
       {group.carousel && (
         <Carousel slides={group.carousel} title={group.titleAboveCarousel ? group.title : undefined} />
