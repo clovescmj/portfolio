@@ -36,19 +36,6 @@ export const projects: Project[] = [
     layout: { colStart: 1, colSpan: 2, rowStart: 1 },
   },
   {
-    slug: "fixing-ui-debt",
-    title: "Fixing UI Debt in Contract Template Management",
-    client: "QuintoAndar",
-    tags: ["UI Design", "Frontend Development", "AI-Assisted Development"],
-    description:
-      "After that tool shipped, I reviewed what had actually gone live, found real gaps between design and implementation, and fixed all four myself in code, with AI support, using the team's real design system.",
-    kind: "article",
-    // Row 2, right (shares its row with Third-party Claims, not Contract
-    // Template Management) — confirmed via get_metadata, node 8:178
-    // (x=682.67 → colStart 5, y=609 → row 2, image y-offset 88 → offsetTop).
-    layout: { colStart: 4, colSpan: 2, rowStart: 3 },
-  },
-  {
     slug: "loft-app",
     title: "Loft App",
     client: "Loft",
@@ -69,7 +56,7 @@ export const projects: Project[] = [
   },
   {
     slug: "comms-map-skill",
-    title: "Comms Map Skill",
+    title: "Building a Skill for Communications Visibility",
     client: "QuintoAndar",
     tags: ["AI Tooling", "Internal Tools", "Workflow Automation"],
     description:
@@ -100,7 +87,7 @@ export const projects: Project[] = [
   },
   {
     slug: "career-development-plan",
-    title: "Career Development Plan",
+    title: "Coaching a Designer from Mid-Level to Senior",
     client: "unico IDtech",
     tags: ["Team Mentorship", "People Management", "Career Development"],
     description:

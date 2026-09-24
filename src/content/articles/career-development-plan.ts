@@ -5,25 +5,6 @@ export const careerDevelopmentPlan: Article = {
   title: "Coaching a Designer from Mid-Level to Senior",
   company: "unico IDtech",
   role: "Team Mentorship, People Management, Career Development",
-  lead: "As design manager, I built and ran a development plan with a mid-level designer that led to her promotion to senior after two review cycles.",
-  tldr: [
-    {
-      label: "Context",
-      body: "I managed a team of 4 product designers at Unico. One was strong on craft but her impact wasn't visible to the people who decide promotions, and specific technical gaps were capping her scope.",
-    },
-    {
-      label: "What I did",
-      body: "Built an individual development plan (PDI) with her, considering concrete activities, each tied to one growth topic and a fixed timeframe, and ran it across two six-month cycles, adjusting as we went.",
-    },
-    {
-      label: "Outcome",
-      body: "5/5 performance ratings and approved salary increases in both cycles; in the final cycle, the performance committee approved her promotion to senior.",
-    },
-    {
-      label: "Why this case is here",
-      body: "This reflects how I lead, partnering with each designer on a concrete plan, worked out strategically around influence, room to operate, and visibility, aimed at both their career goals and what the business needs.",
-    },
-  ],
   sections: [
     {
       heading: "Context",
