@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ArticleBody } from "@/components/article/ArticleBody";
 import { BackLink } from "@/components/case-study/BackLink";
 import { CaseStudyIntro } from "@/components/case-study/CaseStudyIntro";
 import { Hero } from "@/components/case-study/Hero";
@@ -6,10 +7,11 @@ import { Impact } from "@/components/case-study/Impact";
 import { LabeledRow } from "@/components/case-study/LabeledRow";
 import { ProductVisionSpotlight } from "@/components/case-study/ProductVisionSpotlight";
 import { SolutionGroup } from "@/components/case-study/SolutionGroup";
+import { articles } from "@/content/articles";
 import { caseStudies } from "@/content/case-studies";
 
 export function generateStaticParams() {
-  return Object.keys(caseStudies).map((slug) => ({ slug }));
+  return [...Object.keys(caseStudies), ...Object.keys(articles)].map((slug) => ({ slug }));
 }
 
 export default async function CaseStudyPage({
@@ -18,6 +20,24 @@ export default async function CaseStudyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const article = articles[slug];
+  if (article) {
+    return (
+      <div className="flex flex-col gap-8 md:gap-20">
+        <div className="max-md:sticky max-md:top-0 max-md:z-10 max-md:-mx-6 max-md:w-[calc(100%+48px)] max-md:bg-surface max-md:px-6">
+          <BackLink href="/" label="Back to Work" />
+        </div>
+        {/* Cancels the shared right inset for everything below, same as
+            the case-study branch — a `sideImage` section's image bleeds
+            to this true right edge; everything else adds its own
+            `pr-content` back in ArticleBody. */}
+        <div className="md:-mx-content md:w-[calc(100%+112px)] md:pl-content">
+          <ArticleBody article={article} />
+        </div>
+      </div>
+    );
+  }
+
   const caseStudy = caseStudies[slug];
   if (!caseStudy) notFound();
 

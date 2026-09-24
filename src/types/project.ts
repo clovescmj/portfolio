@@ -35,5 +35,11 @@ export interface Project {
   tags: string[];
   description: string;
   image?: ProjectImage;
+  /** "article" for a project shared as a written piece rather than a full
+   *  design case study — no card image, and its own page (see
+   *  src/content/articles/) reads closer to a blog post than a case
+   *  study's Problem/Understanding/Solution/Impact structure. Defaults to
+   *  "case-study". */
+  kind?: "case-study" | "article";
   layout: ProjectLayout;
 }

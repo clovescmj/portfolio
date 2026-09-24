@@ -42,6 +42,7 @@ export const projects: Project[] = [
     tags: ["UI Design", "Frontend Development", "AI-Assisted Development"],
     description:
       "After that tool shipped, I reviewed what had actually gone live, found real gaps between design and implementation, and fixed all four myself in code, with AI support, using the team's real design system.",
+    kind: "article",
     // Row 2, right (shares its row with Third-party Claims, not Contract
     // Template Management) — confirmed via get_metadata, node 8:178
     // (x=682.67 → colStart 5, y=609 → row 2, image y-offset 88 → offsetTop).
@@ -73,6 +74,7 @@ export const projects: Project[] = [
     tags: ["AI Tooling", "Internal Tools", "Workflow Automation"],
     description:
       "QuintoAndar's messaging system had grown to 500+ rules and 2,500+ templates with no unified view of what a customer actually received. I built an AI agent skill that maps any communication journey on demand, no ticket to engineering needed.",
+    kind: "article",
     // Row 3, left — confirmed via get_metadata, node 8:220 (x=0, y=1267 →
     // row 3, image y-offset 88 → offsetTop, unlike its row partner below).
     layout: { colStart: 1, colSpan: 2, rowStart: 3, offsetTop: true },
@@ -103,6 +105,7 @@ export const projects: Project[] = [
     tags: ["Team Mentorship", "People Management", "Career Development"],
     description:
       "As design manager, I built a concrete development plan with a mid-level designer to close specific skill gaps and make her impact visible to the promotion committee. She earned 5/5 ratings and was promoted to senior.",
+    kind: "article",
     // Row 3, right — confirmed via get_metadata, node 8:266 (x=512 →
     // colStart 4, y=1267 → row 3, image y=0 → no offsetTop).
     layout: { colStart: 4, colSpan: 2, rowStart: 3 },

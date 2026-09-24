@@ -2,6 +2,7 @@
 
 import type { CSSProperties, ReactNode } from "react";
 import { isPlainLeftClick, usePageTransition } from "@/components/layout/PageTransitionContext";
+import { articles } from "@/content/articles";
 import { caseStudies } from "@/content/case-studies";
 import type { Project } from "@/types/project";
 import { ProjectImage } from "./ProjectImage";
@@ -23,9 +24,9 @@ import { ProjectMeta } from "./ProjectMeta";
  * and the same on every card regardless of width, by design.
  */
 export function WorkCard({ project, priority = false }: { project: Project; priority?: boolean }) {
-  const { layout, image } = project;
+  const { layout, image, kind = "case-study" } = project;
   const { navigate } = usePageTransition();
-  const href = caseStudies[project.slug] ? `/work/${project.slug}` : undefined;
+  const href = caseStudies[project.slug] || articles[project.slug] ? `/work/${project.slug}` : undefined;
 
   const style = {
     "--card-col-start": layout.colStart,
@@ -46,16 +47,20 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
         surrounding gutter, instead of pushing neighbors around. A border
         would only draw a ring, not a filled backdrop like this.
 
-        Only cards with a real case study (see src/content/case-studies/)
-        link anywhere — the rest are placeholders without a page to go to
-        yet, so they render as a plain div instead of an inert <a>.
+        Only cards with a real case study or article entry (see
+        src/content/case-studies/ and src/content/articles/) link anywhere
+        — the rest are placeholders without a page to go to yet, so they
+        render as a plain div instead of an inert <a>.
       */}
       <Wrapper
         href={href}
         onNavigate={navigate}
         className="group @container -m-4 flex flex-col gap-4 p-4 transition-colors duration-400 ease-in-out hover:bg-placeholder"
       >
-        <ProjectImage image={image} priority={priority} comingSoon={!href} />
+        {/* Articles have no thumbnail — they're shared as a written piece,
+            not a set of designed screens, so a card image would either be
+            blank or a stand-in that doesn't represent the content. */}
+        {kind !== "article" && <ProjectImage image={image} priority={priority} comingSoon={!href} />}
 
         {!layout.imageOnly && (
           <div className="flex flex-col gap-2 md:gap-4 md:@min-[420px]:flex-row md:@min-[420px]:gap-6">
@@ -67,9 +72,12 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
               unprefixed leading-[...] here would keep winning over
               text-title's own line-height at the md: breakpoint too.
             */}
-            <h3 className="flex-1 font-sans max-md:text-[19px] max-md:leading-[1.15] max-md:tracking-[-0.01em] max-md:font-medium text-ink md:text-title">
-              {project.title}
-            </h3>
+            <div className="flex flex-1 flex-col gap-1">
+              <p className="font-sans text-caption text-muted">{kind === "article" ? "Article" : "Case study"}</p>
+              <h3 className="font-sans max-md:text-[19px] max-md:leading-[1.15] max-md:tracking-[-0.01em] max-md:font-medium text-ink md:text-title">
+                {project.title}
+              </h3>
+            </div>
             <div className="flex flex-1 flex-col gap-2 md:gap-4">
               <p className="font-sans text-body text-ink">{project.description}</p>
               <ProjectMeta client={project.client} tags={project.tags} />
