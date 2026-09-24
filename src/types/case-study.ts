@@ -378,6 +378,10 @@ export interface CaseStudyGroup {
    *  here, but Clóves asked for the actual working HTML prototype embedded
    *  instead, same as the "View prototype" link beside it points to. */
   wideEmbed?: { src: string; title: string };
+  /** See the note on `WIDE_SPAN_CLASSES` in SolutionGroup.tsx — 3 or 4
+   *  grid columns for `wideImage`/`wideEmbed`, defaulting to 4 (Contract's
+   *  own measurement). */
+  wideImageSpan?: 3 | 4;
   /** A caption for `wideImage`, but positioned at the bottom of the LEFT
    *  (text) column, not under the image itself — confirmed via
    *  get_design_context on Contract's "Adding an attachment" section. */

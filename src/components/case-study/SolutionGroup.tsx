@@ -6,6 +6,7 @@ import { EmbedFrame } from "./EmbedFrame";
 import { PrototypeHighlight } from "./PrototypeHighlight";
 import { FlowDiagram } from "./FlowDiagram";
 import { StatsGrid } from "./StatsGrid";
+import { gridPositionClass } from "@/lib/grid-position";
 
 /**
  * The site's shared grid, confirmed against Figma's own layout-grid overlay
@@ -123,24 +124,16 @@ function EmbedSlot({ embed, topMargin }: { embed: NonNullable<Topics[number]["em
   );
 }
 
-/** Renders one topic's card — title/tag, body, list, stacked items, a
- *  link, stats, image, or embed slot — at the given grid position. */
-function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; positionClass: string }) {
+/** Body/list/stacked-items/link/stats/image/embed — everything below a
+ *  topic's own title, shared by `Topic` (the normal grid-cell layout) and
+ *  `flushStacked`'s single flush-left column, so a field like `stats` or
+ *  `image` works the same in either place instead of only being handled
+ *  in one of the two topic renderers. */
+function TopicContent({ topic }: { topic: Topics[number] }) {
+  const hasLeadContent = !!(topic.title || topic.tag || topic.body || topic.list || topic.items || topic.link || topic.stats);
   return (
-    <div
-      // Index-prefixed: two topics can legitimately share a title
-      // (see Loft's Key Findings, where that itself may be a content
-      // slip worth double-checking — title alone isn't a safe key).
-      key={`${i}-${topic.title ?? ""}`}
-      className={`flex flex-col gap-3 md:col-span-2 ${positionClass} ${topic.tag ? "relative -m-[14px] border-2 border-accent bg-accent/[0.07] p-3" : ""}`}
-    >
-        {topic.tag && (
-          <span className="absolute -top-[11px] right-3 w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
-            {topic.tag}
-          </span>
-        )}
-        {topic.title && <h4 className="font-sans text-heading-3 text-ink">{topic.title}</h4>}
-        {(topic.body || topic.list || topic.items || topic.link) && (
+    <>
+      {(topic.body || topic.list || topic.items || topic.link) && (
         <div className="flex flex-col gap-2 font-sans text-body text-ink">
           {topic.body?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
 
@@ -219,33 +212,50 @@ function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; 
             </a>
           )}
         </div>
-        )}
+      )}
 
-        {topic.stats && <StatsGrid stats={topic.stats} />}
+      {topic.stats && <StatsGrid stats={topic.stats} />}
 
-        {topic.image && (
-          <figure
-            className={`flex flex-col gap-2 ${topic.title || topic.tag || topic.body || topic.list || topic.items || topic.link || topic.stats ? "mt-2" : ""} ${topic.image.background ? "bg-placeholder p-4" : ""}`}
-          >
-            <Image
-              src={assetPath(topic.image.src)}
-              alt={topic.image.alt}
-              width={topic.image.width}
-              height={topic.image.height}
-              className="h-auto w-full"
-            />
-            {topic.image.caption && (
-              <figcaption className="font-sans text-caption text-muted">{topic.image.caption}</figcaption>
-            )}
-          </figure>
-        )}
-
-        {topic.embed && (
-          <EmbedSlot
-            embed={topic.embed}
-            topMargin={!!(topic.title || topic.tag || topic.body || topic.list || topic.items || topic.link || topic.stats)}
+      {topic.image && (
+        <figure
+          className={`flex flex-col gap-2 ${hasLeadContent ? "mt-2" : ""} ${topic.image.background ? "bg-placeholder p-4" : ""}`}
+        >
+          <Image
+            src={assetPath(topic.image.src)}
+            alt={topic.image.alt}
+            width={topic.image.width}
+            height={topic.image.height}
+            className="h-auto w-full"
           />
+          {topic.image.caption && (
+            <figcaption className="font-sans text-caption text-muted">{topic.image.caption}</figcaption>
+          )}
+        </figure>
+      )}
+
+      {topic.embed && <EmbedSlot embed={topic.embed} topMargin={hasLeadContent} />}
+    </>
+  );
+}
+
+/** Renders one topic's card — title/tag, body, list, stacked items, a
+ *  link, stats, image, or embed slot — at the given grid position. */
+function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; positionClass: string }) {
+  return (
+    <div
+      // Index-prefixed: two topics can legitimately share a title
+      // (see Loft's Key Findings, where that itself may be a content
+      // slip worth double-checking — title alone isn't a safe key).
+      key={`${i}-${topic.title ?? ""}`}
+      className={`flex flex-col gap-3 md:col-span-2 ${positionClass} ${topic.tag ? "relative -m-[14px] border-2 border-accent bg-accent/[0.07] p-3" : ""}`}
+    >
+        {topic.tag && (
+          <span className="absolute -top-[11px] right-3 w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
+            {topic.tag}
+          </span>
         )}
+        {topic.title && <h4 className="font-sans text-heading-3 text-ink">{topic.title}</h4>}
+        <TopicContent topic={topic} />
       </div>
   );
 }
@@ -318,34 +328,7 @@ function GroupBody({
           {topics.map((topic, i) => (
             <div key={`${i}-${topic.title ?? ""}`} className="flex flex-col gap-3">
               {topic.title && <h4 className="font-sans text-title text-ink">{topic.title}</h4>}
-              <div className="flex flex-col gap-2 font-sans text-body text-ink">
-                {topic.body?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                {topic.list && (
-                  <div className="flex flex-col gap-2">
-                    {topic.listLabel && <p className="font-medium">{topic.listLabel}</p>}
-                    <ul className="flex flex-col gap-2">
-                      {topic.list.map((item) => (
-                        <li key={item} className="flex gap-2">
-                          <span aria-hidden className="text-muted">
-                            •
-                          </span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {topic.link && (
-                  <a
-                    href={topic.link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="font-sans text-caption text-accent underline transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
-                  >
-                    {topic.link.label}
-                  </a>
-                )}
-              </div>
+              <TopicContent topic={topic} />
             </div>
           ))}
 
@@ -424,7 +407,12 @@ function GroupBody({
         )}
 
         {topics.map((topic, i) => (
-          <Topic key={`${i}-${topic.title ?? ""}`} topic={topic} i={i} positionClass={topicPositions[i] ?? ""} />
+          <Topic
+            key={`${i}-${topic.title ?? ""}`}
+            topic={topic}
+            i={i}
+            positionClass={gridPositionClass(topicPositions, i, "topics")}
+          />
         ))}
 
         {miniGrid?.map((row, r) =>
@@ -438,7 +426,7 @@ function GroupBody({
                 <MiniGridColumn
                   key={column.title}
                   column={column}
-                  className={`${MINI_GRID_COMPACT_ROW_CLASSES[r] ?? ""} ${MINI_GRID_COMPACT_COL_CLASSES[c] ?? ""}`}
+                  className={`${gridPositionClass(MINI_GRID_COMPACT_ROW_CLASSES, r, "miniGridCompact row")} ${gridPositionClass(MINI_GRID_COMPACT_COL_CLASSES, c, "miniGridCompact col")}`}
                 />
               ))}
             </div>
@@ -452,7 +440,7 @@ function GroupBody({
                 <MiniGridColumn
                   key={column.title}
                   column={column}
-                  className={`md:row-start-1 ${MINI_GRID_INLINE_COL_CLASSES[c] ?? ""}`}
+                  className={`md:row-start-1 ${gridPositionClass(MINI_GRID_INLINE_COL_CLASSES, c, "miniGridInline")}`}
                 />
               ))}
             </div>
@@ -598,6 +586,7 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
           flushStacked={group.flushStacked}
           wideImage={group.wideImage}
           wideEmbed={group.wideEmbed}
+          wideImageSpan={group.wideImageSpan}
           flushCaption={group.flushCaption}
         />
       )}

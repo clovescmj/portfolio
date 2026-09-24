@@ -28,45 +28,52 @@ const ZOOM = 0.8;
  * stay a true fixed size regardless of ZOOM, and it clips the oversized
  * (then scaled-down) iframe to size.
  */
-export function EmbedFrame({
-  src,
-  title,
-  device,
-  bordered = true,
-  fit = false,
-}: {
-  src: string;
-  title: string;
-  /** A device-shaped embed (Loft's Home Feed/Property Feedback phone
-   *  prototypes): width auto (the grid column already sets it), height
-   *  auto off that via Figma's own 312×630 reserved-slot ratio (confirmed
-   *  directly by Clóves) — no border either, since the device skin
-   *  (bezel, notch, home indicator) is already the visual edge.
-   *
-   *  Figma's own player wraps the device in `.prototype--viewerContainer`
-   *  with `margin: calc(12px + var(--toolbar-height)) 48px` — found by
-   *  Clóves via devtools, and measured directly at 48px left/right,
-   *  60px top/bottom (so `--toolbar-height` is live at 48px even with
-   *  `hide-ui=1`, not 0). That's inside Figma's cross-origin document, so
-   *  it can't be overridden from here; instead the iframe is rendered
-   *  oversized by exactly that fixed margin (96px/120px) and shifted
-   *  up-left by the same amount, so the margin lands outside this box's
-   *  overflow-hidden crop and only the device itself remains visible. */
-  device?: boolean;
-  /** Off for the Third-party Claims prototype: it already sits inside
-   *  HighlightBlock's own tinted shell, so its own border read as a
-   *  redundant extra outline around the whole embed. */
-  bordered?: boolean;
-  /** For a live Figma prototype embed, which already scales itself to
-   *  fill its box via the URL's own `scaling=scale-down-width` — the
-   *  ZOOM transform below is for the Contract drawer's plain HTML page,
-   *  which has no such built-in scaling of its own. Stacking both here
-   *  double-scaled the content and left it not actually filling its
-   *  box. `fit` renders the iframe at a plain 100%/100%, no transform,
-   *  so the parent's own `aspect-[]` (sized to the real Figma frame's
-   *  ratio) is what the visible content actually hugs. */
-  fit?: boolean;
-}) {
+type EmbedFrameProps = { src: string; title: string } & (
+  | {
+      /** A device-shaped embed (Loft's Home Feed/Property Feedback phone
+       *  prototypes): width auto (the grid column already sets it), height
+       *  auto off that via Figma's own 312×630 reserved-slot ratio (confirmed
+       *  directly by Clóves) — no border either, since the device skin
+       *  (bezel, notch, home indicator) is already the visual edge.
+       *
+       *  Figma's own player wraps the device in `.prototype--viewerContainer`
+       *  with `margin: calc(12px + var(--toolbar-height)) 48px` — found by
+       *  Clóves via devtools, and measured directly at 48px left/right,
+       *  60px top/bottom (so `--toolbar-height` is live at 48px even with
+       *  `hide-ui=1`, not 0). That's inside Figma's cross-origin document, so
+       *  it can't be overridden from here; instead the iframe is rendered
+       *  oversized by exactly that fixed margin (96px/120px) and shifted
+       *  up-left by the same amount, so the margin lands outside this box's
+       *  overflow-hidden crop and only the device itself remains visible. */
+      device: true;
+    }
+  | {
+      device?: false;
+      /** Off for the Third-party Claims prototype: it already sits inside
+       *  HighlightBlock's own tinted shell, so its own border read as a
+       *  redundant extra outline around the whole embed. */
+      bordered?: boolean;
+      /** For a live Figma prototype embed, which already scales itself to
+       *  fill its box via the URL's own `scaling=scale-down-width` — the
+       *  ZOOM transform below is for the Contract drawer's plain HTML page,
+       *  which has no such built-in scaling of its own. Stacking both here
+       *  double-scaled the content and left it not actually filling its
+       *  box. `fit` renders the iframe at a plain 100%/100%, no transform,
+       *  so the parent's own `aspect-[]` (sized to the real Figma frame's
+       *  ratio) is what the visible content actually hugs. */
+      fit?: boolean;
+    }
+);
+
+/** `device`/`bordered`/`fit` are a discriminated union, not three
+ *  independent booleans: `bordered`/`fit` only ever applied in the
+ *  non-device branch below, so passing them alongside `device: true` was
+ *  a silent no-op nothing caught — this makes that combination a type
+ *  error instead. */
+export function EmbedFrame(props: EmbedFrameProps) {
+  const { src, title, device } = props;
+  const bordered = device ? true : (props.bordered ?? true);
+  const fit = device ? false : (props.fit ?? false);
   if (device) {
     return (
       <div className="relative aspect-[312/630] w-full overflow-hidden">

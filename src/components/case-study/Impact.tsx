@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { gridPositionClass } from "@/lib/grid-position";
 import type { FeatureBlock, LabeledList, StatsBlock } from "@/types/case-study";
 import { StatsGrid } from "./StatsGrid";
 
@@ -27,7 +28,7 @@ function NumberedLists({ lists }: { lists: LabeledList[] }) {
     return (
       <div
         key={list.label ?? i}
-        className={`flex flex-col gap-3 md:col-span-2 md:row-start-2 ${LIST_POSITION_CLASSES[i] ?? ""}`}
+        className={`flex flex-col gap-3 md:col-span-2 md:row-start-2 ${gridPositionClass(LIST_POSITION_CLASSES, i, "impact list")}`}
       >
         {list.label && <h3 className="font-sans text-heading-3 text-ink">{list.label}</h3>}
         <ol className="flex flex-col gap-2 font-sans text-body text-ink">
@@ -128,6 +129,9 @@ export function Impact({
   lists?: LabeledList[];
   groups?: { label: string; stats?: StatsBlock; topics?: FeatureBlock[] }[];
 }) {
+  if (lists && groups && process.env.NODE_ENV !== "production") {
+    console.warn("Impact: both `lists` and `groups` are set — only one is meant to render at a time.");
+  }
   return (
     <section className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8 md:gap-y-6 md:pr-content">
       <h2 className="font-sans text-heading-2 text-ink md:col-span-1 md:col-start-1 md:row-start-1">
