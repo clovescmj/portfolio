@@ -346,7 +346,7 @@ export const loftApp: CaseStudy = {
               embed: {
                 src: "https://embed.figma.com/proto/ybSunSwwHgQMKjleqmU4V1?node-id=2022-9345&t=VmWmKHpo8vPLkJwV-0&scaling=scale-down&content-scaling=fixed&starting-point-node-id=2022%3A9345&embed-host=share&hide-ui=1",
                 title: "Home Feed prototype",
-                caption: "Clickable prototype that shows the interaction with Home Feed lists.",
+                caption: "Interactive prototype that shows the interaction with Home Feed lists.",
                 device: true,
               },
             },
@@ -368,7 +368,7 @@ export const loftApp: CaseStudy = {
                 src: "https://embed.figma.com/proto/ybSunSwwHgQMKjleqmU4V1/Loft-App?node-id=8-7737&t=VmWmKHpo8vPLkJwV-0&scaling=scale-down&content-scaling=fixed&starting-point-node-id=8%3A7737&embed-host=share&hide-ui=1",
                 title: "Property Feedback prototype",
                 caption:
-                  'Clickable prototype that shows the interaction with "like" and "dislike" buttons of the property feedback banner.',
+                  'Interactive prototype that shows the interaction with "like" and "dislike" buttons of the property feedback banner.',
                 device: true,
               },
             },

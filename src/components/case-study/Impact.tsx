@@ -85,14 +85,31 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
               get_metadata (Product's content bottom to "Process" top). */}
           {g > 0 && <div aria-hidden className="md:col-span-6 md:h-4" />}
           <h3 className="font-sans text-title text-ink md:col-span-2 md:col-start-1">{group.label}</h3>
+          {/* Topics render BEFORE stats in DOM (even though `stats` is the
+              first prop) when both are present — CSS Grid's sparse
+              auto-placement cursor only moves forward through columns as
+              items are placed, so a later item requesting an EARLIER
+              column than one already placed in the same auto-placement
+              pass gets pushed to the next row entirely instead of
+              backfilling the gap. Topics sit at col3-4, stats at col5-6
+              (further right), so topics must be placed first or the
+              cursor already advanced past column 4 by the time the
+              browser gets to them. Confirmed via getBoundingClientRect:
+              swapping this order was the fix, not adding back row-start. */}
+          {group.topics?.map((topic, i) => (
+            <div key={topic.title} className={`flex flex-col gap-3 md:col-span-2 ${LIST_POSITION_CLASSES[i % 2]}`}>
+              <h4 className="font-sans text-nav font-medium text-ink">{topic.title}</h4>
+              {topic.body?.map((paragraph) => (
+                <p key={paragraph} className="font-sans text-body text-ink">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          ))}
           {/* Full 4-column width when stats are the only content in the row
               (Loft's "Product") — narrowed to 2 columns, beside the topic
               at col-start-3, when a group has both (Third-party Claims'
-              single-paragraph result + its 40% stat, side by side). Row is
-              always auto, never pinned: the label above shares the same
-              auto-placement pass (its own row is auto too), so an explicit
-              row here would fix stats/topics to a row that doesn't
-              necessarily match wherever the label actually lands. */}
+              single-paragraph result + its 40% stat, side by side). */}
           {group.stats && (
             <div
               className={
@@ -104,16 +121,6 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
               <StatsGrid stats={group.stats} />
             </div>
           )}
-          {group.topics?.map((topic, i) => (
-            <div key={topic.title} className={`flex flex-col gap-3 md:col-span-2 ${LIST_POSITION_CLASSES[i % 2]}`}>
-              <h4 className="font-sans text-nav font-medium text-ink">{topic.title}</h4>
-              {topic.body?.map((paragraph) => (
-                <p key={paragraph} className="font-sans text-body text-ink">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          ))}
         </Fragment>
       ))}
     </>
