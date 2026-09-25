@@ -209,6 +209,10 @@ export interface CaseStudyGroup {
    * content at x=344, the 312+32 wide-column rhythm, not x=172).
    */
   wideLabel?: boolean;
+  /** Render `title` at the section size (32px, same as `topLabel`) instead
+   *  of the group-title size — for a closing group that is a section in its
+   *  own right, like Loft's "Samples". */
+  sectionTitle?: boolean;
   /** Topics start at column 3 even though the title itself only spans
    *  column 1 — Contract's "New process". See the fuller note on
    *  `SolutionGroup`'s `GroupBody`. */
@@ -299,8 +303,6 @@ export interface CaseStudyGroup {
      * "Bottom Navigation" wraps to two lines in the narrow column).
      */
     narrowLabel?: boolean;
-    /** Title at the 17px "H3 Medium" size (`text-heading-3`) instead of the 23px `text-title` — Loft's App Evolution features, confirmed via get_metadata on node 95:12862 (one-line title height 22, not 27). */
-    smallTitle?: boolean;
     /** Topics start at column 3 — see the note on `CaseStudyGroup.contentOffset3`;
      *  a subsection sets this independently of its parent group's own value
      *  (Loft's "Release Plan", nested under "MVP"/"Solution", needs it on

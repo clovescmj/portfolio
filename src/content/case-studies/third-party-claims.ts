@@ -279,6 +279,7 @@ export const thirdPartyClaims: CaseStudy = {
   closingGroups: [
     {
       title: "Files and Prototypes",
+      sectionTitle: true,
       divider: true,
       topics: [],
       links: [

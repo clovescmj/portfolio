@@ -12,7 +12,7 @@ function Column({ column }: { column: LabeledColumn }) {
   return (
     <div className="flex flex-col gap-6 font-sans text-body text-ink">
       <div className="flex flex-col gap-2">
-        {column.heading && <h3 className="font-sans text-heading-3 text-ink">{column.heading}</h3>}
+        {column.heading && <h3 className="font-sans text-h3 text-ink">{column.heading}</h3>}
         {column.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       </div>
 
@@ -22,7 +22,7 @@ function Column({ column }: { column: LabeledColumn }) {
         <div className="flex flex-col gap-4">
           {column.items.map((item) => (
             <div key={item.title} className="flex flex-col gap-1">
-              <h4 className="font-sans text-nav font-medium text-ink">{item.title}</h4>
+              <h4 className="font-sans text-h4 text-ink">{item.title}</h4>
               {item.body && <p>{item.body}</p>}
               {item.list && (
                 <ul className="flex flex-col gap-1">
@@ -92,8 +92,8 @@ export function LabeledRow({
   return (
     <section className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-10 md:gap-x-8 md:pr-content">
       <div className="flex flex-col gap-6 md:col-span-2 md:col-start-1">
-        <h2 className="font-sans text-heading-2 text-ink">{label}</h2>
-        {sublabel && <h3 className="font-sans text-heading-3 text-ink">{sublabel}</h3>}
+        <h2 className="font-sans text-h1 text-ink">{label}</h2>
+        {sublabel && <h3 className="font-sans text-h3 text-ink">{sublabel}</h3>}
       </div>
       <div className="md:col-span-2 md:col-start-3">
         <Column column={columns[0]} />

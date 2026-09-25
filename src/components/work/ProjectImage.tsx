@@ -32,7 +32,7 @@ export function ProjectImage({
     return (
       <div className={`flex ${IMAGE_HEIGHT} w-full items-center justify-center bg-placeholder`}>
         {comingSoon && (
-          <p className="font-sans text-heading-3 text-muted opacity-0 transition-opacity duration-400 ease-in-out group-hover:opacity-100">
+          <p className="font-sans text-h3 text-muted opacity-0 transition-opacity duration-400 ease-in-out group-hover:opacity-100">
             Coming Soon
           </p>
         )}

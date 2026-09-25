@@ -31,7 +31,7 @@ export const loftApp: CaseStudy = {
       // between them, just Clóves' own information architecture).
       kind: "group",
       title: "Understanding",
-      // "Context" (heading-2) sits directly above "Understanding" (title),
+      // "Context" (h1) sits directly above "Understanding" (h2),
       // 24px below it, in the same label column — not a separate row with
       // its own 72px gap. Confirmed via get_metadata: both blocks live in
       // one "Row" frame (y=304, h=589), "Understanding" at y=59 relative to
@@ -166,7 +166,7 @@ export const loftApp: CaseStudy = {
       // unlike Release Plan which doesn't).
       kind: "group",
       title: "MVP",
-      // "Solution" (heading-2) sits above "MVP" only — Release Plan and App
+      // "Solution" (h1) sits above "MVP" only — Release Plan and App
       // Evolution below don't repeat it, confirmed via get_metadata (the
       // text node appears exactly once in the whole file).
       topLabel: "Solution",
@@ -241,6 +241,7 @@ export const loftApp: CaseStudy = {
     {
       kind: "group",
       title: "App Evolution",
+      sectionTitle: true,
       // 144px gap above this row on the Figma file (double the flat 72px
       // rhythm every other ungapped pair gets) — the same "two 72px gaps
       // back to back" divider signature Understanding/Samples/Files and
@@ -275,7 +276,6 @@ export const loftApp: CaseStudy = {
         {
           title: "User Setup",
           narrowLabel: true,
-          smallTitle: true,
           topics: [
             {
               body: [
@@ -302,7 +302,6 @@ export const loftApp: CaseStudy = {
         {
           title: "Bottom Navigation",
           narrowLabel: true,
-          smallTitle: true,
           topics: [
             {
               body: [
@@ -336,7 +335,6 @@ export const loftApp: CaseStudy = {
         {
           title: "Home Feed",
           narrowLabel: true,
-          smallTitle: true,
           topics: [
             {
               body: [
@@ -360,7 +358,6 @@ export const loftApp: CaseStudy = {
         {
           title: "Property Feedback",
           narrowLabel: true,
-          smallTitle: true,
           topics: [
             {
               body: [
@@ -387,7 +384,7 @@ export const loftApp: CaseStudy = {
     {
       kind: "group",
       title: "Interview & Usability Test",
-      // "Insights" (heading-2) sits above this whole chapter — Interview &
+      // "Insights" (h1) sits above this whole chapter — Interview &
       // Usability Test, Research Process, Key Findings, and A/B Test all
       // pack into one physical Figma row with no dividers or 72px gaps
       // between them (confirmed via get_metadata: one ~1064px-tall row),
@@ -556,6 +553,7 @@ export const loftApp: CaseStudy = {
   closingGroups: [
     {
       title: "Samples",
+      sectionTitle: true,
       divider: true,
       topics: [],
       // Two independent stacked columns, not a 2-per-row topic grid —
@@ -600,6 +598,7 @@ export const loftApp: CaseStudy = {
     },
     {
       title: "Files and Prototypes",
+      sectionTitle: true,
       divider: true,
       topics: [],
       links: [

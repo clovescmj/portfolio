@@ -41,7 +41,7 @@ function Block({ block }: { block: ArticleBlock }) {
 function Section({ section, id }: { section: ArticleSection; id: string | number }) {
   return (
     <section key={id} className="flex flex-col gap-4 md:col-span-4 md:col-start-1">
-      {section.heading && <h2 className="font-sans text-heading-3 text-ink">{section.heading}</h2>}
+      {section.heading && <h2 className="font-sans text-h3 text-ink">{section.heading}</h2>}
       {section.blocks.map((block, j) => (
         <Block key={j} block={block} />
       ))}
@@ -62,7 +62,7 @@ function SideImageSection({ section, id }: { section: ArticleSection; id: string
   return (
     <>
       <section key={`${id}-text`} className="flex flex-col gap-4 md:col-span-2 md:col-start-1">
-        {section.heading && <h2 className="font-sans text-heading-3 text-ink">{section.heading}</h2>}
+        {section.heading && <h2 className="font-sans text-h3 text-ink">{section.heading}</h2>}
         {textBlocks.map((block, j) => (
           <Block key={j} block={block} />
         ))}
@@ -115,11 +115,11 @@ export function ArticleBody({ article }: { article: Article }) {
     <div className="grid grid-cols-1 gap-y-10 md:grid-cols-6 md:gap-x-gutter md:gap-y-12">
       <header className="flex flex-col gap-4 md:col-span-4 md:col-start-1">
         <p className="font-sans text-caption text-muted">Article</p>
-        <h1 className="break-words font-sans text-heading-1 text-ink">{article.title}</h1>
+        <h1 className="break-words font-sans text-page-title text-ink">{article.title}</h1>
         <p className="font-sans text-caption text-ink">
           <span className="font-bold">{article.company}</span> | {article.role}
         </p>
-        {article.lead && <p className="font-sans text-title text-ink italic">{article.lead}</p>}
+        {article.lead && <p className="font-sans text-h2 text-ink italic">{article.lead}</p>}
       </header>
 
       <hr className="border-ink md:col-span-6" />
@@ -132,7 +132,7 @@ export function ArticleBody({ article }: { article: Article }) {
 
       {article.tldr && (
         <div className="flex flex-col gap-3 bg-lightergrey p-6 md:col-span-4 md:col-start-1">
-          <h2 className="font-sans text-heading-3 text-ink">TL;DR</h2>
+          <h2 className="font-sans text-h3 text-ink">TL;DR</h2>
           <ul className="flex flex-col gap-1 font-sans text-body text-ink">
             {article.tldr.map((item) => (
               <li key={item.label} className="flex gap-2">

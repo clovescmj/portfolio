@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { ArticleBody } from "@/components/article/ArticleBody";
+import { MoreWork } from "@/components/work/MoreWork";
 import { BackLink, FloatingBackLink } from "@/components/case-study/BackLink";
 import { CaseStudyIntro } from "@/components/case-study/CaseStudyIntro";
 import { Hero } from "@/components/case-study/Hero";
@@ -34,6 +35,10 @@ export default async function CaseStudyPage({
             `pr-content` back in ArticleBody. */}
         <div className="md:-mx-content md:w-[calc(100%+112px)] md:pl-content">
           <ArticleBody article={article} />
+          <div className="mt-[72px] flex flex-col gap-[72px] md:pr-content">
+            <hr className="border-ink" />
+            <MoreWork currentSlug={slug} />
+          </div>
         </div>
       </div>
     );
@@ -130,6 +135,12 @@ export default async function CaseStudyPage({
             group.divider ? <hr key={`closing-divider-${i}`} className="border-ink" /> : null,
             <SolutionGroup key={`closing-group-${i}`} group={group} />,
           ])}
+
+          <hr className="border-ink" />
+
+          <div className="md:pr-content">
+            <MoreWork currentSlug={slug} />
+          </div>
         </div>
       </div>
     </div>

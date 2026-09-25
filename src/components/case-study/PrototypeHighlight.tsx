@@ -12,7 +12,7 @@ export function PrototypeHighlight({ title, embed }: { title?: string; embed: Ca
   return (
     <HighlightBlock background="bg-placeholder">
       <div className="flex flex-col gap-4 md:gap-6">
-        {title && <h3 className="font-sans text-title text-ink">{title}</h3>}
+        {title && <h3 className="font-sans text-h2 text-ink">{title}</h3>}
         <figure className="flex flex-col gap-3">
           {/* Hugs the actual Figma frame's proportions (measured directly:
               the browser-chrome + laptop skin the live prototype renders

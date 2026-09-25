@@ -81,7 +81,7 @@ function MiniGridColumn({ column, className }: { column: MiniGrid[number][number
           {column.tag}
         </span>
       )}
-      <h4 className="font-sans text-heading-3 text-ink">{column.title}</h4>
+      <h4 className="font-sans text-h3 text-ink">{column.title}</h4>
       {column.body && <p className="font-sans text-body text-ink">{column.body}</p>}
       {column.list && (
         <ul className="flex flex-col gap-1 font-sans text-body text-ink">
@@ -148,7 +148,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
           {topic.list &&
             (topic.listTwoColumn ? (
               <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
-                {topic.listLabel && <p className="font-medium">{topic.listLabel}</p>}
+                {topic.listLabel && <p className="font-sans text-h4 text-ink">{topic.listLabel}</p>}
                 {/* Two independent columns (not a grid) so a wrapped item
                     only pushes down items below it in its OWN column —
                     a shared grid row would size both cells to the taller
@@ -172,7 +172,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
               </div>
             ) : (
               <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
-                {topic.listLabel && <p className="font-medium">{topic.listLabel}</p>}
+                {topic.listLabel && <p className="font-sans text-h4 text-ink">{topic.listLabel}</p>}
                 <ul className={`flex flex-col gap-1 ${topic.listBoxed ? "bg-lightergrey p-4" : ""}`}>
                   {topic.list.map((item) => (
                     <li key={item} className="flex gap-2">
@@ -190,7 +190,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
             <div className="flex flex-col gap-4">
               {topic.items.map((item) => (
                 <div key={item.title} className="flex flex-col gap-1">
-                  <h5 className="font-sans text-nav font-medium text-ink">{item.title}</h5>
+                  <h5 className="font-sans text-h4 text-ink">{item.title}</h5>
                   {item.body && <p>{item.body}</p>}
                   {item.list && (
                     <ul className="flex flex-col gap-1">
@@ -262,7 +262,7 @@ function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; 
             {topic.tag}
           </span>
         )}
-        {topic.title && <h4 className="font-sans text-heading-3 text-ink">{topic.title}</h4>}
+        {topic.title && <h4 className="font-sans text-h3 text-ink">{topic.title}</h4>}
         <TopicContent topic={topic} />
       </div>
   );
@@ -280,7 +280,7 @@ function GroupBody({
   titleLink,
   wideLabel,
   narrowLabel,
-  smallTitle,
+  sectionTitle,
   contentOffset3,
   intro,
   topics,
@@ -305,8 +305,7 @@ function GroupBody({
   /** Keep the title at the narrow 1-column width even when `wideLabel` is
    *  set on the parent group — see the note on `subsections[].narrowLabel`. */
   narrowLabel?: boolean;
-  /** See the note on `subsections[].smallTitle` in the type. */
-  smallTitle?: boolean;
+  sectionTitle?: boolean;
   /** Topics start at column 3 (leaving column 2 as a gap) even though the
    *  title itself only spans column 1 — Contract's "New process", confirmed
    *  via get_design_context (`col-[3/span_2]`/`col-[5/span_2]` beside a
@@ -338,7 +337,7 @@ function GroupBody({
         <div className="flex flex-col gap-10 md:col-span-2 md:col-start-1">
           {topics.map((topic, i) => (
             <div key={`${i}-${topic.title ?? ""}`} className="flex flex-col gap-3">
-              {topic.title && <h4 className="font-sans text-title text-ink">{topic.title}</h4>}
+              {topic.title && <h4 className="font-sans text-h2 text-ink">{topic.title}</h4>}
               <TopicContent topic={topic} />
             </div>
           ))}
@@ -401,7 +400,7 @@ function GroupBody({
           className={`flex flex-col gap-1 max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel && !narrowLabel ? "md:col-span-2" : "md:col-span-1"}`}
         >
           {title && (
-            <h3 className={`font-sans text-ink ${smallTitle ? "text-heading-3" : "text-title"}`}>{title}</h3>
+            <h3 className={`font-sans text-ink ${sectionTitle ? "text-h1" : "text-h2"}`}>{title}</h3>
           )}
           {titleLink && (
             <a
@@ -483,7 +482,7 @@ function GroupBody({
             <div className="absolute -top-3.5 -left-[15px] -z-10">
               <Image aria-hidden src={assetPath("/images/about/quote.svg")} alt="" width={45} height={39}/>
             </div>
-            <p className="relative font-sans text-title text-ink">{quote.text}</p>
+            <p className="relative font-sans text-h2 text-ink">{quote.text}</p>
             <figcaption className="relative font-sans text-caption text-muted">
               <span aria-hidden>— </span>
               {quote.attribution}
@@ -562,7 +561,7 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
   // lands exactly on 64px at that width.
   return (
     <div className="flex flex-col gap-[clamp(36px,4.444vw,64px)]">
-      {group.topLabel && <h2 className="font-sans text-heading-2 text-ink -mb-6 md:-mb-10">{group.topLabel}</h2>}
+      {group.topLabel && <h2 className="font-sans text-h1 text-ink -mb-6 md:-mb-10">{group.topLabel}</h2>}
 
       {group.highlightEmbed && <PrototypeHighlight title={group.title} embed={group.highlightEmbed} />}
 
@@ -588,6 +587,7 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
         <GroupBody
           title={group.title}
           wideLabel={group.wideLabel}
+          sectionTitle={group.sectionTitle}
           contentOffset3={group.contentOffset3}
           intro={group.intro}
           topics={group.topics}
@@ -624,7 +624,6 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
             titleLink={subsection.link}
             wideLabel={group.wideLabel}
             narrowLabel={subsection.narrowLabel}
-            smallTitle={subsection.smallTitle}
             contentOffset3={subsection.contentOffset3}
             topics={subsection.topics ?? []}
             miniGrid={subsection.miniGrid}
