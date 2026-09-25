@@ -1,3 +1,5 @@
+import { Heading } from "@/components/ui/Heading";
+
 /**
  * The title/meta block and the intro paragraphs share one 6-column grid
  * (matches the Figma "Header Row" node exactly): title+meta take columns
@@ -19,7 +21,9 @@ export function CaseStudyIntro({
       <div className="flex flex-col gap-6 md:col-span-2 md:col-start-1 md:max-lg:col-span-6">
         <div className="flex flex-col gap-2">
           <p className="font-sans text-caption text-muted">Case study</p>
-          <h1 className="break-words font-sans text-page-title text-ink md:max-lg:text-[40px]">{title}</h1>
+          <Heading level={1} variant="h1" className="break-words md:max-lg:text-[40px]">
+            {title}
+          </Heading>
         </div>
         <p className="font-sans text-caption text-ink">
           <span className="font-bold">{client}</span> | {tags.join(", ")}

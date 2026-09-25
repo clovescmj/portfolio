@@ -1,5 +1,8 @@
+import type { ReactNode } from "react";
 import type { LabeledColumn } from "@/types/case-study";
 import { StatsGrid } from "./StatsGrid";
+import { Heading } from "@/components/ui/Heading";
+import { headingId } from "@/lib/heading-id";
 
 /**
  * Renders whichever pieces a column carries, in a fixed order: heading,
@@ -12,7 +15,7 @@ function Column({ column }: { column: LabeledColumn }) {
   return (
     <div className="flex flex-col gap-6 font-sans text-body text-ink">
       <div className="flex flex-col gap-2">
-        {column.heading && <h3 className="font-sans text-h3 text-ink">{column.heading}</h3>}
+        {column.heading && <Heading level={3} variant="h4">{column.heading}</Heading>}
         {column.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       </div>
 
@@ -22,7 +25,7 @@ function Column({ column }: { column: LabeledColumn }) {
         <div className="flex flex-col gap-4">
           {column.items.map((item) => (
             <div key={item.title} className="flex flex-col gap-1">
-              <h4 className="font-sans text-h4 text-ink">{item.title}</h4>
+              <Heading level={4} variant="h5">{item.title}</Heading>
               {item.body && <p>{item.body}</p>}
               {item.list && (
                 <ul className="flex flex-col gap-1">
@@ -84,23 +87,33 @@ export function LabeledRow({
   label,
   sublabel,
   columns,
+  children,
 }: {
   label: string;
   sublabel?: string;
   columns: [LabeledColumn, LabeledColumn];
+  /** Subsections that belong to this section (Contract's "Solution"
+   *  child groups), rendered under the row in the same `<section>`, with
+   *  the 64px child-to-child rhythm. */
+  children?: ReactNode;
 }) {
   return (
-    <section className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-10 md:gap-x-8 md:pr-content">
-      <div className="flex flex-col gap-6 md:col-span-2 md:col-start-1">
-        <h2 className="font-sans text-h1 text-ink">{label}</h2>
-        {sublabel && <h3 className="font-sans text-h3 text-ink">{sublabel}</h3>}
+    <section aria-labelledby={headingId(label)} className="flex flex-col gap-[clamp(36px,4.444vw,64px)]">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-10 md:gap-x-8 md:pr-content">
+        <div className="flex flex-col gap-6 md:col-span-2 md:col-start-1">
+          <Heading level={2} variant="h2" id={headingId(label)}>
+            {label}
+          </Heading>
+          {sublabel && <Heading level={3} variant="h4">{sublabel}</Heading>}
+        </div>
+        <div className="md:col-span-2 md:col-start-3">
+          <Column column={columns[0]} />
+        </div>
+        <div className="md:col-span-2 md:col-start-5">
+          <Column column={columns[1]} />
+        </div>
       </div>
-      <div className="md:col-span-2 md:col-start-3">
-        <Column column={columns[0]} />
-      </div>
-      <div className="md:col-span-2 md:col-start-5">
-        <Column column={columns[1]} />
-      </div>
+      {children}
     </section>
   );
 }

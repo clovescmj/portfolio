@@ -2,6 +2,8 @@ import Image from "next/image";
 import { assetPath } from "@/lib/asset-path";
 import type { CaseStudySpotlight } from "@/types/case-study";
 import { HighlightBlock } from "./HighlightBlock";
+import { Heading } from "@/components/ui/Heading";
+import { headingId } from "@/lib/heading-id";
 
 /**
  * Loft's "Product Vision" — the dark instance of the shared
@@ -28,20 +30,22 @@ import { HighlightBlock } from "./HighlightBlock";
  */
 export function ProductVisionSpotlight({ spotlight }: { spotlight: CaseStudySpotlight }) {
   return (
-    <HighlightBlock background="bg-ink">
+    <HighlightBlock background="bg-ink" labelledBy={headingId(spotlight.title)}>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8">
         <div className="flex flex-col gap-8 md:col-span-4 md:gap-[134px]">
           <div className="flex flex-col gap-6">
-            <h2 className="font-sans text-h1 text-surface">{spotlight.title}</h2>
-            <p className="font-sans text-h2 text-surface">{spotlight.statement}</p>
+            <Heading level={2} variant="h2" tone="surface" id={headingId(spotlight.title)}>
+              {spotlight.title}
+            </Heading>
+            <p className="font-sans text-h3 text-surface">{spotlight.statement}</p>
           </div>
 
           {/* Figma order: Experience Principles sits left (closer to the
               title), Search Context to its right, closer to the photo. */}
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-8">
             <div className="flex min-w-0 flex-col gap-4">
-              <p className="font-sans text-h3 text-lightgrey">{spotlight.principlesLabel}</p>
-              <ul className="flex flex-col gap-1 font-sans text-h2 text-surface">
+              <p className="font-sans text-h4 text-lightgrey">{spotlight.principlesLabel}</p>
+              <ul className="flex flex-col gap-1 font-sans text-h3 text-surface">
                 {spotlight.principles.map((principle) => (
                   <li key={principle}>{principle}</li>
                 ))}
@@ -49,11 +53,11 @@ export function ProductVisionSpotlight({ spotlight }: { spotlight: CaseStudySpot
             </div>
 
             <div className="flex min-w-0 flex-col gap-4">
-              <p className="font-sans text-h3 text-lightgrey">{spotlight.searchContextLabel}</p>
+              <p className="font-sans text-h4 text-lightgrey">{spotlight.searchContextLabel}</p>
               <div className="flex gap-8">
                 {spotlight.searchContext.map((column) => (
                   <div key={column.label} className="flex min-w-0 flex-1 flex-col gap-2">
-                    <h3 className="font-sans text-h2 text-surface">{column.label}</h3>
+                    <Heading level={3} variant="h3" tone="surface">{column.label}</Heading>
                     <ul className="flex flex-col gap-1 font-sans text-nav text-surface">
                       {column.items.map((item) => (
                         <li key={item}>{item}</li>

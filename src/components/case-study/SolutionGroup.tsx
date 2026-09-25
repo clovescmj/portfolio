@@ -7,6 +7,8 @@ import { PrototypeHighlight } from "./PrototypeHighlight";
 import { FlowDiagram } from "./FlowDiagram";
 import { StatsGrid } from "./StatsGrid";
 import { gridPositionClass } from "@/lib/grid-position";
+import { Heading, type HeadingLevel } from "@/components/ui/Heading";
+import { headingId } from "@/lib/heading-id";
 
 /**
  * The site's shared grid, confirmed against Figma's own layout-grid overlay
@@ -73,7 +75,15 @@ type Topics = CaseStudyGroup["topics"];
 type MiniGrid = NonNullable<CaseStudyGroup["miniGrid"]>;
 
 /** One miniGrid column's content — title, optional tag/border, body or list. */
-function MiniGridColumn({ column, className }: { column: MiniGrid[number][number]; className: string }) {
+function MiniGridColumn({
+  column,
+  className,
+  level,
+}: {
+  column: MiniGrid[number][number];
+  className: string;
+  level: HeadingLevel;
+}) {
   return (
     <div className={`flex flex-col gap-2 ${column.tag ? "border-2 border-accent p-3" : ""} ${className}`}>
       {column.tag && (
@@ -81,7 +91,7 @@ function MiniGridColumn({ column, className }: { column: MiniGrid[number][number
           {column.tag}
         </span>
       )}
-      <h4 className="font-sans text-h3 text-ink">{column.title}</h4>
+      <Heading level={level} variant="h4">{column.title}</Heading>
       {column.body && <p className="font-sans text-body text-ink">{column.body}</p>}
       {column.list && (
         <ul className="flex flex-col gap-1 font-sans text-body text-ink">
@@ -137,7 +147,10 @@ function EmbedSlot({ embed, topMargin }: { embed: NonNullable<Topics[number]["em
  *  `flushStacked`'s single flush-left column, so a field like `stats` or
  *  `image` works the same in either place instead of only being handled
  *  in one of the two topic renderers. */
-function TopicContent({ topic }: { topic: Topics[number] }) {
+function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingLevel }) {
+  // Item titles sit one level below the topic's own title, or at its
+  // level when the topic has none.
+  const itemLevel = Math.min(topic.title ? level + 1 : level, 6) as HeadingLevel;
   const hasLeadContent = !!(topic.title || topic.tag || topic.body || topic.list || topic.items || topic.link || topic.stats);
   return (
     <>
@@ -148,7 +161,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
           {topic.list &&
             (topic.listTwoColumn ? (
               <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
-                {topic.listLabel && <p className="font-sans text-h4 text-ink">{topic.listLabel}</p>}
+                {topic.listLabel && <p className="font-sans text-h5 text-ink">{topic.listLabel}</p>}
                 {/* Two independent columns (not a grid) so a wrapped item
                     only pushes down items below it in its OWN column —
                     a shared grid row would size both cells to the taller
@@ -172,7 +185,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
               </div>
             ) : (
               <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
-                {topic.listLabel && <p className="font-sans text-h4 text-ink">{topic.listLabel}</p>}
+                {topic.listLabel && <p className="font-sans text-h5 text-ink">{topic.listLabel}</p>}
                 <ul className={`flex flex-col gap-1 ${topic.listBoxed ? "bg-lightergrey p-4" : ""}`}>
                   {topic.list.map((item) => (
                     <li key={item} className="flex gap-2">
@@ -190,7 +203,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
             <div className="flex flex-col gap-4">
               {topic.items.map((item) => (
                 <div key={item.title} className="flex flex-col gap-1">
-                  <h5 className="font-sans text-h4 text-ink">{item.title}</h5>
+                  <Heading level={itemLevel} variant="h5">{item.title}</Heading>
                   {item.body && <p>{item.body}</p>}
                   {item.list && (
                     <ul className="flex flex-col gap-1">
@@ -248,7 +261,17 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
 
 /** Renders one topic's card — title/tag, body, list, stacked items, a
  *  link, stats, image, or embed slot — at the given grid position. */
-function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; positionClass: string }) {
+function Topic({
+  topic,
+  i,
+  positionClass,
+  titleLevel,
+}: {
+  topic: Topics[number];
+  i: number;
+  positionClass: string;
+  titleLevel: HeadingLevel;
+}) {
   return (
     <div
       // Index-prefixed: two topics can legitimately share a title
@@ -262,8 +285,8 @@ function Topic({ topic, i, positionClass }: { topic: Topics[number]; i: number; 
             {topic.tag}
           </span>
         )}
-        {topic.title && <h4 className="font-sans text-h3 text-ink">{topic.title}</h4>}
-        <TopicContent topic={topic} />
+        {topic.title && <Heading level={titleLevel} variant="h4">{topic.title}</Heading>}
+        <TopicContent topic={topic} level={titleLevel} />
       </div>
   );
 }
@@ -331,16 +354,35 @@ function GroupBody({
   flushCaption?: string;
   quote?: { text: string; attribution: string };
 }) {
+  // Outline: a section title (App Evolution, Samples...) is an h2; any other
+  // group title is an h3 under the section label above it. Topics and mini-grid
+  // columns sit one level below the group title, or at its level when the
+  // group has no title of its own.
+  const titleLevel: HeadingLevel = sectionTitle ? 2 : 3;
+  const topicLevel = Math.min(title ? titleLevel + 1 : titleLevel, 6) as HeadingLevel;
+
   if (flushStacked) {
     return (
-      <section className="grid grid-cols-1 gap-y-10 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8 md:pr-content">
+      <div className="grid grid-cols-1 gap-y-10 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8 md:pr-content">
         <div className="flex flex-col gap-10 md:col-span-2 md:col-start-1">
-          {topics.map((topic, i) => (
-            <div key={`${i}-${topic.title ?? ""}`} className="flex flex-col gap-3">
-              {topic.title && <h4 className="font-sans text-h2 text-ink">{topic.title}</h4>}
-              <TopicContent topic={topic} />
-            </div>
-          ))}
+          {topics.map((topic, i) => {
+            // Each titled topic is its own subsection of the group.
+            const Root = topic.title ? "section" : "div";
+            return (
+              <Root
+                key={`${i}-${topic.title ?? ""}`}
+                aria-labelledby={topic.title ? headingId(topic.title) : undefined}
+                className="flex flex-col gap-3"
+              >
+                {topic.title && (
+                  <Heading level={topicLevel} variant="h3" id={headingId(topic.title)}>
+                    {topic.title}
+                  </Heading>
+                )}
+                <TopicContent topic={topic} level={topicLevel} />
+              </Root>
+            );
+          })}
 
           {/* Pushed to the bottom of this column via the flex column's
               own extra space, not attached under the image — confirmed
@@ -372,7 +414,7 @@ function GroupBody({
             </figure>
           )
         )}
-      </section>
+      </div>
     );
   }
   // Always the same true 6-equal-column grid — see the note on
@@ -392,15 +434,22 @@ function GroupBody({
     title || titleLink || topics.length > 0 || miniGrid || quote || imageColumns || links || embed,
   );
 
+  // A titled group is a subsection of the section above it, so it gets its
+  // own labelled `<section>`; a section title (App Evolution...) is labelled
+  // by the enclosing `SolutionGroup` instead.
+  const Root = title && !sectionTitle ? "section" : "div";
+
   return (
-    <div className="flex flex-col gap-12">
+    <Root aria-labelledby={title && !sectionTitle ? headingId(title) : undefined} className="flex flex-col gap-12">
       {hasSectionContent && (
-        <section className={`grid grid-cols-1 gap-y-10 ${gridColsClass} md:gap-x-8 md:pr-content`}>
+        <div className={`grid grid-cols-1 gap-y-10 ${gridColsClass} md:gap-x-8 md:pr-content`}>
         <div
           className={`flex flex-col gap-1 max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel && !narrowLabel ? "md:col-span-2" : "md:col-span-1"}`}
         >
           {title && (
-            <h3 className={`font-sans text-ink ${sectionTitle ? "text-h1" : "text-h2"}`}>{title}</h3>
+            <Heading level={titleLevel} variant={sectionTitle ? "h2" : "h3"} id={headingId(title)}>
+              {title}
+            </Heading>
           )}
           {titleLink && (
             <a
@@ -424,6 +473,7 @@ function GroupBody({
             topic={topic}
             i={i}
             positionClass={gridPositionClass(topicPositions, i, "topics")}
+            titleLevel={topicLevel}
           />
         ))}
 
@@ -438,6 +488,7 @@ function GroupBody({
                 <MiniGridColumn
                   key={column.title}
                   column={column}
+                  level={topicLevel}
                   className={`${gridPositionClass(MINI_GRID_COMPACT_ROW_CLASSES, r, "miniGridCompact row")} ${gridPositionClass(MINI_GRID_COMPACT_COL_CLASSES, c, "miniGridCompact col")}`}
                 />
               ))}
@@ -452,6 +503,7 @@ function GroupBody({
                 <MiniGridColumn
                   key={column.title}
                   column={column}
+                  level={topicLevel}
                   className={`md:row-start-1 ${gridPositionClass(MINI_GRID_INLINE_COL_CLASSES, c, "miniGridInline")}`}
                 />
               ))}
@@ -459,7 +511,7 @@ function GroupBody({
           ) : (
             <div key={r} className="flex flex-col gap-6 sm:flex-row sm:gap-8 md:col-span-6 md:col-start-1">
               {row.map((column) => (
-                <MiniGridColumn key={column.title} column={column} className="flex-1" />
+                <MiniGridColumn key={column.title} column={column} level={topicLevel} className="flex-1" />
               ))}
             </div>
           ),
@@ -482,7 +534,7 @@ function GroupBody({
             <div className="absolute -top-3.5 -left-[15px] -z-10">
               <Image aria-hidden src={assetPath("/images/about/quote.svg")} alt="" width={45} height={39}/>
             </div>
-            <p className="relative font-sans text-h2 text-ink">{quote.text}</p>
+            <p className="relative font-sans text-h3 text-ink">{quote.text}</p>
             <figcaption className="relative font-sans text-caption text-muted">
               <span aria-hidden>— </span>
               {quote.attribution}
@@ -544,11 +596,11 @@ function GroupBody({
             <figcaption className="font-sans text-caption text-muted">{embed.caption}</figcaption>
           </figure>
         )}
-        </section>
+        </div>
       )}
 
       {flows?.map((flow) => <FlowDiagram key={flow.src} flow={flow} />)}
-    </div>
+    </Root>
   );
 }
 
@@ -559,9 +611,21 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
   // in work/[slug]/page.tsx, and the matching duplicate there for a
   // section's own `childGroups`. 4.444vw is 64/1440*100, so this still
   // lands exactly on 64px at that width.
+  // The group is a section when it carries a section label (topLabel) or a
+  // section-sized title; everything else in it is a subsection.
+  const sectionLabel = group.topLabel ?? (group.sectionTitle ? group.title : undefined);
+  const Root = sectionLabel ? "section" : "div";
+
   return (
-    <div className="flex flex-col gap-[clamp(36px,4.444vw,64px)]">
-      {group.topLabel && <h2 className="font-sans text-h1 text-ink -mb-6 md:-mb-10">{group.topLabel}</h2>}
+    <Root
+      aria-labelledby={sectionLabel ? headingId(sectionLabel) : undefined}
+      className="flex flex-col gap-[clamp(36px,4.444vw,64px)]"
+    >
+      {group.topLabel && (
+        <Heading level={2} variant="h2" id={headingId(group.topLabel)} className="-mb-6 md:-mb-10">
+          {group.topLabel}
+        </Heading>
+      )}
 
       {group.highlightEmbed && <PrototypeHighlight title={group.title} embed={group.highlightEmbed} />}
 
@@ -643,6 +707,6 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
       {group.carousel && (
         <Carousel slides={group.carousel} title={group.titleAboveCarousel ? group.title : undefined} />
       )}
-    </div>
+    </Root>
   );
 }

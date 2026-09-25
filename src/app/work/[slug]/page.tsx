@@ -24,7 +24,7 @@ export default async function CaseStudyPage({
   const article = articles[slug];
   if (article) {
     return (
-      <div className="flex flex-col gap-8 md:gap-20">
+      <article className="flex flex-col gap-8 md:gap-20">
         <div className="max-md:sticky max-md:top-0 max-md:z-10 max-md:-mx-6 max-md:w-[calc(100%+48px)] max-md:bg-surface max-md:px-6">
           <BackLink href="/" label="Back to Work" />
           <FloatingBackLink href="/" label="Back to Work" />
@@ -40,7 +40,7 @@ export default async function CaseStudyPage({
             <MoreWork currentSlug={slug} />
           </div>
         </div>
-      </div>
+      </article>
     );
   }
 
@@ -65,7 +65,7 @@ export default async function CaseStudyPage({
   const rowGapStyle = { gap: `clamp(${rowGapMin}px, ${rowGapVw}vw, ${rowGap}px)` };
 
   return (
-    <div className="flex flex-col gap-0 md:gap-[88px]">
+    <article className="flex flex-col gap-0 md:gap-[88px]">
       <div className="max-md:sticky max-md:top-0 max-md:z-10 max-md:-mx-6 max-md:w-[calc(100%+48px)] max-md:bg-surface max-md:px-6">
         <BackLink href="/" label="Back to Work" />
         <FloatingBackLink href="/" label="Back to Work" />
@@ -77,72 +77,64 @@ export default async function CaseStudyPage({
         Figma file, where the page itself defines the left margin but
         each block below decides its own right edge (most add their own
         pr-content back; Hero/Carousel/dividers don't, so they bleed).
+        Direct children are the header and then one <section> per chapter
+        (with <hr> dividers between), all separated by the page rhythm.
       */}
-      <div className="flex flex-col gap-8 md:-mx-content md:w-[calc(100%+112px)] md:gap-12 md:pl-content">
-        <Hero image={caseStudy.heroImage} />
-
-        <div className="flex flex-col" style={rowGapStyle}>
+      <div className="flex flex-col md:-mx-content md:w-[calc(100%+112px)] md:pl-content" style={rowGapStyle}>
+        <header className="flex flex-col gap-8 md:gap-12">
+          <Hero image={caseStudy.heroImage} />
           <CaseStudyIntro
             title={caseStudy.title}
             client={caseStudy.client}
             tags={caseStudy.tags}
             paragraphs={caseStudy.intro}
           />
+        </header>
 
-          {caseStudy.content.flatMap((block, i) => {
-            // Every divider is a plain sibling in this same flex column, not
-            // nested inside its block's own wrapper — that's what makes the
-            // gap on both sides of it match the ungapped rhythm everywhere
-            // else, instead of a smaller, component-local gap.
-            const dividerLight = block.kind === "group" && block.dividerLight;
-            const divider =
-              "divider" in block && block.divider ? (
-                <hr key={`divider-${i}`} className={dividerLight ? "border-lightergrey" : "border-ink"} />
-              ) : null;
-            if (block.kind === "section") {
-              // A section with its own filhas ("childGroups" — Contract's
-              // "Solution") renders them right after it, in one shared 64px
-              // child↔child column, itself a single item in the page's 72px
-              // mãe↔mãe rhythm — same pattern `SolutionGroup` uses for its
-              // own `subsections`/nested groups.
-              if (block.childGroups?.length) {
-                return [
-                  divider,
-                  <div key={`section-${i}`} className="flex flex-col gap-[clamp(36px,4.444vw,64px)]">
-                    <LabeledRow label={block.label} sublabel={block.sublabel} columns={block.columns} />
-                    {block.childGroups.map((childGroup, ci) => (
-                      <SolutionGroup key={`${childGroup.title}-${ci}`} group={childGroup} />
-                    ))}
-                  </div>,
-                ];
-              }
-              return [
-                divider,
-                <LabeledRow key={`section-${i}`} label={block.label} sublabel={block.sublabel} columns={block.columns} />,
-              ];
-            }
-            if (block.kind === "spotlight") {
-              return [<ProductVisionSpotlight key={`spotlight-${i}`} spotlight={block} />];
-            }
-            return [divider, <SolutionGroup key={`group-${i}`} group={block} />];
-          })}
+        {caseStudy.content.flatMap((block, i) => {
+          // Every divider is a plain sibling in this same flex column, not
+          // nested inside its block's own wrapper — that's what makes the
+          // gap on both sides of it match the ungapped rhythm everywhere
+          // else, instead of a smaller, component-local gap.
+          const dividerLight = block.kind === "group" && block.dividerLight;
+          const divider =
+            "divider" in block && block.divider ? (
+              <hr key={`divider-${i}`} className={dividerLight ? "border-lightergrey" : "border-ink"} />
+            ) : null;
+          if (block.kind === "section") {
+            // A section with its own subsections ("childGroups" — Contract's
+            // "Solution") renders them inside the same <section>, in one
+            // shared 64px child↔child column — see `LabeledRow`.
+            return [
+              divider,
+              <LabeledRow key={`section-${i}`} label={block.label} sublabel={block.sublabel} columns={block.columns}>
+                {block.childGroups?.map((childGroup, ci) => (
+                  <SolutionGroup key={`${childGroup.title}-${ci}`} group={childGroup} />
+                ))}
+              </LabeledRow>,
+            ];
+          }
+          if (block.kind === "spotlight") {
+            return [<ProductVisionSpotlight key={`spotlight-${i}`} spotlight={block} />];
+          }
+          return [divider, <SolutionGroup key={`group-${i}`} group={block} />];
+        })}
 
-          <hr className="border-ink" />
+        <hr className="border-ink" />
 
-          <Impact intro={caseStudy.impact.intro} lists={caseStudy.impact.lists} groups={caseStudy.impact.groups} />
+        <Impact intro={caseStudy.impact.intro} lists={caseStudy.impact.lists} groups={caseStudy.impact.groups} />
 
-          {caseStudy.closingGroups?.flatMap((group, i) => [
-            group.divider ? <hr key={`closing-divider-${i}`} className="border-ink" /> : null,
-            <SolutionGroup key={`closing-group-${i}`} group={group} />,
-          ])}
+        {caseStudy.closingGroups?.flatMap((group, i) => [
+          group.divider ? <hr key={`closing-divider-${i}`} className="border-ink" /> : null,
+          <SolutionGroup key={`closing-group-${i}`} group={group} />,
+        ])}
 
-          <hr className="border-ink" />
+        <hr className="border-ink" />
 
-          <div className="md:pr-content">
-            <MoreWork currentSlug={slug} />
-          </div>
+        <div className="md:pr-content">
+          <MoreWork currentSlug={slug} />
         </div>
       </div>
-    </div>
+    </article>
   );
 }

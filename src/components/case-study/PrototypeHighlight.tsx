@@ -1,6 +1,8 @@
 import type { CaseStudyEmbed } from "@/types/case-study";
 import { EmbedFrame } from "./EmbedFrame";
 import { HighlightBlock } from "./HighlightBlock";
+import { Heading } from "@/components/ui/Heading";
+import { headingId } from "@/lib/heading-id";
 
 /**
  * A single live, navigable prototype inside the same full-bleed tinted
@@ -10,9 +12,13 @@ import { HighlightBlock } from "./HighlightBlock";
  */
 export function PrototypeHighlight({ title, embed }: { title?: string; embed: CaseStudyEmbed }) {
   return (
-    <HighlightBlock background="bg-placeholder">
+    <HighlightBlock background="bg-placeholder" labelledBy={title ? headingId(title) : undefined}>
       <div className="flex flex-col gap-4 md:gap-6">
-        {title && <h3 className="font-sans text-h2 text-ink">{title}</h3>}
+        {title && (
+          <Heading level={3} variant="h3" id={headingId(title)}>
+            {title}
+          </Heading>
+        )}
         <figure className="flex flex-col gap-3">
           {/* Hugs the actual Figma frame's proportions (measured directly:
               the browser-chrome + laptop skin the live prototype renders

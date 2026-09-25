@@ -75,17 +75,17 @@ export function WorkCard({
           <div className="flex flex-col gap-2 md:gap-4 md:@min-[420px]:flex-row md:@min-[420px]:gap-6">
             {/*
               max-md: here, not bare utilities — same reason as
-              PageHeader/Sidebar: text-h2 bundles size/leading/
+              PageHeader/Sidebar: text-h3 bundles size/leading/
               tracking/weight via Tailwind's shared --tw-leading/
               --tw-tracking/--tw-font-weight custom properties, so an
               unprefixed leading-[...] here would keep winning over
-              text-h2's own line-height at the md: breakpoint too.
+              text-h3's own line-height at the md: breakpoint too.
             */}
             <div className="flex flex-1 flex-col gap-1">
               <p className="font-sans text-caption text-muted">{kind === "article" ? "Article" : "Case study"}</p>
-              <h3 className="font-sans max-md:text-[19px] max-md:leading-[1.15] max-md:tracking-[-0.01em] max-md:font-medium text-ink md:text-h2">
+              <h2 className="font-sans max-md:text-[19px] max-md:leading-[1.15] max-md:tracking-[-0.01em] max-md:font-medium text-ink md:text-h3">
                 {project.title}
-              </h3>
+              </h2>
             </div>
             <div className="flex flex-1 flex-col gap-2 md:gap-4">
               <p className="font-sans text-body text-ink">{project.description}</p>

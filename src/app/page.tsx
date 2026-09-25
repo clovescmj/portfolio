@@ -6,9 +6,9 @@ export default function HomePage() {
   return (
     <div className="flex flex-col md:gap-header">
       <PageHeader title="Work" />
-      <div className="mt-10 md:mt-0">
+      <section aria-label="Selected work" className="mt-10 md:mt-0">
         <BentoGrid projects={projects} />
-      </div>
+      </section>
     </div>
   );
 }

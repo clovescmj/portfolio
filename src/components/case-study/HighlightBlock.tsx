@@ -20,17 +20,22 @@ import type { ReactNode } from "react";
  */
 export function HighlightBlock({
   background = "bg-lightergrey",
+  labelledBy,
   children,
 }: {
   /** A Tailwind background class — e.g. `bg-ink`, `bg-placeholder`. */
   background?: string;
+  /** Id of the heading inside, when this block is a titled `<section>`. */
+  labelledBy?: string;
   children: ReactNode;
 }) {
+  const Root = labelledBy ? "section" : "div";
   return (
-    <div
+    <Root
+      aria-labelledby={labelledBy}
       className={`relative -mx-6 w-[calc(100%+48px)] ${background} px-6 py-10 md:w-[calc(100%+56px)] md:-ml-content md:px-0 md:py-12`}
     >
       <div className="md:pl-content md:pr-content">{children}</div>
-    </div>
+    </Root>
   );
 }

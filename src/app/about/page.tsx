@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { assetPath } from "@/lib/asset-path";
+import { Heading } from "@/components/ui/Heading";
+import { headingId } from "@/lib/heading-id";
 
 const expertiseLeft = [
   "Lead design initiatives across multiple products and teams.",
@@ -21,12 +23,12 @@ const experience = [
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col md:gap-[54px]">
+    <article className="flex flex-col md:gap-[54px]">
       <PageHeader title="About me" />
 
       <div className="mt-10 flex flex-col gap-12 md:-mx-content md:mt-0 md:w-[calc(100%+112px)] md:pl-content">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-8 md:pr-content">
-          <p className="font-sans text-h2 text-ink md:col-span-2 md:col-start-1">
+          <p className="font-sans text-h3 text-ink md:col-span-2 md:col-start-1">
             With over 10 years of experience designing digital products, I bring a unique blend of hands-on design
             expertise and strategic leadership.
           </p>
@@ -48,11 +50,18 @@ export default function AboutPage() {
             />
           </div>
 
-          <div className="flex flex-col md:col-span-2 md:col-start-1 md:row-start-1">
-            <h2 className="mb-10 font-sans text-h1 text-ink md:mb-6">Achievements</h2>
+          <section
+            aria-labelledby={headingId("Achievements")}
+            className="flex flex-col md:col-span-2 md:col-start-1 md:row-start-1"
+          >
+            <Heading level={2} variant="h2" id={headingId("Achievements")} className="mb-10 md:mb-6">
+              Achievements
+            </Heading>
 
-            <div className="flex flex-col gap-3">
-              <h3 className="font-sans text-h3 text-ink">Loft</h3>
+            <section aria-labelledby={headingId("Loft")} className="flex flex-col gap-3">
+              <Heading level={3} variant="h4" id={headingId("Loft")}>
+                Loft
+              </Heading>
               <p className="font-sans text-body text-ink">
                 I led the design of the Loft app from the ground up (0-1), achieving a{" "}
                 <span className="font-bold">4-star rating</span> and becoming the{" "}
@@ -60,10 +69,12 @@ export default function AboutPage() {
                 Decor&rdquo; categories on both the App Store and Play Store within the{" "}
                 <span className="font-bold">first three months after launch</span>.
               </p>
-            </div>
+            </section>
 
-            <div className="mt-10 flex flex-col gap-3 md:mt-8">
-              <h3 className="font-sans text-h3 text-ink">unico IDtech</h3>
+            <section aria-labelledby={headingId("unico IDtech")} className="mt-10 flex flex-col gap-3 md:mt-8">
+              <Heading level={3} variant="h4" id={headingId("unico IDtech")}>
+                unico IDtech
+              </Heading>
               <p className="font-sans text-body text-ink">
                 I planned a career development strategy for a team member, focused on improving technical skills and
                 increasing the visibility of their work with stakeholders. Over two six-month performance review
@@ -74,10 +85,12 @@ export default function AboutPage() {
                 </span>
                 .
               </p>
-            </div>
+            </section>
 
-            <div className="mt-10 flex flex-col gap-3 md:mt-8">
-              <h3 className="font-sans text-h3 text-ink">Youse Seguros</h3>
+            <section aria-labelledby={headingId("Youse Seguros")} className="mt-10 flex flex-col gap-3 md:mt-8">
+              <Heading level={3} variant="h4" id={headingId("Youse Seguros")}>
+                Youse Seguros
+              </Heading>
               <p className="font-sans text-body text-ink">
                 I led the discovery and design of a new third-party claim filing experience. Within the first month,{" "}
                 <span className="font-bold">
@@ -86,27 +99,32 @@ export default function AboutPage() {
                 , reducing support ticket volume and operational cost that used to come from every claim requiring a
                 phone call.
               </p>
-            </div>
-          </div>
+            </section>
+          </section>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-6 md:pr-content">
-          <h2 className="font-sans text-h1 text-ink md:col-span-2 md:col-start-1">Latest Experiences</h2>
+        <section
+          aria-labelledby={headingId("Latest Experiences")}
+          className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-6 md:pr-content"
+        >
+          <Heading level={2} variant="h2" id={headingId("Latest Experiences")} className="md:col-span-2 md:col-start-1">
+            Latest Experiences
+          </Heading>
 
-          <div className="flex flex-col md:col-span-3 md:col-start-1">
+          <ul className="flex flex-col md:col-span-3 md:col-start-1">
             {experience.map((entry, i) => (
-              <div key={entry.company}>
+              <li key={entry.company}>
                 <div className="grid grid-cols-3 gap-8 py-3">
                   <div className="col-span-1 flex flex-col gap-0.5">
                     <p className="font-sans text-caption text-muted">{entry.years}</p>
-                    <p className="font-sans text-h3 text-ink">{entry.company}</p>
+                    <p className="font-sans text-h4 text-ink">{entry.company}</p>
                   </div>
                   <p className="col-span-2 self-end font-sans text-body text-ink">{entry.role}</p>
                 </div>
                 {i < experience.length - 1 && <hr className="border-lightergrey" />}
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
 
           <blockquote className="flex flex-col gap-3 md:col-span-2 md:col-start-5 md:-mt-[160px]">
             <div className="-mb-[65px] md:ml-10">
@@ -123,18 +141,18 @@ export default function AboutPage() {
             </p>
             <cite className="font-sans text-body text-muted not-italic md:text-right">— Dieter Rams</cite>
           </blockquote>
-        </div>
+        </section>
 
       {/*  <hr className="border-ink" />
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-8 md:pr-content">
-          <h2 className="font-sans text-h1 text-ink md:col-span-1 md:col-start-1">Beyond Work</h2>
+          <Heading level={2} variant="h2" className="md:col-span-1 md:col-start-1">Beyond Work</Heading>
           <p className="font-sans text-body text-ink md:col-span-2 md:col-start-2">
             You&rsquo;ll find me being a dad, going to shows, running my small batch music label, and designing artwork
             for bands.
           </p>
         </div>*/}
       </div>
-    </div>
+    </article>
   );
 }

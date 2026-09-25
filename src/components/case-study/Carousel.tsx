@@ -140,7 +140,7 @@ export function Carousel({ slides, title }: { slides: CaseStudySlide[]; title?: 
             {activeTitle ? (
               <p
                 key={activeTitle}
-                className="font-sans text-h3 text-ink animate-[fade-in_400ms_ease-in-out]"
+                className="font-sans text-h4 text-ink animate-[fade-in_400ms_ease-in-out]"
               >
                 {activeTitle}
               </p>

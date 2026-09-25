@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import { gridPositionClass } from "@/lib/grid-position";
 import type { FeatureBlock, LabeledList, StatsBlock } from "@/types/case-study";
 import { StatsGrid } from "./StatsGrid";
+import { Heading } from "@/components/ui/Heading";
+import { headingId } from "@/lib/heading-id";
 
 /**
  * Column position per list, two per row on desktop — same col3/col5
@@ -30,7 +32,7 @@ function NumberedLists({ lists }: { lists: LabeledList[] }) {
         key={list.label ?? i}
         className={`flex flex-col gap-3 md:col-span-2 md:row-start-2 ${gridPositionClass(LIST_POSITION_CLASSES, i, "impact list")}`}
       >
-        {list.label && <h3 className="font-sans text-h3 text-ink">{list.label}</h3>}
+        {list.label && <Heading level={3} variant="h4">{list.label}</Heading>}
         <ol className="flex flex-col gap-2 font-sans text-body text-ink">
           {list.items.map((item, j) => (
             <li key={item} className="flex gap-2">
@@ -61,8 +63,8 @@ function NumberedLists({ lists }: { lists: LabeledList[] }) {
  * dimensions of the outcome, not a ranked sequence.
  *
  * Each label ("Product"/"Process") sits in column 1 (spanning 2, at
- * text-h2/23px — Figma's real "Heading 3" style, not the 17px token
- * this project confusingly also calls text-h3), beside its own
+ * text-h3/23px — Figma's real "Heading 3" style, not the 17px token
+ * this project confusingly also calls text-h4), beside its own
  * content at column 3, same row — not stacked above it. Confirmed via
  * get_metadata/get_design_context on node 111:11952: both labels are
  * `col-[1/span_2]` at `text-[23px]`, their content `col-[3/...]` on the
@@ -84,7 +86,15 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
               dividers, netting the 64px chapter gap confirmed via
               get_metadata (Product's content bottom to "Process" top). */}
           {g > 0 && <div aria-hidden className="md:col-span-6 md:h-4" />}
-          <h3 className="font-sans text-h2 text-ink md:col-span-2 md:col-start-1">{group.label}</h3>
+          {group.label ? (
+            <Heading level={3} variant="h3" className="md:col-span-2 md:col-start-1">
+              {group.label}
+            </Heading>
+          ) : (
+            // No label: keeps the empty row the label would have taken, so
+            // the topics below stay where the layout has always put them.
+            <div aria-hidden className="md:col-span-2 md:col-start-1" />
+          )}
           {/* Topics render BEFORE stats in DOM (even though `stats` is the
               first prop) when both are present — CSS Grid's sparse
               auto-placement cursor only moves forward through columns as
@@ -98,7 +108,7 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
               swapping this order was the fix, not adding back row-start. */}
           {group.topics?.map((topic, i) => (
             <div key={topic.title} className={`flex flex-col gap-3 md:col-span-2 ${LIST_POSITION_CLASSES[i % 2]}`}>
-              <h4 className="font-sans text-h4 text-ink">{topic.title}</h4>
+              <Heading level={group.label ? 4 : 3} variant="h5">{topic.title}</Heading>
               {topic.body?.map((paragraph) => (
                 <p key={paragraph} className="font-sans text-body text-ink">
                   {paragraph}
@@ -140,10 +150,13 @@ export function Impact({
     console.warn("Impact: both `lists` and `groups` are set — only one is meant to render at a time.");
   }
   return (
-    <section className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8 md:gap-y-6 md:pr-content">
-      <h2 className="font-sans text-h1 text-ink md:col-span-1 md:col-start-1 md:row-start-1">
+    <section
+      aria-labelledby={headingId("Impact")}
+      className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8 md:gap-y-6 md:pr-content"
+    >
+      <Heading level={2} variant="h2" id={headingId("Impact")} className="md:col-span-1 md:col-start-1 md:row-start-1">
         Impact
-      </h2>
+      </Heading>
 
       {intro && <p className="font-sans text-nav text-ink md:col-span-2 md:col-start-3 md:row-start-1">{intro}</p>}
 

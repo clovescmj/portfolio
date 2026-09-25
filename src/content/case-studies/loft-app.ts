@@ -31,7 +31,7 @@ export const loftApp: CaseStudy = {
       // between them, just Clóves' own information architecture).
       kind: "group",
       title: "Understanding",
-      // "Context" (h1) sits directly above "Understanding" (h2),
+      // "Context" (h2) sits directly above "Understanding" (h3),
       // 24px below it, in the same label column — not a separate row with
       // its own 72px gap. Confirmed via get_metadata: both blocks live in
       // one "Row" frame (y=304, h=589), "Understanding" at y=59 relative to
@@ -166,7 +166,7 @@ export const loftApp: CaseStudy = {
       // unlike Release Plan which doesn't).
       kind: "group",
       title: "MVP",
-      // "Solution" (h1) sits above "MVP" only — Release Plan and App
+      // "Solution" (h2) sits above "MVP" only — Release Plan and App
       // Evolution below don't repeat it, confirmed via get_metadata (the
       // text node appears exactly once in the whole file).
       topLabel: "Solution",
@@ -384,7 +384,7 @@ export const loftApp: CaseStudy = {
     {
       kind: "group",
       title: "Interview & Usability Test",
-      // "Insights" (h1) sits above this whole chapter — Interview &
+      // "Insights" (h2) sits above this whole chapter — Interview &
       // Usability Test, Research Process, Key Findings, and A/B Test all
       // pack into one physical Figma row with no dividers or 72px gaps
       // between them (confirmed via get_metadata: one ~1064px-tall row),

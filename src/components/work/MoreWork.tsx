@@ -2,7 +2,9 @@
 
 import { isPlainLeftClick, usePageTransition } from "@/components/layout/PageTransitionContext";
 import { projects } from "@/content/projects";
+import { headingId } from "@/lib/heading-id";
 import { ProjectMeta } from "./ProjectMeta";
+import { Heading } from "@/components/ui/Heading";
 
 const COUNT = 3;
 
@@ -19,8 +21,10 @@ export function MoreWork({ currentSlug }: { currentSlug: string }) {
   const picked = [...others.filter((p) => isCase(p.kind)), ...others.filter((p) => !isCase(p.kind))].slice(0, COUNT);
 
   return (
-    <div className="flex flex-col gap-6 md:gap-10">
-      <h2 className="font-sans text-h1 text-ink">More work</h2>
+    <section aria-labelledby={headingId("More work")} className="flex flex-col gap-6 md:gap-10">
+      <Heading level={2} variant="h2" id={headingId("More work")}>
+        More work
+      </Heading>
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-x-gutter">
         {picked.map((project) => {
           const href = `/work/${project.slug}`;
@@ -36,13 +40,13 @@ export function MoreWork({ currentSlug }: { currentSlug: string }) {
               className="group flex flex-col gap-2 p-4 transition-colors duration-400 ease-in-out hover:bg-placeholder"
             >
               <p className="font-sans text-caption text-muted">{project.kind === "article" ? "Article" : "Case study"}</p>
-              <h3 className="font-sans text-h2 text-ink">{project.title}</h3>
+              <Heading level={3} variant="h3">{project.title}</Heading>
               <p className="font-sans text-body text-ink">{project.description}</p>
               <ProjectMeta client={project.client} tags={project.tags} />
             </a>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
