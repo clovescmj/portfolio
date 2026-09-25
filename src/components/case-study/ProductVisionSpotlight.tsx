@@ -20,7 +20,7 @@ import { headingId } from "@/lib/heading-id";
  * offset).
  *
  * The photo is on the site's real shared 6-column grid (same
- * `repeat(6,minmax(0,1fr))` LabeledRow/SolutionGroup use), spanning
+ * `repeat(6,minmax(0,1fr))` ColumnsSection/Subsection use), spanning
  * exactly 2 of the 6 columns — not an arbitrary fixed pixel width — with
  * the text block taking the other 4. CSS Grid's default
  * `align-items: stretch` makes the photo cell match the taller text

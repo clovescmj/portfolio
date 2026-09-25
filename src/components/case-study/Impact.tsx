@@ -74,7 +74,7 @@ function NumberedLists({ lists }: { lists: LabeledList[] }) {
  * and content pinned to column 3 (or 5) auto-flows into the first row
  * where THAT column is free, which is always the label's own row (until
  * it fills up, at which point a topic naturally wraps to the next row,
- * the same mechanism SolutionGroup's 2-per-row topics rely on).
+ * the same mechanism Subsection's 2-per-row topics rely on).
  */
 function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock; topics?: FeatureBlock[] }[] }) {
   return (

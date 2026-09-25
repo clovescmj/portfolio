@@ -2,7 +2,7 @@
  * Tailwind only generates CSS for class names it finds as literal text, so
  * every grid position in this codebase is a lookup into a fixed-length
  * array of literal `md:col-start-N`/`md:row-start-N` strings, indexed by
- * a content array's position (see SolutionGroup.tsx/Impact.tsx). Indexing
+ * a content array's position (see Subsection.tsx/Impact.tsx). Indexing
  * past the end silently degrades to `undefined` — the item then falls
  * into ordinary grid auto-flow and can overlap its positioned neighbors,
  * with nothing at build time to say why. This warns once, in dev only, so

@@ -2,7 +2,7 @@
  *  render at its own natural aspect ratio instead of being forced into a
  *  fixed box (source screenshots vary widely: square crops, tall phone
  *  screens, wide diagrams). Shared by `FeatureBlock.image` and
- *  `CaseStudyGroup.imageColumns`. */
+ *  `Subsection.imageColumns`. */
 export interface CaseStudyImage {
   src: string;
   alt: string;

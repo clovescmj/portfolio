@@ -11,24 +11,15 @@ import { Heading, type HeadingLevel } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
 
 /**
- * The site's shared grid, confirmed against Figma's own layout-grid overlay
- * (get_design_context reports `grid-cols-[repeat(6,minmax(0,1fr))]` on
- * every one of these rows): 6 EQUAL 140px columns with a 32px gutter over
- * the 1000px usable width (1056px row minus the 56px `pr-content` reserve),
- * not a differently-sized "label track + N content tracks" approximation.
- * A group's title takes 1 column (Release Plan — topics then start at
- * column 2) or 2 columns (Understanding, Business Opportunities, My Role,
- * App Evolution, Insights' subsections — topics start at column 3)
- * depending on Figma's own `col-[1/span_N]` on that title; see `wideLabel`.
- * A single-column title can still leave column 2 empty and start content
- * at column 3 (MVP) — that's `contentOffset3`, independent of `wideLabel`.
- * Two topics per row either way, each spanning 2 columns. Tailwind only
- * generates CSS for class names it finds as literal text, so each index
- * looks its pair up here instead of building it with a template string.
- * Three rows deep covers every group/subsection's own topic grid post
- * hierarchy-refactor — the deepest is 2 rows (Understanding, Key Findings).
- * Loft's App Evolution features each get their own `GroupBody` call now
- * (via `subsections`), so they no longer need one shared, deeper grid.
+ * Topic positions inside a subsection, on the site's 6-column grid (six equal
+ * 140px columns, 32px gutter, 1000px of usable width). Topics go two per row,
+ * each spanning 2 columns. With a 1-column title they start at column 2; when
+ * the title spans 2 columns (`labelWidth: "wide"`) or the layout asks for
+ * `contentStart: 3`, they start at column 3 (the WIDE_ set below).
+ *
+ * Tailwind only generates classes it finds as literal text, so each index
+ * looks its pair up here instead of building the class with a template
+ * string. Three rows cover every subsection today (the deepest has two).
  */
 const TOPIC_POSITION_CLASSES = [
   "md:col-start-2 md:row-start-1",
@@ -39,7 +30,7 @@ const TOPIC_POSITION_CLASSES = [
   "md:col-start-4 md:row-start-3",
 ];
 
-/** Same pairing, shifted one column right — for a 2-column (`wideLabel`) title. */
+/** Same pairing, shifted one column right, for a 2-column title. */
 const WIDE_TOPIC_POSITION_CLASSES = [
   "md:col-start-3 md:row-start-1",
   "md:col-start-5 md:row-start-1",
@@ -49,26 +40,14 @@ const WIDE_TOPIC_POSITION_CLASSES = [
   "md:col-start-5 md:row-start-3",
 ];
 
-/** `miniGridInline`'s first row, beside a 2-column title — Loft's
- *  "Research Process": Plan/Recruit/Document/Iterate at columns 3/4/5/6,
- *  confirmed via get_metadata (all four share `row-5` with the title). */
+/** Mini-grid `placement: "inline"`: its first row beside a 2-column title, at columns 3 to 6. */
 const MINI_GRID_INLINE_COL_CLASSES = ["md:col-start-3", "md:col-start-4", "md:col-start-5", "md:col-start-6"];
 
-/** `miniGridCompact`'s 2-column pack at col3-4, one row per array row —
- *  Third-party Claims' "Interview Findings" 2x2 (Anguish/Frustration on
- *  row 1, Anxiety/Mistrust on row 2), confirmed via get_metadata on node
- *  145:17868. Only 2 columns per row is meaningful here (col5-6 is the
- *  quote beside it); a 3rd column would have nowhere to go. */
+/** Mini-grid `placement: "compact"`: two columns at col 3-4, one row per array row, with a quote beside them at col 5-6. */
 const MINI_GRID_COMPACT_COL_CLASSES = ["md:col-start-3", "md:col-start-4"];
 const MINI_GRID_COMPACT_ROW_CLASSES = ["md:row-start-1", "md:row-start-2", "md:row-start-3"];
 
-/** `flushStacked`'s wideImage/wideEmbed width — Contract's "Adding an
- *  attachment" measures 4 columns (656px, the `aspect-[656/707.5]` crop
- *  below is sized for that), but Third-party Claims' "Content Mapping"
- *  (a subsection, not a top-level childGroup) measures 3 columns (484px)
- *  on the same asset shape, confirmed via get_design_context
- *  (`col-[3/span_3]`, not `span_4`). Defaults to 4 so Contract's own
- *  measurement stays exact without passing anything. */
+/** Width of the wide slot in the `stacked` layout: 4 columns by default (Contract), 3 for Claims. */
 const WIDE_SPAN_CLASSES = { 3: "md:col-span-3", 4: "md:col-span-4" } as const;
 
 type Topics = FeatureBlock[];
@@ -393,25 +372,22 @@ function SubsectionBody({
       </div>
     );
   }
-  // Always the same true 6-equal-column grid — see the note on
-  // TOPIC_POSITION_CLASSES above. Never a differently-sized first
-  // ("auto"/clamp/fixed-px) label track: that's what let a long title like
-  // "Business Opportunities" blow the row's layout out.
+  // Always the same 6-equal-column grid, never a differently sized label
+  // track: that is what let a long title like "Business Opportunities" blow
+  // the row's layout out.
   const basePositions = wideLabel || contentOffset3 ? WIDE_TOPIC_POSITION_CLASSES : TOPIC_POSITION_CLASSES;
   const topicPositions = intro ? basePositions.slice(2) : basePositions;
-  // Skip the grid section entirely when it would render nothing but the
-  // empty label column, the flows-only case (Third-party Claims'
-  // Customer Journey subsection: no title, no topics, just a diagram) —
-  // same reasoning as SolutionGroup's own skip for an empty main
-  // GroupBody call. Left unskipped, it's a zero-height flex child that
-  // still costs a full `gap-12` before the flows figure right after it.
+  // Skip the grid entirely when it would render nothing but an empty label
+  // column (a subsection with only flows, like Claims' Customer Journey).
+  // Left in, it is a zero-height flex child that still costs a full `gap-12`
+  // before the diagram after it.
   const hasSectionContent = Boolean(
     title || titleLink || topics.length > 0 || miniGrid || quote || imageColumns || links || embed,
   );
 
-  // A titled group is a subsection of the section above it, so it gets its
-  // own labelled `<section>`; a section title (App Evolution...) is labelled
-  // by the enclosing `SolutionGroup` instead.
+  // A titled subsection gets its own labelled `<section>`; a chapter title
+  // shown beside the content (App Evolution...) is labelled by the enclosing
+  // `Chapter` instead.
   const Root = title && !sectionTitle ? "section" : "div";
 
   return (
