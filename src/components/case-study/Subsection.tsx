@@ -141,7 +141,7 @@ function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingL
             (topic.listTwoColumn ? (
               <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
                 {topic.listLabel && (
-                  <Heading level={itemLevel} variant="h5">
+                  <Heading level={itemLevel} variant={itemLevel === 4 ? "h4" : "h5"}>
                     {topic.listLabel}
                   </Heading>
                 )}
@@ -169,7 +169,7 @@ function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingL
             ) : (
               <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
                 {topic.listLabel && (
-                  <Heading level={itemLevel} variant="h5">
+                  <Heading level={itemLevel} variant={itemLevel === 4 ? "h4" : "h5"}>
                     {topic.listLabel}
                   </Heading>
                 )}
@@ -190,7 +190,9 @@ function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingL
             <div className="flex flex-col gap-4">
               {topic.items.map((item) => (
                 <div key={item.title} className="flex flex-col gap-1">
-                  <Heading level={itemLevel} variant="h5">{item.title}</Heading>
+                  <Heading level={itemLevel} variant={itemLevel === 4 ? "h4" : "h5"}>
+                    {item.title}
+                  </Heading>
                   {item.body && <p>{item.body}</p>}
                   {item.list && (
                     <ul className="flex flex-col gap-1">
