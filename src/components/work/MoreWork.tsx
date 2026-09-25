@@ -31,7 +31,7 @@ export function MoreWork({ currentSlug }: { currentSlug: string }) {
             <TransitionLink
               key={project.slug}
               href={href}
-              className="group flex flex-col gap-2 p-4 transition-colors duration-400 ease-in-out hover:bg-placeholder"
+              className="group flex flex-col gap-2 md:p-4 transition-colors duration-400 ease-in-out hover:bg-placeholder"
             >
               <p className="font-sans text-caption text-muted">{project.kind === "article" ? "Article" : "Case study"}</p>
               <Heading level={3} variant="h3">{project.title}</Heading>
