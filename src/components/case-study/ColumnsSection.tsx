@@ -25,7 +25,7 @@ function Column({ column }: { column: LabeledColumn }) {
         <div className="flex flex-col gap-4">
           {column.items.map((item) => (
             <div key={item.title} className="flex flex-col gap-1">
-              <Heading level={4} variant="h4">{item.title}</Heading>
+              <Heading level={4} variant="h5">{item.title}</Heading>
               {item.body && <p>{item.body}</p>}
               {item.list && (
                 <ul className="flex flex-col gap-1">
