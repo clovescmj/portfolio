@@ -5,9 +5,9 @@ import { BackLink, FloatingBackLink } from "@/components/case-study/BackLink";
 import { CaseStudyIntro } from "@/components/case-study/CaseStudyIntro";
 import { Hero } from "@/components/case-study/Hero";
 import { Impact } from "@/components/case-study/Impact";
-import { LabeledRow } from "@/components/case-study/LabeledRow";
+import { Chapter } from "@/components/case-study/Chapter";
+import { ColumnsSection } from "@/components/case-study/ColumnsSection";
 import { ProductVisionSpotlight } from "@/components/case-study/ProductVisionSpotlight";
-import { SolutionGroup } from "@/components/case-study/SolutionGroup";
 import { articles } from "@/content/articles";
 import { caseStudies } from "@/content/case-studies";
 
@@ -91,43 +91,26 @@ export default async function CaseStudyPage({
           />
         </header>
 
-        {caseStudy.content.flatMap((block, i) => {
-          // Every divider is a plain sibling in this same flex column, not
-          // nested inside its block's own wrapper — that's what makes the
-          // gap on both sides of it match the ungapped rhythm everywhere
-          // else, instead of a smaller, component-local gap.
-          const dividerLight = block.kind === "group" && block.dividerLight;
+        {caseStudy.sections.flatMap((section, i) => {
+          // A divider is a plain sibling in this same flex column, not nested
+          // inside its section's wrapper: that's what makes the gap on both
+          // sides of it match the ungapped rhythm everywhere else, instead
+          // of a smaller, component-local gap.
           const divider =
-            "divider" in block && block.divider ? (
-              <hr key={`divider-${i}`} className={dividerLight ? "border-lightergrey" : "border-ink"} />
+            "divider" in section && section.divider ? (
+              <hr key={`divider-${i}`} className={section.divider === "light" ? "border-lightergrey" : "border-ink"} />
             ) : null;
-          if (block.kind === "section") {
-            // A section with its own subsections ("childGroups" — Contract's
-            // "Solution") renders them inside the same <section>, in one
-            // shared 64px child↔child column — see `LabeledRow`.
-            return [
-              divider,
-              <LabeledRow key={`section-${i}`} label={block.label} sublabel={block.sublabel} columns={block.columns}>
-                {block.childGroups?.map((childGroup, ci) => (
-                  <SolutionGroup key={`${childGroup.title}-${ci}`} group={childGroup} />
-                ))}
-              </LabeledRow>,
-            ];
+          switch (section.kind) {
+            case "columns":
+              return [divider, <ColumnsSection key={`columns-${i}`} section={section} />];
+            case "spotlight":
+              return [<ProductVisionSpotlight key={`spotlight-${i}`} spotlight={section} />];
+            case "chapter":
+              return [divider, <Chapter key={`chapter-${i}`} chapter={section} />];
+            case "impact":
+              return [divider, <Impact key={`impact-${i}`} section={section} />];
           }
-          if (block.kind === "spotlight") {
-            return [<ProductVisionSpotlight key={`spotlight-${i}`} spotlight={block} />];
-          }
-          return [divider, <SolutionGroup key={`group-${i}`} group={block} />];
         })}
-
-        <hr className="border-ink" />
-
-        <Impact intro={caseStudy.impact.intro} lists={caseStudy.impact.lists} groups={caseStudy.impact.groups} />
-
-        {caseStudy.closingGroups?.flatMap((group, i) => [
-          group.divider ? <hr key={`closing-divider-${i}`} className="border-ink" /> : null,
-          <SolutionGroup key={`closing-group-${i}`} group={group} />,
-        ])}
 
         <hr className="border-ink" />
 

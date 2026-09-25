@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
-import type { LabeledColumn } from "@/types/case-study";
+import type { ColumnsSection as ColumnsSectionData, LabeledColumn } from "@/types/case-study";
 import { StatsGrid } from "./StatsGrid";
+import { SubsectionView } from "./Subsection";
 import { Heading } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
 
@@ -83,28 +83,20 @@ function Column({ column }: { column: LabeledColumn }) {
  * its own small heading (see LabeledColumn) — not every case study's
  * content is a flat list of paragraphs.
  */
-export function LabeledRow({
-  label,
-  sublabel,
-  columns,
-  children,
-}: {
-  label: string;
-  sublabel?: string;
-  columns: [LabeledColumn, LabeledColumn];
-  /** Subsections that belong to this section (Contract's "Solution"
-   *  child groups), rendered under the row in the same `<section>`, with
-   *  the 64px child-to-child rhythm. */
-  children?: ReactNode;
-}) {
+export function ColumnsSection({ section }: { section: ColumnsSectionData }) {
+  const { title, subtitle, columns, subsections } = section;
   return (
-    <section aria-labelledby={headingId(label)} className="flex flex-col gap-subsection">
+    <section aria-labelledby={headingId(title)} className="flex flex-col gap-subsection">
       <div className="page-grid gap-y-3 md:gap-y-10 md:pr-content">
         <div className="flex flex-col gap-6 md:col-span-2 md:col-start-1">
-          <Heading level={2} variant="h2" id={headingId(label)}>
-            {label}
+          <Heading level={2} variant="h2" id={headingId(title)}>
+            {title}
           </Heading>
-          {sublabel && <Heading level={3} variant="h4">{sublabel}</Heading>}
+          {subtitle && (
+            <Heading level={3} variant="h4">
+              {subtitle}
+            </Heading>
+          )}
         </div>
         <div className="md:col-span-2 md:col-start-3">
           <Column column={columns[0]} />
@@ -113,7 +105,9 @@ export function LabeledRow({
           <Column column={columns[1]} />
         </div>
       </div>
-      {children}
+      {subsections?.map((subsection, i) => (
+        <SubsectionView key={`${subsection.title ?? ""}-${i}`} subsection={subsection} />
+      ))}
     </section>
   );
 }

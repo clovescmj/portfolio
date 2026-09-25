@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { gridPositionClass } from "@/lib/grid-position";
-import type { FeatureBlock, LabeledList, StatsBlock } from "@/types/case-study";
+import type { FeatureBlock, ImpactSection, LabeledList, StatsBlock } from "@/types/case-study";
 import { StatsGrid } from "./StatsGrid";
 import { Heading } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
@@ -137,15 +137,8 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
   );
 }
 
-export function Impact({
-  intro,
-  lists,
-  groups,
-}: {
-  intro?: string;
-  lists?: LabeledList[];
-  groups?: { label: string; stats?: StatsBlock; topics?: FeatureBlock[] }[];
-}) {
+export function Impact({ section }: { section: ImpactSection }) {
+  const { intro, lists, groups } = section;
   if (lists && groups && process.env.NODE_ENV !== "production") {
     console.warn("Impact: both `lists` and `groups` are set — only one is meant to render at a time.");
   }

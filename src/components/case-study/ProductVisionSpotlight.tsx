@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { assetPath } from "@/lib/asset-path";
-import type { CaseStudySpotlight } from "@/types/case-study";
+import type { SpotlightSection } from "@/types/case-study";
 import { HighlightBlock } from "./HighlightBlock";
 import { Heading } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
@@ -28,7 +28,7 @@ import { headingId } from "@/lib/heading-id";
  * itself stays cropped to that height (object-cover, anchored top so the
  * subject's head isn't cut).
  */
-export function ProductVisionSpotlight({ spotlight }: { spotlight: CaseStudySpotlight }) {
+export function ProductVisionSpotlight({ spotlight }: { spotlight: SpotlightSection }) {
   return (
     <HighlightBlock background="bg-ink" labelledBy={headingId(spotlight.title)}>
       <div className="page-grid gap-y-8">

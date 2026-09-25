@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { assetPath } from "@/lib/asset-path";
-import type { CaseStudyFlow, CaseStudyGroup } from "@/types/case-study";
+import type { FeatureBlock, LabelWidth, MiniGrid, Subsection } from "@/types/case-study";
 import { Carousel } from "./Carousel";
 import { EmbedFrame } from "./EmbedFrame";
 import { PrototypeHighlight } from "./PrototypeHighlight";
@@ -71,8 +71,8 @@ const MINI_GRID_COMPACT_ROW_CLASSES = ["md:row-start-1", "md:row-start-2", "md:r
  *  measurement stays exact without passing anything. */
 const WIDE_SPAN_CLASSES = { 3: "md:col-span-3", 4: "md:col-span-4" } as const;
 
-type Topics = CaseStudyGroup["topics"];
-type MiniGrid = NonNullable<CaseStudyGroup["miniGrid"]>;
+type Topics = FeatureBlock[];
+type MiniGridRows = MiniGrid["rows"];
 
 /** One miniGrid column's content — title, optional tag/border, body or list. */
 function MiniGridColumn({
@@ -80,7 +80,7 @@ function MiniGridColumn({
   className,
   level,
 }: {
-  column: MiniGrid[number][number];
+  column: MiniGridRows[number][number];
   className: string;
   level: HeadingLevel;
 }) {
@@ -292,68 +292,44 @@ function Topic({
 }
 
 /**
- * One title + topics + miniGrid + flows + links + embed block — the full
- * body of a group, reused as-is for a group's own content and for each of
- * its `subsections` (Loft's "Insights" chapter packs four of these —
- * Interview & Usability Test, Research Process, Key Findings, A/B Test —
- * tightly under one shared `topLabel`).
+ * One subsection: an optional title in the label column, then whichever
+ * pieces it carries (intro, topics, mini-grid, image columns, embed, flows,
+ * quote, links) in a fixed order. Rendered as a labelled `<section>` when it
+ * has a title of its own, so the page outline reads chapter > subsection.
  */
-function GroupBody({
-  title,
-  titleLink,
-  wideLabel,
-  narrowLabel,
-  sectionTitle,
-  contentOffset3,
-  intro,
-  topics,
-  miniGrid,
-  miniGridInline,
-  miniGridCompact,
-  imageColumns,
-  flows,
-  links,
-  embed,
-  flushStacked,
-  wideImage,
-  wideEmbed,
-  wideImageSpan,
-  flushCaption,
-  quote,
+function SubsectionBody({
+  subsection,
+  labelWidth,
+  title: titleOverride,
+  isSectionTitle = false,
 }: {
-  title: string;
-  /** A link under the title, e.g. "View prototype" — Loft's App Evolution "User Setup". */
-  titleLink?: { label: string; href: string };
-  wideLabel?: boolean;
-  /** Keep the title at the narrow 1-column width even when `wideLabel` is
-   *  set on the parent group — see the note on `subsections[].narrowLabel`. */
-  narrowLabel?: boolean;
-  sectionTitle?: boolean;
-  /** Topics start at column 3 (leaving column 2 as a gap) even though the
-   *  title itself only spans column 1 — Contract's "New process", confirmed
-   *  via get_design_context (`col-[3/span_2]`/`col-[5/span_2]` beside a
-   *  plain `col-1` title). Independent of `wideLabel`, which is about the
-   *  title's own width, not where content starts. */
-  contentOffset3?: boolean;
-  intro?: string;
-  topics: Topics;
-  miniGrid?: MiniGrid;
-  /** See the note on `subsections[].miniGridInline` in the type. */
-  miniGridInline?: boolean;
-  /** See the note on `subsections[].miniGridCompact` in the type. */
-  miniGridCompact?: boolean;
-  imageColumns?: CaseStudyGroup["imageColumns"];
-  flows?: CaseStudyFlow[];
-  links?: CaseStudyGroup["links"];
-  embed?: CaseStudyGroup["embed"];
-  flushStacked?: boolean;
-  wideImage?: CaseStudyGroup["wideImage"];
-  wideEmbed?: CaseStudyGroup["wideEmbed"];
-  /** See the note on `WIDE_SPAN_CLASSES`. Defaults to 4 (Contract's own measurement). */
-  wideImageSpan?: 3 | 4;
-  flushCaption?: string;
-  quote?: { text: string; attribution: string };
+  subsection: Subsection;
+  /** The chapter's default title column width. */
+  labelWidth?: LabelWidth;
+  /** The title to show. Defaults to the subsection's own; a chapter whose
+   *  title sits beside its content passes its own here for the first one. */
+  title?: string;
+  /** `title` is a section title (32px, an h2), not a subsection title. */
+  isSectionTitle?: boolean;
 }) {
+  const { link: titleLink, intro, imageColumns, flows, links, embed, quote } = subsection;
+  const topics = subsection.topics ?? [];
+  const miniGrid = subsection.miniGrid?.rows;
+  const miniGridInline = subsection.miniGrid?.placement === "inline";
+  const miniGridCompact = subsection.miniGrid?.placement === "compact";
+  const flushStacked = Boolean(subsection.stacked);
+  const wideImage = subsection.stacked?.image;
+  const wideEmbed = subsection.stacked?.embed;
+  const wideImageSpan = subsection.stacked?.span;
+  const flushCaption = subsection.stacked?.caption;
+  // The chapter's width decides where content starts; a subsection can
+  // still ask for a narrow title inside a wide chapter.
+  const wideLabel = subsection.layout?.labelWidth === "wide" || labelWidth === "wide";
+  const narrowLabel = subsection.layout?.labelWidth === "narrow";
+  const contentOffset3 = subsection.layout?.contentStart === 3;
+  const sectionTitle = isSectionTitle;
+  const title = titleOverride ?? subsection.title ?? "";
+
   // Outline: a section title (App Evolution, Samples...) is an h2; any other
   // group title is an h3 under the section label above it. Topics and mini-grid
   // columns sit one level below the group title, or at its level when the
@@ -603,109 +579,34 @@ function GroupBody({
   );
 }
 
-export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
-  // The child↔child ("filha") rhythm: 64px at the 1440px desktop width,
-  // scaling down proportionally (not a hard breakpoint jump) to a 36px
-  // floor — same `clamp()` approach as the page's own 72px mãe↔mãe rhythm
-  // in work/[slug]/page.tsx, and the matching duplicate there for a
-  // section's own `childGroups`. 4.444vw is 64/1440*100, so this still
-  // lands exactly on 64px at that width.
-  // The group is a section when it carries a section label (topLabel) or a
-  // section-sized title; everything else in it is a subsection.
-  const sectionLabel = group.topLabel ?? (group.sectionTitle ? group.title : undefined);
-  const Root = sectionLabel ? "section" : "div";
-
+/**
+ * Renders one subsection by kind: a live prototype in the tinted shell, a
+ * carousel, or the normal grid body. Shared by `Chapter` and by a columns
+ * section's own subsections (Contract's "Solution").
+ */
+export function SubsectionView({
+  subsection,
+  labelWidth,
+  title,
+  isSectionTitle,
+}: {
+  subsection: Subsection;
+  labelWidth?: LabelWidth;
+  title?: string;
+  isSectionTitle?: boolean;
+}) {
+  if (subsection.highlightEmbed) {
+    return <PrototypeHighlight title={title ?? subsection.title} embed={subsection.highlightEmbed} />;
+  }
+  if (subsection.carousel) {
+    return (
+      <Carousel
+        slides={subsection.carousel.slides}
+        title={subsection.carousel.titleAbove ? (title ?? subsection.title) : undefined}
+      />
+    );
+  }
   return (
-    <Root
-      aria-labelledby={sectionLabel ? headingId(sectionLabel) : undefined}
-      className="flex flex-col gap-subsection"
-    >
-      {group.topLabel && (
-        <Heading level={2} variant="h2" id={headingId(group.topLabel)} className="-mb-6 md:-mb-10">
-          {group.topLabel}
-        </Heading>
-      )}
-
-      {group.highlightEmbed && <PrototypeHighlight title={group.title} embed={group.highlightEmbed} />}
-
-      {/* Skip the main GroupBody call entirely when it would render nothing,
-          Third-party Claims' "Understanding", whose topLabel and
-          subsections carry the whole group, with no title/topics/flows of
-          its own. Rendering it anyway leaves a zero-height flex child that
-          still costs a full gap on each side (the h2's own -mb-10 only
-          cancels the FIRST of those two), nearly doubling the visible space
-          before the first subsection. Solution, by contrast, DOES have
-          content here (its own `flows`), so it still needs to render. */}
-      {(group.title ||
-        group.topics.length > 0 ||
-        group.flows?.length ||
-        group.miniGrid ||
-        group.imageColumns ||
-        group.embed ||
-        group.wideImage ||
-        group.wideEmbed ||
-        group.links?.length) &&
-        !group.titleAboveCarousel &&
-        !group.highlightEmbed && (
-        <GroupBody
-          title={group.title}
-          wideLabel={group.wideLabel}
-          sectionTitle={group.sectionTitle}
-          contentOffset3={group.contentOffset3}
-          intro={group.intro}
-          topics={group.topics}
-          miniGrid={group.miniGrid}
-          imageColumns={group.imageColumns}
-          flows={group.flows}
-          links={group.links}
-          embed={group.embed}
-          flushStacked={group.flushStacked}
-          wideImage={group.wideImage}
-          wideEmbed={group.wideEmbed}
-          wideImageSpan={group.wideImageSpan}
-          flushCaption={group.flushCaption}
-        />
-      )}
-
-      {/* Loft's "Insights" chapter: several more title+content blocks packed
-          tightly (64px, confirmed via get_metadata — the tallest column's
-          bottom edge to the next chapter's title, consistently, at every
-          boundary in node 97:13056) under the same "Insights" topLabel
-          above, not the page's normal 72px rhythm — see `subsections` on
-          the type. */}
-      {group.subsections?.map((subsection) =>
-        subsection.highlightEmbed ? (
-          <PrototypeHighlight
-            key={subsection.title}
-            title={subsection.title}
-            embed={subsection.highlightEmbed}
-          />
-        ) : (
-          <GroupBody
-            key={subsection.title}
-            title={subsection.title}
-            titleLink={subsection.link}
-            wideLabel={group.wideLabel}
-            narrowLabel={subsection.narrowLabel}
-            contentOffset3={subsection.contentOffset3}
-            topics={subsection.topics ?? []}
-            miniGrid={subsection.miniGrid}
-            miniGridInline={subsection.miniGridInline}
-            miniGridCompact={subsection.miniGridCompact}
-            flows={subsection.flows}
-            quote={subsection.quote}
-            flushStacked={subsection.flushStacked}
-            wideImage={subsection.wideImage}
-            wideEmbed={subsection.wideEmbed}
-            wideImageSpan={subsection.wideImageSpan}
-            flushCaption={subsection.flushCaption}
-          />
-        ),
-      )}
-
-      {group.carousel && (
-        <Carousel slides={group.carousel} title={group.titleAboveCarousel ? group.title : undefined} />
-      )}
-    </Root>
+    <SubsectionBody subsection={subsection} labelWidth={labelWidth} title={title} isSectionTitle={isSectionTitle} />
   );
 }
