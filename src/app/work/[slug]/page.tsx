@@ -33,7 +33,7 @@ export default async function CaseStudyPage({
             the case-study branch — a `sideImage` section's image bleeds
             to this true right edge; everything else adds its own
             `pr-content` back in ArticleBody. */}
-        <div className="md:-mx-content md:w-[calc(100%+112px)] md:pl-content">
+        <div className="bleed-content">
           <ArticleBody article={article} />
           <div className="mt-[72px] flex flex-col gap-[72px] md:pr-content">
             <hr className="border-ink" />
@@ -80,7 +80,7 @@ export default async function CaseStudyPage({
         Direct children are the header and then one <section> per chapter
         (with <hr> dividers between), all separated by the page rhythm.
       */}
-      <div className="flex flex-col md:-mx-content md:w-[calc(100%+112px)] md:pl-content" style={rowGapStyle}>
+      <div className="flex flex-col bleed-content" style={rowGapStyle}>
         <header className="flex flex-col gap-8 md:gap-12">
           <Hero image={caseStudy.heroImage} />
           <CaseStudyIntro

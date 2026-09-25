@@ -363,7 +363,7 @@ function GroupBody({
 
   if (flushStacked) {
     return (
-      <div className="grid grid-cols-1 gap-y-10 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8 md:pr-content">
+      <div className="page-grid gap-y-10 md:pr-content">
         <div className="flex flex-col gap-10 md:col-span-2 md:col-start-1">
           {topics.map((topic, i) => {
             // Each titled topic is its own subsection of the group.
@@ -421,7 +421,6 @@ function GroupBody({
   // TOPIC_POSITION_CLASSES above. Never a differently-sized first
   // ("auto"/clamp/fixed-px) label track: that's what let a long title like
   // "Business Opportunities" blow the row's layout out.
-  const gridColsClass = "md:grid-cols-[repeat(6,minmax(0,1fr))]";
   const basePositions = wideLabel || contentOffset3 ? WIDE_TOPIC_POSITION_CLASSES : TOPIC_POSITION_CLASSES;
   const topicPositions = intro ? basePositions.slice(2) : basePositions;
   // Skip the grid section entirely when it would render nothing but the
@@ -442,7 +441,7 @@ function GroupBody({
   return (
     <Root aria-labelledby={title && !sectionTitle ? headingId(title) : undefined} className="flex flex-col gap-12">
       {hasSectionContent && (
-        <div className={`grid grid-cols-1 gap-y-10 ${gridColsClass} md:gap-x-8 md:pr-content`}>
+        <div className="page-grid gap-y-10 md:pr-content">
         <div
           className={`flex flex-col gap-1 max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel && !narrowLabel ? "md:col-span-2" : "md:col-span-1"}`}
         >
@@ -619,7 +618,7 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
   return (
     <Root
       aria-labelledby={sectionLabel ? headingId(sectionLabel) : undefined}
-      className="flex flex-col gap-[clamp(36px,4.444vw,64px)]"
+      className="flex flex-col gap-subsection"
     >
       {group.topLabel && (
         <Heading level={2} variant="h2" id={headingId(group.topLabel)} className="-mb-6 md:-mb-10">

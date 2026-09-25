@@ -26,8 +26,8 @@ export default function AboutPage() {
     <article className="flex flex-col md:gap-[54px]">
       <PageHeader title="About me" />
 
-      <div className="mt-10 flex flex-col gap-12 md:-mx-content md:mt-0 md:w-[calc(100%+112px)] md:pl-content">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-8 md:pr-content">
+      <div className="mt-10 flex flex-col gap-12 md:mt-0 bleed-content">
+        <div className="page-grid gap-y-10 md:gap-y-8 md:pr-content">
           <p className="font-sans text-h3 text-ink md:col-span-2 md:col-start-1">
             With over 10 years of experience designing digital products, I bring a unique blend of hands-on design
             expertise and strategic leadership.
@@ -39,7 +39,7 @@ export default function AboutPage() {
           </ul>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8">
+        <div className="page-grid gap-y-10">
           <div className="relative -mx-6 aspect-square w-[calc(100%+48px)] overflow-hidden bg-placeholder md:col-span-4 md:col-start-3 md:row-start-1 md:mx-0 md:aspect-[712/393] md:w-full">
             <Image
               src={assetPath("/images/about/cloves.webp")}
@@ -105,7 +105,7 @@ export default function AboutPage() {
 
         <section
           aria-labelledby={headingId("Latest Experiences")}
-          className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-6 md:pr-content"
+          className="page-grid gap-y-10 md:gap-y-6 md:pr-content"
         >
           <Heading level={2} variant="h2" id={headingId("Latest Experiences")} className="md:col-span-2 md:col-start-1">
             Latest Experiences
@@ -145,7 +145,7 @@ export default function AboutPage() {
 
       {/*  <hr className="border-ink" />
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-6 md:gap-x-8 md:gap-y-8 md:pr-content">
+        <div className="page-grid gap-y-10 md:gap-y-8 md:pr-content">
           <Heading level={2} variant="h2" className="md:col-span-1 md:col-start-1">Beyond Work</Heading>
           <p className="font-sans text-body text-ink md:col-span-2 md:col-start-2">
             You&rsquo;ll find me being a dad, going to shows, running my small batch music label, and designing artwork

@@ -31,7 +31,7 @@ import { headingId } from "@/lib/heading-id";
 export function ProductVisionSpotlight({ spotlight }: { spotlight: CaseStudySpotlight }) {
   return (
     <HighlightBlock background="bg-ink" labelledBy={headingId(spotlight.title)}>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8">
+      <div className="page-grid gap-y-8">
         <div className="flex flex-col gap-8 md:col-span-4 md:gap-[134px]">
           <div className="flex flex-col gap-6">
             <Heading level={2} variant="h2" tone="surface" id={headingId(spotlight.title)}>

@@ -98,8 +98,8 @@ export function LabeledRow({
   children?: ReactNode;
 }) {
   return (
-    <section aria-labelledby={headingId(label)} className="flex flex-col gap-[clamp(36px,4.444vw,64px)]">
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-10 md:gap-x-8 md:pr-content">
+    <section aria-labelledby={headingId(label)} className="flex flex-col gap-subsection">
+      <div className="page-grid gap-y-3 md:gap-y-10 md:pr-content">
         <div className="flex flex-col gap-6 md:col-span-2 md:col-start-1">
           <Heading level={2} variant="h2" id={headingId(label)}>
             {label}

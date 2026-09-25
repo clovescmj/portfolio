@@ -152,7 +152,7 @@ export function Impact({
   return (
     <section
       aria-labelledby={headingId("Impact")}
-      className="grid grid-cols-1 gap-3 md:grid-cols-[repeat(6,minmax(0,1fr))] md:gap-x-8 md:gap-y-6 md:pr-content"
+      className="page-grid gap-y-3 md:gap-y-6 md:pr-content"
     >
       <Heading level={2} variant="h2" id={headingId("Impact")} className="md:col-span-1 md:col-start-1 md:row-start-1">
         Impact

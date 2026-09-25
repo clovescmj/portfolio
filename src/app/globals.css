@@ -45,6 +45,9 @@
      isn't affected by PageHeader's own negative-margin footprint trick
      (margins collapse into an adjacent margin; gap never does). */
   --spacing-header: 56px;
+  /* Column gap of the case-study / article / about 6-column grid. The work
+     page uses --spacing-gutter (24px) instead, per its own Figma frame. */
+  --spacing-column: 32px;
 
   /* Shadow (Drop Shadow/400 in the Figma library) */
   --shadow-card:
@@ -166,6 +169,43 @@
      file. */
   --text-caption: 12px;
   --text-caption--line-height: 1.454545;
+}
+
+/*
+ * Layout primitives. The case-study, article and about pages share one
+ * 6-column grid, one subsection rhythm and one full-bleed wrapper. They
+ * live here, once, instead of as arbitrary values copied into components.
+ */
+
+/* One column on mobile, six equal columns from md up. Callers add the row
+   gap and any right inset (`md:pr-content`) themselves. */
+@utility page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    column-gap: var(--spacing-column);
+  }
+}
+
+/* Gap between sibling subsections: 64px at 1440px, scaling down with the
+   viewport to a 36px floor (4.444vw is 64/1440*100). Not a --spacing-*
+   theme token on purpose: Tailwind would generate its own fixed
+   `gap-subsection` from it and shadow this one. */
+@utility gap-subsection {
+  gap: clamp(36px, 4.444vw, 64px);
+}
+
+/* Cancels the scroll area's left and right inset, then puts the left one
+   back, so full-bleed blocks (hero, highlights) can reach the right edge
+   while text keeps the left margin. Blocks that want the right inset back
+   add `md:pr-content`. */
+@utility bleed-content {
+  @media (min-width: 768px) {
+    margin-inline: calc(var(--spacing-content) * -1);
+    width: calc(100% + var(--spacing-content) * 2);
+    padding-left: var(--spacing-content);
+  }
 }
 
 body {
