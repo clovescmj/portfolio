@@ -12,8 +12,8 @@ import type { ElementType, ReactNode } from "react";
  *   h1  48px  title of a case study or article
  *   h2  32px  section (Problem, Solution, Impact, App Evolution...)
  *   h3  24px  group inside a section (MVP, Release Plan, User Setup...)
- *   h4  18px  subtitle (Usage Data, Main Flows & Features...)
- *   h5  16px  item title or list label (Goals, Effective Team Integration...)
+ *   h4  18px  subtitle or item title (Usage Data, Effective Team Integration...)
+ *   h5  16px  smallest title, used where an h3 has to hold items without an h4
  */
 export type HeadingVariant = "h1" | "h2" | "h3" | "h4" | "h5";
 

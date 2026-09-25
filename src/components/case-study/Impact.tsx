@@ -108,7 +108,11 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
               swapping this order was the fix, not adding back row-start. */}
           {group.topics?.map((topic, i) => (
             <div key={topic.title} className={`flex flex-col gap-3 md:col-span-2 ${LIST_POSITION_CLASSES[i % 2]}`}>
-              <Heading level={group.label ? 4 : 3} variant="h5">{topic.title}</Heading>
+              {/* An h4 takes the h4 size. Without a group label the topic is an h3
+                  (no level skipped under "Impact") and keeps the smaller item size. */}
+              <Heading level={group.label ? 4 : 3} variant={group.label ? "h4" : "h5"}>
+                {topic.title}
+              </Heading>
               {topic.body?.map((paragraph) => (
                 <p key={paragraph} className="font-sans text-body text-ink">
                   {paragraph}
