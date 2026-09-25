@@ -69,6 +69,7 @@ export const loftApp: CaseStudy = {
               ]
             },
             {
+              nested: true,
               items: [
                 {
                   title: "Convenience",

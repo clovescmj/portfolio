@@ -128,8 +128,8 @@ function EmbedSlot({ embed, topMargin }: { embed: NonNullable<Topics[number]["em
  *  in one of the two topic renderers. */
 function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingLevel }) {
   // Item titles sit one level below the topic's own title, or at its
-  // level when the topic has none.
-  const itemLevel = Math.min(topic.title ? level + 1 : level, 6) as HeadingLevel;
+  // level when the topic has none. `nested` items belong to the topic above.
+  const itemLevel = Math.min(topic.title || topic.nested ? level + 1 : level, 6) as HeadingLevel;
   const hasLeadContent = !!(topic.title || topic.tag || topic.body || topic.list || topic.items || topic.link || topic.stats);
   return (
     <>
@@ -190,7 +190,7 @@ function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingL
             <div className="flex flex-col gap-4">
               {topic.items.map((item) => (
                 <div key={item.title} className="flex flex-col gap-1">
-                  <Heading level={itemLevel} variant="h5">
+                  <Heading level={itemLevel} variant={itemLevel === 4 ? "h4" : "h5"}>
                     {item.title}
                   </Heading>
                   {item.body && <p>{item.body}</p>}

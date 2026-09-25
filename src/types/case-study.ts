@@ -124,6 +124,9 @@ export interface FeatureBlock {
   /** Give `list` the same tinted-box treatment a `LabeledColumn` list can get — Loft's "My Role" scope list. */
   listBoxed?: boolean;
   items?: SubItem[];
+  /** These items belong to the topic just before this one (a title with its
+   *  body above), so their titles sit one heading level deeper. */
+  nested?: boolean;
   stats?: StatsBlock;
   image?: CaptionedImage;
   /** A small badge above the topic, e.g. "A/B Test" — pairs with an accent-bordered highlight. */
