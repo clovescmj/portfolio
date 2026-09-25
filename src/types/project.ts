@@ -1,24 +1,19 @@
 export type ImageTreatment = "plain" | "framed";
 
 /**
- * Where and how big a project's card is inside the 6-column bento grid.
- * colStart/colSpan/rowStart give full manual control over the collage-style
- * layout (matches the hand-placed composition in Figma). Every card is
- * top-aligned in its row (never stretched to match a taller neighbor) —
- * offsetTop nudges a specific card down by one rhythm unit (88px) with a
- * fixed margin, matching how Figma places some cards lower within a row.
- * This is intentionally a fixed offset, not "align to the row's bottom":
- * the row's height is driven by its tallest card, so anchoring to the
- * bottom would make this card's position shift whenever that neighbor's
- * height changes (e.g. its image treatment or copy length).
+ * Where a project's card sits on the Work page. Desktop is two side-by-side
+ * stacks, each a 3-column grid (matches Figma's "Recent work" frame: two
+ * 488px frames, 24px gutters, 146.67px columns): `column` picks the stack,
+ * colStart/colSpan the position inside it (1-3), and `gapTop` the space
+ * above the card in px, measured from Figma per card (Contract's 88 is the
+ * offset of its image; 128 and 48 are the gaps between stacked cards).
+ * Mobile ignores all of it and follows the order of `projects`.
  */
 export interface ProjectLayout {
-  colStart: 1 | 2 | 3 | 4 | 5 | 6;
-  colSpan: 1 | 2 | 3 | 4 | 5 | 6;
-  rowStart: number;
-  /** Rows the card spans (default 1) — lets a tall card share its rows with a stack of shorter ones. */
-  rowSpan?: number;
-  offsetTop?: boolean;
+  column: "left" | "right";
+  colStart: 1 | 2 | 3;
+  colSpan: 1 | 2 | 3;
+  gapTop?: number;
   /** Card renders only the image, no title/description/tags. */
   imageOnly?: boolean;
 }

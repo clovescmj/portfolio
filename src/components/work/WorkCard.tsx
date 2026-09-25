@@ -23,7 +23,15 @@ import { ProjectMeta } from "./ProjectMeta";
  * rather than being unconditional. Title/body/meta font sizes are fixed
  * and the same on every card regardless of width, by design.
  */
-export function WorkCard({ project, priority = false }: { project: Project; priority?: boolean }) {
+export function WorkCard({
+  project,
+  order,
+  priority = false,
+}: {
+  project: Project;
+  order: number;
+  priority?: boolean;
+}) {
   const { layout, image, kind = "case-study" } = project;
   const { navigate } = usePageTransition();
   const href = caseStudies[project.slug] || articles[project.slug] ? `/work/${project.slug}` : undefined;
@@ -31,13 +39,13 @@ export function WorkCard({ project, priority = false }: { project: Project; prio
   const style = {
     "--card-col-start": layout.colStart,
     "--card-col-span": layout.colSpan,
-    "--card-row-start": layout.rowStart,
-    "--card-row-span": layout.rowSpan ?? 1,
+    "--card-gap-top": `${layout.gapTop ?? 0}px`,
+    "--card-order": order,
   } as CSSProperties;
 
   return (
     <article
-      className={`work-card md:self-start ${layout.offsetTop ? "md:mt-rhythm" : ""}`}
+      className="work-card"
       style={style}
     >
       {/*

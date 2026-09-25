@@ -5,11 +5,10 @@ import type { Project } from "@/types/project";
  *
  * To add a new project: append an object here (and drop an image in
  * public/images/projects if you have one). `layout` places the card on the
- * 6-column bento grid — colStart/colSpan/rowStart control position and size,
- * `offsetTop: true` nudges the card down by one rhythm unit (88px, a fixed
- * offset — see the note in src/types/project.ts on why it's not "align to
- * the row's bottom"), `imageOnly: true` renders just the image with no text
- * block. Everything else (title size, split vs. stacked content) adapts on
+ * page's two 3-column stacks (see src/types/project.ts) — `column` picks the
+ * stack, colStart/colSpan the position inside it, `gapTop` the space above the
+ * card in px (measured from the Figma "Recent work" frame), `imageOnly: true`
+ * renders just the image with no text block. Array order is the mobile order. Everything else (title size, split vs. stacked content) adapts on
  * its own based on how wide the resulting card ends up.
  */
 export const projects: Project[] = [
@@ -27,10 +26,7 @@ export const projects: Project[] = [
       alt: "Two Loft app screens tilted against a plain grey backdrop: the welcome screen and the city selection step",
       treatment: "framed",
     },
-    // Row 1, right (shares its row with Contract Template Management) —
-    // confirmed via get_metadata, node 8:203 (x=512 → colStart 4,
-    // width=488 → colSpan 3, y=0 → row 1, image y-offset 88 → offsetTop).
-    layout: { colStart: 4, colSpan: 3, rowStart: 1, offsetTop: true },
+    layout: { column: "left", colStart: 1, colSpan: 3 },
   },
   {
     slug: "contract-template-management",
@@ -48,11 +44,7 @@ export const projects: Project[] = [
       alt: "Contract Template Management screenshot",
       treatment: "framed",
     },
-    // Row 1, left — colStart/colSpan/rowStart re-confirmed via get_metadata
-    // on Figma node 7:2 ("Recent work" frame): x=0, width=317.33 in a
-    // 6-col/146.67px/24px-gutter grid = colStart 1, colSpan 2 (was 3 —
-    // stale from before the full layout re-check).
-    layout: { colStart: 1, colSpan: 2, rowStart: 1 },
+    layout: { column: "right", colStart: 2, colSpan: 2, gapTop: 88 },
   },
   {
     slug: "third-party-claims",
@@ -68,10 +60,7 @@ export const projects: Project[] = [
       alt: "The third-party claim flow on a laptop and phone browser",
       treatment: "framed",
     },
-    // Row 2, left (shares its row with Fixing UI Debt) — confirmed via
-    // get_metadata, node 8:245 (x=0 → colStart 1, width=488 → colSpan 3,
-    // y=609 → row 2, image y=0 → no offsetTop, unlike its row partner).
-    layout: { colStart: 1, colSpan: 3, rowStart: 2, rowSpan: 2 },
+    layout: { column: "right", colStart: 1, colSpan: 3, gapTop: 128 },
   },
   {
     slug: "comms-map-skill",
@@ -81,9 +70,7 @@ export const projects: Project[] = [
     description:
       "QuintoAndar's messaging system had grown to 500+ rules and 2,500+ templates with no unified view of what a customer actually received. I built an AI agent skill that maps any communication journey on demand, no ticket to engineering needed.",
     kind: "article",
-    // Row 3, left — confirmed via get_metadata, node 8:220 (x=0, y=1267 →
-    // row 3, image y-offset 88 → offsetTop, unlike its row partner below).
-    layout: { colStart: 5, colSpan: 2, rowStart: 2, offsetTop: true },
+    layout: { column: "left", colStart: 1, colSpan: 2, gapTop: 128 },
   },
   {
     slug: "career-development-plan",
@@ -93,6 +80,6 @@ export const projects: Project[] = [
     description:
       "As design manager, I built a concrete development plan with a mid-level designer to close specific skill gaps and make her impact visible to the promotion committee. She earned 5/5 ratings and was promoted to senior.",
     kind: "article",
-    layout: { colStart: 5, colSpan: 2, rowStart: 3 },
+    layout: { column: "left", colStart: 1, colSpan: 2, gapTop: 128 },
   },
 ];

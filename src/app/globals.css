@@ -179,14 +179,20 @@ body {
 }
 
 /*
- * The Figma file only designs the desktop (1440px) layout, so the bento
- * placement below is opt-in above the `md` breakpoint. Below it, every
- * .work-card just stacks full-width in source order (see BentoGrid.tsx).
+ * The Figma file only designs the desktop (1440px) layout: two stacks of cards
+ * (see BentoGrid.tsx and ProjectLayout), each card placed by column and spaced
+ * by --card-gap-top. Below md, every .work-card just stacks full-width in the
+ * order of `projects`.
  */
+.work-card {
+  order: var(--card-order);
+}
 @media (min-width: 768px) {
   .work-card {
+    order: 0;
+    align-self: start;
     grid-column: var(--card-col-start) / span var(--card-col-span);
-    grid-row: var(--card-row-start) / span var(--card-row-span, 1);
+    margin-top: var(--card-gap-top);
   }
 }
 
