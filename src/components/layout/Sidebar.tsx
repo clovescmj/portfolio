@@ -1,14 +1,14 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 import { nav, secondaryLinks, site } from "@/content/site";
 import { assetPath } from "@/lib/asset-path";
 import { EmailLink } from "./EmailLink";
-import { FADE_DURATION, isPlainLeftClick, usePageTransition } from "./PageTransitionContext";
+import { FADE_DURATION, usePageTransition } from "./PageTransitionContext";
+import { TransitionLink } from "./TransitionLink";
 
 export function Sidebar() {
-  const { navigate, activePath, visible } = usePageTransition();
+  const { activePath, visible } = usePageTransition();
   // The real route, not `activePath` (which flips to the clicked href
   // immediately on click, before the fade-out finishes) — layout-affecting
   // toggles like this one must wait for the actual swap, or the outgoing
@@ -55,20 +55,15 @@ export function Sidebar() {
             activePath === item.href ||
             item.activePrefixes?.some((prefix) => activePath.startsWith(prefix));
           return (
-            <Link
+            <TransitionLink
               key={item.href}
               href={item.href}
-              onClick={(event) => {
-                if (!isPlainLeftClick(event)) return;
-                event.preventDefault();
-                navigate(item.href);
-              }}
               className={`self-start font-sans text-nav transition-colors duration-400 ease-in-out hover:text-accent ${
                 active ? "font-bold text-accent" : "text-ink"
               }`}
             >
               {item.label}
-            </Link>
+            </TransitionLink>
           );
         })}
       </nav>

@@ -1,6 +1,6 @@
 "use client";
 
-import { isPlainLeftClick, usePageTransition } from "@/components/layout/PageTransitionContext";
+import { TransitionLink } from "@/components/layout/TransitionLink";
 import { projects } from "@/content/projects";
 import { headingId } from "@/lib/heading-id";
 import { ProjectMeta } from "./ProjectMeta";
@@ -14,7 +14,6 @@ const COUNT = 3;
  * around), with real case studies ahead of articles.
  */
 export function MoreWork({ currentSlug }: { currentSlug: string }) {
-  const { navigate } = usePageTransition();
   const index = projects.findIndex((p) => p.slug === currentSlug);
   const others = [...projects.slice(index + 1), ...projects.slice(0, Math.max(index, 0))];
   const isCase = (kind?: string) => kind !== "article";
@@ -29,21 +28,16 @@ export function MoreWork({ currentSlug }: { currentSlug: string }) {
         {picked.map((project) => {
           const href = `/work/${project.slug}`;
           return (
-            <a
+            <TransitionLink
               key={project.slug}
               href={href}
-              onClick={(event) => {
-                if (!isPlainLeftClick(event)) return;
-                event.preventDefault();
-                navigate(href);
-              }}
               className="group flex flex-col gap-2 p-4 transition-colors duration-400 ease-in-out hover:bg-placeholder"
             >
               <p className="font-sans text-caption text-muted">{project.kind === "article" ? "Article" : "Case study"}</p>
               <Heading level={3} variant="h3">{project.title}</Heading>
               <p className="font-sans text-body text-ink">{project.description}</p>
               <ProjectMeta client={project.client} tags={project.tags} />
-            </a>
+            </TransitionLink>
           );
         })}
       </div>

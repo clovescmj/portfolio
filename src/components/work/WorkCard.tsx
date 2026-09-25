@@ -1,7 +1,7 @@
 "use client";
 
 import type { CSSProperties, ReactNode } from "react";
-import { isPlainLeftClick, usePageTransition } from "@/components/layout/PageTransitionContext";
+import { TransitionLink } from "@/components/layout/TransitionLink";
 import { articles } from "@/content/articles";
 import { caseStudies } from "@/content/case-studies";
 import type { Project } from "@/types/project";
@@ -33,7 +33,6 @@ export function WorkCard({
   priority?: boolean;
 }) {
   const { layout, image, kind = "case-study" } = project;
-  const { navigate } = usePageTransition();
   const href = caseStudies[project.slug] || articles[project.slug] ? `/work/${project.slug}` : undefined;
 
   const style = {
@@ -63,7 +62,6 @@ export function WorkCard({
       */}
       <Wrapper
         href={href}
-        onNavigate={navigate}
         className="group @container -m-4 flex flex-col gap-4 p-4 transition-colors duration-400 ease-in-out hover:bg-placeholder"
       >
         {/* Articles have no thumbnail — they're shared as a written piece,
@@ -98,31 +96,21 @@ export function WorkCard({
   );
 }
 
-/** A real <a> when there's somewhere to go, a plain div otherwise — never an inert link. */
+/** A real link when there's somewhere to go, a plain div otherwise — never an inert link. */
 function Wrapper({
   href,
-  onNavigate,
   className,
   children,
 }: {
   href?: string;
-  onNavigate: (href: string) => void;
   className: string;
   children: ReactNode;
 }) {
   if (!href) return <div className={className}>{children}</div>;
 
   return (
-    <a
-      href={href}
-      onClick={(event) => {
-        if (!isPlainLeftClick(event)) return;
-        event.preventDefault();
-        onNavigate(href);
-      }}
-      className={className}
-    >
+    <TransitionLink href={href} className={className}>
       {children}
-    </a>
+    </TransitionLink>
   );
 }
