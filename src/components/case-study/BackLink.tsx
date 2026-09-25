@@ -39,20 +39,39 @@ export function FloatingBackLink({ href, label }: { href: string; label: string 
     const scrollEl = document.querySelector<HTMLElement>(".scroll-area");
     if (!scrollEl) return;
     let last = scrollEl.scrollTop;
+    let hideTimer: ReturnType<typeof setTimeout> | undefined;
+    const cancelHide = () => {
+      clearTimeout(hideTimer);
+      hideTimer = undefined;
+    };
 
     const onScroll = () => {
       const current = scrollEl.scrollTop;
       const rect = scrollEl.getBoundingClientRect();
       const paddingLeft = parseFloat(getComputedStyle(scrollEl).paddingLeft) || 0;
       setPos({ left: rect.left + paddingLeft, top: rect.top + 16 });
-      if (current < 120) setVisible(false);
-      else if (current < last) setVisible(true);
-      else if (current > last) setVisible(false);
+      if (current < 120) {
+        cancelHide();
+        setVisible(false);
+      } else if (current < last) {
+        cancelHide();
+        setVisible(true);
+      } else if (current > last && !hideTimer) {
+        // Waits 0.5s after scrolling down starts, so a quick flick down
+        // doesn't make the arrow vanish right as you reach for it.
+        hideTimer = setTimeout(() => {
+          hideTimer = undefined;
+          setVisible(false);
+        }, 500);
+      }
       last = current;
     };
 
     scrollEl.addEventListener("scroll", onScroll, { passive: true });
-    return () => scrollEl.removeEventListener("scroll", onScroll);
+    return () => {
+      scrollEl.removeEventListener("scroll", onScroll);
+      cancelHide();
+    };
   }, []);
 
   return (
