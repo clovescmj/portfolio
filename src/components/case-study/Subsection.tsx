@@ -535,7 +535,7 @@ function SubsectionBody({
         )}
 
         {links && (
-          <ul className="flex flex-col gap-1 md:col-span-4 md:col-start-2">
+          <ul className="flex flex-col gap-1 md:col-span-4 md:col-start-3">
             {links.map((link) => (
               <li key={link.href}>
                 <a
