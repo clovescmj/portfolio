@@ -84,7 +84,7 @@ function MiniGridColumn({ column, className }: { column: MiniGrid[number][number
       <h4 className="font-sans text-heading-3 text-ink">{column.title}</h4>
       {column.body && <p className="font-sans text-body text-ink">{column.body}</p>}
       {column.list && (
-        <ul className="flex flex-col gap-2 font-sans text-body text-ink">
+        <ul className="flex flex-col gap-1 font-sans text-body text-ink">
           {column.list.map((item) => (
             <li key={item} className="flex gap-2">
               <span aria-hidden className="text-muted">
@@ -147,7 +147,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
 
           {topic.list &&
             (topic.listTwoColumn ? (
-              <div className="flex flex-col gap-2">
+              <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
                 {topic.listLabel && <p className="font-medium">{topic.listLabel}</p>}
                 {/* Two independent columns (not a grid) so a wrapped item
                     only pushes down items below it in its OWN column —
@@ -155,7 +155,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
                     one, leaving a gap under the shorter neighbor. */}
                 <div className="flex gap-x-6">
                   {[0, 1].map((col) => (
-                    <ul key={col} className="flex flex-1 flex-col gap-2">
+                    <ul key={col} className="flex flex-1 flex-col gap-1">
                       {topic.list!
                         .filter((_, idx) => idx % 2 === col)
                         .map((item) => (
@@ -171,9 +171,9 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-2">
+              <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
                 {topic.listLabel && <p className="font-medium">{topic.listLabel}</p>}
-                <ul className={`flex flex-col gap-2 ${topic.listBoxed ? "bg-lightergrey p-4" : ""}`}>
+                <ul className={`flex flex-col gap-1 ${topic.listBoxed ? "bg-lightergrey p-4" : ""}`}>
                   {topic.list.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span aria-hidden className="text-muted">
@@ -193,7 +193,7 @@ function TopicContent({ topic }: { topic: Topics[number] }) {
                   <h5 className="font-sans text-nav font-medium text-ink">{item.title}</h5>
                   {item.body && <p>{item.body}</p>}
                   {item.list && (
-                    <ul className="flex flex-col gap-2">
+                    <ul className="flex flex-col gap-1">
                       {item.list.map((entry) => (
                         <li key={entry} className="flex gap-2">
                           <span aria-hidden className="text-muted">
@@ -280,6 +280,7 @@ function GroupBody({
   titleLink,
   wideLabel,
   narrowLabel,
+  smallTitle,
   contentOffset3,
   intro,
   topics,
@@ -304,6 +305,8 @@ function GroupBody({
   /** Keep the title at the narrow 1-column width even when `wideLabel` is
    *  set on the parent group — see the note on `subsections[].narrowLabel`. */
   narrowLabel?: boolean;
+  /** See the note on `subsections[].smallTitle` in the type. */
+  smallTitle?: boolean;
   /** Topics start at column 3 (leaving column 2 as a gap) even though the
    *  title itself only spans column 1 — Contract's "New process", confirmed
    *  via get_design_context (`col-[3/span_2]`/`col-[5/span_2]` beside a
@@ -397,7 +400,9 @@ function GroupBody({
         <div
           className={`flex flex-col gap-1 max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel && !narrowLabel ? "md:col-span-2" : "md:col-span-1"}`}
         >
-          {title && <h3 className="font-sans text-title text-ink">{title}</h3>}
+          {title && (
+            <h3 className={`font-sans text-ink ${smallTitle ? "text-heading-3" : "text-title"}`}>{title}</h3>
+          )}
           {titleLink && (
             <a
               href={titleLink.href}
@@ -518,7 +523,7 @@ function GroupBody({
         )}
 
         {links && (
-          <ul className="flex flex-col gap-2 md:col-span-4 md:col-start-2">
+          <ul className="flex flex-col gap-1 md:col-span-4 md:col-start-2">
             {links.map((link) => (
               <li key={link.href}>
                 <a
@@ -619,6 +624,7 @@ export function SolutionGroup({ group }: { group: CaseStudyGroup }) {
             titleLink={subsection.link}
             wideLabel={group.wideLabel}
             narrowLabel={subsection.narrowLabel}
+            smallTitle={subsection.smallTitle}
             contentOffset3={subsection.contentOffset3}
             topics={subsection.topics ?? []}
             miniGrid={subsection.miniGrid}

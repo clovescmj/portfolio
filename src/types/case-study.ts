@@ -299,6 +299,8 @@ export interface CaseStudyGroup {
      * "Bottom Navigation" wraps to two lines in the narrow column).
      */
     narrowLabel?: boolean;
+    /** Title at the 17px "H3 Medium" size (`text-heading-3`) instead of the 23px `text-title` — Loft's App Evolution features, confirmed via get_metadata on node 95:12862 (one-line title height 22, not 27). */
+    smallTitle?: boolean;
     /** Topics start at column 3 — see the note on `CaseStudyGroup.contentOffset3`;
      *  a subsection sets this independently of its parent group's own value
      *  (Loft's "Release Plan", nested under "MVP"/"Solution", needs it on

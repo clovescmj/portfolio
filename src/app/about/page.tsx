@@ -30,7 +30,7 @@ export default function AboutPage() {
             With over 10 years of experience designing digital products, I bring a unique blend of hands-on design
             expertise and strategic leadership.
           </p>
-          <ul className="flex list-disc flex-col gap-2 pl-[22px] font-sans text-body text-ink md:col-span-2 md:col-start-3">
+          <ul className="flex list-disc flex-col gap-1 pl-[22px] font-sans text-body text-ink md:col-span-2 md:col-start-3">
             {expertiseLeft.map((item) => (
               <li key={item}>{item}</li>
             ))}

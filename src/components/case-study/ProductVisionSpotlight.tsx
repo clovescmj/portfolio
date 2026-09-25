@@ -41,7 +41,7 @@ export function ProductVisionSpotlight({ spotlight }: { spotlight: CaseStudySpot
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-8">
             <div className="flex min-w-0 flex-col gap-4">
               <p className="font-sans text-heading-3 text-lightgrey">{spotlight.principlesLabel}</p>
-              <ul className="flex flex-col gap-2 font-sans text-title text-surface">
+              <ul className="flex flex-col gap-1 font-sans text-title text-surface">
                 {spotlight.principles.map((principle) => (
                   <li key={principle}>{principle}</li>
                 ))}
@@ -54,7 +54,7 @@ export function ProductVisionSpotlight({ spotlight }: { spotlight: CaseStudySpot
                 {spotlight.searchContext.map((column) => (
                   <div key={column.label} className="flex min-w-0 flex-1 flex-col gap-2">
                     <h3 className="font-sans text-title text-surface">{column.label}</h3>
-                    <ul className="flex flex-col gap-2 font-sans text-nav text-surface">
+                    <ul className="flex flex-col gap-1 font-sans text-nav text-surface">
                       {column.items.map((item) => (
                         <li key={item}>{item}</li>
                       ))}

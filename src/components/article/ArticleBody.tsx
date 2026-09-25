@@ -133,7 +133,7 @@ export function ArticleBody({ article }: { article: Article }) {
       {article.tldr && (
         <div className="flex flex-col gap-3 bg-lightergrey p-6 md:col-span-4 md:col-start-1">
           <h2 className="font-sans text-heading-3 text-ink">TL;DR</h2>
-          <ul className="flex flex-col gap-2 font-sans text-body text-ink">
+          <ul className="flex flex-col gap-1 font-sans text-body text-ink">
             {article.tldr.map((item) => (
               <li key={item.label} className="flex gap-2">
                 <span aria-hidden className="text-muted">

@@ -25,7 +25,7 @@ function Column({ column }: { column: LabeledColumn }) {
               <h4 className="font-sans text-nav font-medium text-ink">{item.title}</h4>
               {item.body && <p>{item.body}</p>}
               {item.list && (
-                <ul className="flex flex-col gap-2">
+                <ul className="flex flex-col gap-1">
                   {item.list.map((entry) => (
                     <li key={entry} className="flex gap-2">
                       <span aria-hidden className="text-muted">
@@ -43,7 +43,7 @@ function Column({ column }: { column: LabeledColumn }) {
 
       {column.list &&
         (column.listBoxed ? (
-          <ul className="flex flex-col gap-2 bg-lightergrey p-4">
+          <ul className="flex flex-col gap-1 bg-lightergrey p-4">
             {column.list.map((item) => (
               <li key={item} className="flex gap-2">
                 <span aria-hidden className="text-muted">
@@ -54,7 +54,7 @@ function Column({ column }: { column: LabeledColumn }) {
             ))}
           </ul>
         ) : (
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-1">
             {column.list.map((item) => (
               <li key={item} className="flex gap-2">
                 <span aria-hidden className="text-muted">

@@ -275,6 +275,7 @@ export const loftApp: CaseStudy = {
         {
           title: "User Setup",
           narrowLabel: true,
+          smallTitle: true,
           topics: [
             {
               body: [
@@ -301,6 +302,7 @@ export const loftApp: CaseStudy = {
         {
           title: "Bottom Navigation",
           narrowLabel: true,
+          smallTitle: true,
           topics: [
             {
               body: [
@@ -334,6 +336,7 @@ export const loftApp: CaseStudy = {
         {
           title: "Home Feed",
           narrowLabel: true,
+          smallTitle: true,
           topics: [
             {
               body: [
@@ -357,6 +360,7 @@ export const loftApp: CaseStudy = {
         {
           title: "Property Feedback",
           narrowLabel: true,
+          smallTitle: true,
           topics: [
             {
               body: [

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { ArticleBody } from "@/components/article/ArticleBody";
-import { BackLink } from "@/components/case-study/BackLink";
+import { BackLink, FloatingBackLink } from "@/components/case-study/BackLink";
 import { CaseStudyIntro } from "@/components/case-study/CaseStudyIntro";
 import { Hero } from "@/components/case-study/Hero";
 import { Impact } from "@/components/case-study/Impact";
@@ -26,6 +26,7 @@ export default async function CaseStudyPage({
       <div className="flex flex-col gap-8 md:gap-20">
         <div className="max-md:sticky max-md:top-0 max-md:z-10 max-md:-mx-6 max-md:w-[calc(100%+48px)] max-md:bg-surface max-md:px-6">
           <BackLink href="/" label="Back to Work" />
+          <FloatingBackLink href="/" label="Back to Work" />
         </div>
         {/* Cancels the shared right inset for everything below, same as
             the case-study branch — a `sideImage` section's image bleeds
@@ -62,6 +63,7 @@ export default async function CaseStudyPage({
     <div className="flex flex-col gap-0 md:gap-[88px]">
       <div className="max-md:sticky max-md:top-0 max-md:z-10 max-md:-mx-6 max-md:w-[calc(100%+48px)] max-md:bg-surface max-md:px-6">
         <BackLink href="/" label="Back to Work" />
+        <FloatingBackLink href="/" label="Back to Work" />
       </div>
 
       {/*
