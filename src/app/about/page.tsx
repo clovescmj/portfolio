@@ -12,7 +12,7 @@ const expertiseLeft = [
 ];
 
 const experience = [
-  { years: "2024—2026", company: "QuintoAndar", role: "Staff Product Designer" },
+  { years: "2024—Present", company: "QuintoAndar", role: "Staff Product Designer" },
   { years: "2022—2024", company: "unico IDtech", role: "Senior Product Designer / Design Manager" },
   { years: "2021—2022", company: "Loft", role: "Senior Product Designer" },
   { years: "2021—2021", company: "SumUp", role: "Product Design Specialist" },
