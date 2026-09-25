@@ -140,7 +140,11 @@ function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingL
           {topic.list &&
             (topic.listTwoColumn ? (
               <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
-                {topic.listLabel && <p className="font-sans text-h5 text-ink">{topic.listLabel}</p>}
+                {topic.listLabel && (
+                  <Heading level={itemLevel} variant="h5">
+                    {topic.listLabel}
+                  </Heading>
+                )}
                 {/* Two independent columns (not a grid) so a wrapped item
                     only pushes down items below it in its OWN column —
                     a shared grid row would size both cells to the taller
@@ -164,7 +168,11 @@ function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingL
               </div>
             ) : (
               <div className={`flex flex-col gap-2 ${topic.body ? "mt-4" : ""}`}>
-                {topic.listLabel && <p className="font-sans text-h5 text-ink">{topic.listLabel}</p>}
+                {topic.listLabel && (
+                  <Heading level={itemLevel} variant="h5">
+                    {topic.listLabel}
+                  </Heading>
+                )}
                 <ul className={`flex flex-col gap-1 ${topic.listBoxed ? "bg-lightergrey p-4" : ""}`}>
                   {topic.list.map((item) => (
                     <li key={item} className="flex gap-2">
