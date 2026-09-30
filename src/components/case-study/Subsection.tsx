@@ -6,6 +6,7 @@ import { EmbedFrame } from "./EmbedFrame";
 import { PrototypeHighlight } from "./PrototypeHighlight";
 import { FlowDiagram } from "./FlowDiagram";
 import { StatsGrid } from "./StatsGrid";
+import { SubItemList } from "./SubItemList";
 import { gridPositionClass } from "@/lib/grid-position";
 import { Heading, type HeadingLevel } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
@@ -64,7 +65,7 @@ function MiniGridColumn({
   level: HeadingLevel;
 }) {
   return (
-    <div className={`flex flex-col gap-2 ${column.tag ? "border-2 border-accent p-3" : ""} ${className}`}>
+    <div className={`flex flex-col gap-title ${column.tag ? "border-2 border-accent p-3" : ""} ${className}`}>
       {column.tag && (
         <span className="w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
           {column.tag}
@@ -187,28 +188,7 @@ function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingL
             ))}
 
           {topic.items && (
-            <div className="flex flex-col gap-4">
-              {topic.items.map((item) => (
-                <div key={item.title} className="flex flex-col gap-1">
-                  <Heading level={itemLevel} variant={itemLevel === 4 ? "h4" : "h5"}>
-                    {item.title}
-                  </Heading>
-                  {item.body && <p>{item.body}</p>}
-                  {item.list && (
-                    <ul className="flex flex-col gap-1">
-                      {item.list.map((entry) => (
-                        <li key={entry} className="flex gap-2">
-                          <span aria-hidden className="text-muted">
-                            •
-                          </span>
-                          <span>{entry}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
-            </div>
+            <SubItemList items={topic.items} level={itemLevel} variant={itemLevel === 4 ? "h4" : "h5"} />
           )}
 
           {topic.link && (
@@ -267,7 +247,7 @@ function Topic({
       // (see Loft's Key Findings, where that itself may be a content
       // slip worth double-checking — title alone isn't a safe key).
       key={`${i}-${topic.title ?? ""}`}
-      className={`flex flex-col gap-3 md:col-span-2 ${positionClass} ${topic.tag ? "relative -m-[14px] border-2 border-accent bg-accent/[0.07] p-3" : ""}`}
+      className={`flex flex-col gap-title md:col-span-2 ${positionClass} ${topic.tag ? "relative -m-[14px] border-2 border-accent bg-accent/[0.07] p-3" : ""}`}
     >
         {topic.tag && (
           <span className="absolute -top-[11px] right-3 w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
@@ -330,6 +310,23 @@ function SubsectionBody({
     return (
       <div className="page-grid gap-y-10 md:pr-content">
         <div className="flex flex-col gap-10 md:col-span-2 md:col-start-1">
+          {/* A subsection-level title (Process), as opposed to each
+              topic carrying its own (Adding an attachment, Scaling with
+              AI) — same title+subtitle block the normal path renders,
+              just once, above the topics instead of per-topic. */}
+          {title && (
+            <div className="flex flex-col gap-title">
+              <Heading level={titleLevel} variant="h3" id={headingId(title)}>
+                {title}
+              </Heading>
+              {subsection.subtitle && (
+                <Heading level={Math.min(titleLevel + 1, 6) as HeadingLevel} variant="h5">
+                  {subsection.subtitle}
+                </Heading>
+              )}
+            </div>
+          )}
+
           {topics.map((topic, i) => {
             // Each titled topic is its own subsection of the group.
             const Root = topic.title ? "section" : "div";
@@ -337,7 +334,7 @@ function SubsectionBody({
               <Root
                 key={`${i}-${topic.title ?? ""}`}
                 aria-labelledby={topic.title ? headingId(topic.title) : undefined}
-                className="flex flex-col gap-3"
+                className="flex flex-col gap-title"
               >
                 {topic.title && (
                   <Heading level={topicLevel} variant="h3" id={headingId(topic.title)}>
@@ -367,15 +364,27 @@ function SubsectionBody({
             <figure
               className={`flex flex-col gap-2 ${WIDE_SPAN_CLASSES[wideImageSpan ?? 4]} md:col-start-3 md:row-start-1`}
             >
-              {/* Figma crops this one to fill its column (object-cover), not
-                  the image's own natural aspect ratio — confirmed via
-                  get_metadata (the source image is wider than its frame and
-                  offset negative-x, i.e. cropped, not letterboxed). */}
-              <div className="px-14">
-                <div className="relative aspect-[656/707.5] w-full overflow-hidden">
-                  <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)" src={assetPath(wideImage.src)} alt={wideImage.alt} fill className="object-cover" />
+              {wideImage.width && wideImage.height ? (
+                // Full width of the slot, at the image's own ratio — no crop.
+                <Image
+                  sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
+                  src={assetPath(wideImage.src)}
+                  alt={wideImage.alt}
+                  width={wideImage.width}
+                  height={wideImage.height}
+                  className="h-auto w-full"
+                />
+              ) : (
+                // Figma crops this one to fill its column (object-cover), not
+                // the image's own natural aspect ratio — confirmed via
+                // get_metadata (the source image is wider than its frame and
+                // offset negative-x, i.e. cropped, not letterboxed).
+                <div className="px-14">
+                  <div className="relative aspect-[656/707.5] w-full overflow-hidden">
+                    <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)" src={assetPath(wideImage.src)} alt={wideImage.alt} fill className="object-cover" />
+                  </div>
                 </div>
-              </div>
+              )}
             </figure>
           )
         )}
@@ -405,11 +414,16 @@ function SubsectionBody({
       {hasSectionContent && (
         <div className="page-grid gap-y-10 md:pr-content">
         <div
-          className={`flex flex-col gap-1 max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel && !narrowLabel ? "md:col-span-2" : "md:col-span-1"}`}
+          className={`flex flex-col gap-title max-md:-mb-7 md:col-start-1 md:row-start-1 ${wideLabel && !narrowLabel ? "md:col-span-2" : "md:col-span-1"}`}
         >
           {title && (
             <Heading level={titleLevel} variant={sectionTitle ? "h2" : "h3"} id={headingId(title)}>
               {title}
+            </Heading>
+          )}
+          {subsection.subtitle && (
+            <Heading level={Math.min(titleLevel + 1, 6) as HeadingLevel} variant="h5">
+              {subsection.subtitle}
             </Heading>
           )}
           {titleLink && (

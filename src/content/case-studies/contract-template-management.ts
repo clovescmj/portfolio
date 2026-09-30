@@ -16,52 +16,109 @@ export const contractTemplateManagement: CaseStudy = {
     alt: "Contract Template Management, versions list screen"
   },
   intro: [
-    "Rental contract and attachment templates at QuintoAndar carried compliance debt, and reducing it was our OKR. A rental contract is generated from a base template, plus attachments for what was negotiated, such as property improvements or item removal. Two teams work on that step: Legal, who owns the content, and Operations analysts, who negotiate day to day and turn each agreement into an attachment. I designed an internal platform that puts both template types under Legal's control, with every change tracked and attachments locked to their variables.",
-    "This was part of QuintoAndar's IPO compliance program. I led design as Staff Product Designer in FR Transact (Q3 2026), working with one PM and five engineers over three months."
+    "In 2026, QuintoAndar was preparing for its IPO and needed to eliminate compliance risks built up over the years. My team, FR Transact, handled rental transactions from offer to contract signing, and one of the risks we owned was how contract and attachment templates were managed. Reducing it was one of our OKRs for H2 2026.",
+    "Legal waited 4 to 6 weeks for engineering to publish any template change, while analysts manually edited the legal text of attachments on 8% of all contracts, with no permissions or audit trail.",
+    "This initiative set out to give Legal autonomy over templates, give Operations a simpler and safer way to create attachments, and make every change traceable."
   ],
   rowGap: 72,
   sections: [
     {
       kind: "columns",
-      title: "Problem",
+      title: "My Role",
+      subtitle: "I was the Staff Product Designer on this initiative, leading design from discovery through delivery and working closely with legal, operations and engineering along the way.",
       columns: [
         {
-          paragraphs: [
-            "The rental contract template itself was authored in Google Docs, then hand-coded into HTML by an engineer and saved to an internal service. Every new contract pulled that template and filled it with the real deal data. Any change to the legal text, a clause edit or a compliance update, meant asking an engineer to rewrite and redeploy the template by hand. That took 4 to 6 weeks per change, even though the content itself belonged to legal."
+          heading: "Main responsibilities",
+          list: [
+            "Mapping legal and operations workflows, pain points and workarounds.",
+            "Consolidating and sharing findings with the team.",
+            "Defining and designing the solution."
           ]
         },
         {
-          paragraphs: [
-            "The bigger risk was the attachment. To formalize a negotiation, an analyst logged the deal details in a spreadsheet, pulled a text template from Google Docs, and pasted it into a legacy internal contract generation tool. There, the analyst could rewrite the legal content of an attachment however they wanted. No permissioning, no audit trail, on 8% of all contracts created."
+          list: [
+            "Building prototypes and validating them with stakeholders.",
+            "Handing off to engineering and following implementation through launch."
           ]
         }
       ],
       divider: "dark"
     },
     {
-      kind: "columns",
+      kind: "chapter",
       title: "Understanding",
-      subtitle: "Findings from interviews with Legal and Ops teams.",
-      columns: [
+      labelWidth: "wide",
+      divider: "dark",
+      subsections: [
         {
-          items: [
+          title: "Process",
+          subtitle: "The Legal and Operations teams play a key role in contract templates management, but they were working with processes and tools that didn't support them.",
+          topics: [],
+          stacked: {
+            image: {
+              src: "/images/projects/contract-template-management/process-old.png",
+              alt: "The old contract and attachment version creation process, from a Google Docs edit through hand-coded HTML to rollout",
+              width: 656,
+              height: 458
+            },
+            span: 4
+          }
+        },
+        {
+          title: "Pain Points",
+          subtitle: "Findings from interviews with Legal and Ops teams.",
+          topics: [
             {
               title: "For Legal team",
               list: [
                 "They felt a lack of autonomy, since every version change depended on Engineering, a lack of auditability and a lack of standardization. The last two map directly to compliance.",
                 "Also, because attachments were being edited by hand, they feared that something could end up exposing the company legally."
               ]
-            }
-          ]
-        },
-        {
-          items: [
+            },
             {
               title: "For Operations team",
               list: [
                 "Bureaucratic and manual processes, spread across parallel tools, could lead them to errors that would end up registered in the contract.",
                 "They said they need the freedom to edit attachments, because every negotiation has details a standard template can't cover. That freedom was exactly what created the risk the initiative had to close."
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      kind: "columns",
+      title: "Problem",
+      columns: [
+        {
+          items: [
+            {
+              title: "Legal depends on engineering",
+              body: "Legal owns the content but can't edit it, every change needs an engineer to rewrite and redeploy the HTML."
+            },
+            {
+              title: "Manual, error-prone handoff",
+              body: "Moving text from Google Docs to hand-coded HTML creates room for mistakes in the legal wording, so every change needed extensive testing before release."
+            },
+            {
+              title: "Slow updates",
+              body: "Each change took 4 to 6 weeks and had to compete with the rest of engineering's priorities, leaving compliance fixes and clause updates waiting in line."
+            }
+          ]
+        },
+        {
+          items: [
+            {
+              title: "Uncontrolled editing of legal content",
+              body: "Analysts can rewrite attachment clauses freely, with no permissioning."
+            },
+            {
+              title: "Fragmented, manual process",
+              body: "Analysts juggle a spreadsheet, Google Docs and a legacy tool to produce a single attachment."
+            },
+            {
+              title: "No audit trail",
+              body: "There's no record of who changed what, which is a serious gap for a company heading into an IPO."
             }
           ]
         }

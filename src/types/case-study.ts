@@ -207,7 +207,10 @@ export interface MiniGrid {
  * Mapping"). Presence of this object selects that layout.
  */
 export interface StackedLayout {
-  image?: { src: string; alt: string };
+  /** `width`/`height` render the image at its own aspect ratio, full width
+   *  of the slot (no crop) — omit them to get the default 656/707.5
+   *  object-cover crop Contract's "Adding an attachment" measures. */
+  image?: { src: string; alt: string; width?: number; height?: number };
   embed?: { src: string; title: string };
   /** Columns the wide slot spans: 4 by default (Contract), 3 for Claims. */
   span?: 3 | 4;
@@ -221,6 +224,9 @@ export interface StackedLayout {
  */
 export interface Subsection {
   title?: string;
+  /** A smaller heading under `title`, in the same label column — Contract's
+   *  "Pain Points" / "Findings from interviews with Legal and Ops teams." */
+  subtitle?: string;
   /** A link under the title, e.g. "View prototype". */
   link?: { label: string; href: string };
   layout?: SubsectionLayout;

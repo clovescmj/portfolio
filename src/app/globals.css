@@ -196,6 +196,14 @@
   gap: clamp(36px, 4.444vw, 64px);
 }
 
+/* Gap between a title (Heading) and the text/list directly under it —
+   every title block in a case study, so this one value is what keeps
+   "Process", "Pain Points", "My Role", "Problem"'s items etc. all reading
+   as the same pattern instead of drifting per call site. */
+@utility gap-title {
+  gap: 8px;
+}
+
 /* Cancels the scroll area's left and right inset, then puts the left one
    back, so full-bleed blocks (hero, highlights) can reach the right edge
    while text keeps the left margin. Blocks that want the right inset back
