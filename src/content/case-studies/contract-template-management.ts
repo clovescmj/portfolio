@@ -16,9 +16,8 @@ export const contractTemplateManagement: CaseStudy = {
     alt: "Contract Template Management, versions list screen"
   },
   intro: [
-    "Rental contract and attachment templates at QuintoAndar carried compliance debt, and reducing it was our OKR. Legal owned the content but depended on Engineering to publish any change, with no record of who changed what, while analysts rewrote attachment text by hand in a legacy editor. I designed an internal platform that puts both template types under Legal's control, with every change tracked and attachments locked to their variables.",
-    "A rental contract is generated from a base template, plus attachments for what was negotiated, such as property improvements or item removal. Two teams work on that step: Legal, who owns the content, and Operations analysts, who negotiate day to day and turn each agreement into an attachment.",
-    "This was part of QuintoAndar's IPO compliance program. I led design as Staff Product Designer in FR Transact (Q3 2026), working with one PM and five engineers over three months. The RFC was reviewed and approved before build started."
+    "Rental contract and attachment templates at QuintoAndar carried compliance debt, and reducing it was our OKR. A rental contract is generated from a base template, plus attachments for what was negotiated, such as property improvements or item removal. Two teams work on that step: Legal, who owns the content, and Operations analysts, who negotiate day to day and turn each agreement into an attachment. I designed an internal platform that puts both template types under Legal's control, with every change tracked and attachments locked to their variables.",
+    "This was part of QuintoAndar's IPO compliance program. I led design as Staff Product Designer in FR Transact (Q3 2026), working with one PM and five engineers over three months."
   ],
   rowGap: 72,
   sections: [
