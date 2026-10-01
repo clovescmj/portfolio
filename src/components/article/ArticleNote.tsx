@@ -1,11 +1,11 @@
 "use client";
 
 import { TransitionLink } from "@/components/layout/TransitionLink";
-import type { Article } from "@/types/article";
+import type { ArticlePage } from "@/types/work";
 
 /** A small callout above an article's body — same fade-transition
  *  navigation as BackLink/Sidebar for its link, not a plain <a>. */
-export function ArticleNote({ note }: { note: NonNullable<Article["note"]> }) {
+export function ArticleNote({ note }: { note: NonNullable<ArticlePage["note"]> }) {
   return (
     <aside className="flex flex-col gap-1 border-l-2 border-lightgrey pl-4">
       <p className="font-sans text-caption text-muted">{note.text}</p>

@@ -9,11 +9,10 @@ import { Impact } from "@/components/case-study/Impact";
 import { Chapter } from "@/components/case-study/Chapter";
 import { ColumnsSection } from "@/components/case-study/ColumnsSection";
 import { ProductVisionSpotlight } from "@/components/case-study/ProductVisionSpotlight";
-import { articles } from "@/content/articles";
-import { caseStudies } from "@/content/case-studies";
+import { workEntries, workEntriesBySlug } from "@/content/work";
 
 export function generateStaticParams() {
-  return [...Object.keys(caseStudies), ...Object.keys(articles)].map((slug) => ({ slug }));
+  return workEntries.map((entry) => ({ slug: entry.slug }));
 }
 
 export default async function CaseStudyPage({
@@ -22,8 +21,10 @@ export default async function CaseStudyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = articles[slug];
-  if (article) {
+  const entry = workEntriesBySlug[slug];
+  if (!entry) notFound();
+
+  if (entry.kind === "article") {
     return (
       <article className="flex flex-col gap-8 md:gap-20">
         <div className="max-md:sticky max-md:top-0 max-md:z-10 max-md:-mx-6 max-md:w-[calc(100%+48px)] max-md:bg-surface max-md:px-6">
@@ -35,7 +36,7 @@ export default async function CaseStudyPage({
             to this true right edge; everything else adds its own
             `pr-content` back in ArticleBody. */}
         <Bleed>
-          <ArticleBody article={article} />
+          <ArticleBody entry={entry} />
           <div className="mt-[72px] flex flex-col gap-[72px] md:pr-content">
             <hr className="border-ink" />
             <MoreWork currentSlug={slug} />
@@ -45,13 +46,12 @@ export default async function CaseStudyPage({
     );
   }
 
-  const caseStudy = caseStudies[slug];
-  if (!caseStudy) notFound();
+  const { page } = entry;
 
   // Both case studies use a 72px rhythm between top-level ("mãe") blocks
   // at desktop width, divider or not (the divider itself is a 0-height
   // line, so a "divided" gap is just two of these back to back) — see the
-  // note on `CaseStudy.rowGap`. Scales down proportionally below that
+  // note on `CaseStudyPage.rowGap`. Scales down proportionally below that
   // (not a hard breakpoint jump) via `clamp()`, floored at a bit over
   // half the desktop value; the vw coefficient is derived from `rowGap`
   // itself so it still lands exactly on `rowGap` at the 1440px desktop
@@ -60,7 +60,7 @@ export default async function CaseStudyPage({
   // rather than hardcoded, in case a future case study measures
   // differently; the JIT-unfriendly arbitrary value is why this is a
   // style prop instead of a `gap-*` class.
-  const rowGap = caseStudy.rowGap ?? 72;
+  const rowGap = page.rowGap ?? 72;
   const rowGapMin = Math.round(rowGap * 0.56);
   const rowGapVw = ((rowGap / 1440) * 100).toFixed(3);
   const rowGapStyle = { gap: `clamp(${rowGapMin}px, ${rowGapVw}vw, ${rowGap}px)` };
@@ -83,16 +83,16 @@ export default async function CaseStudyPage({
       */}
       <Bleed className="flex flex-col" style={rowGapStyle}>
         <header className="flex flex-col gap-8 md:gap-12">
-          <Hero image={caseStudy.heroImage} />
+          <Hero image={page.heroImage} />
           <CaseStudyIntro
-            title={caseStudy.title}
-            client={caseStudy.client}
-            tags={caseStudy.tags}
-            paragraphs={caseStudy.intro}
+            title={entry.title}
+            client={entry.client}
+            tags={entry.tags}
+            paragraphs={page.intro}
           />
         </header>
 
-        {caseStudy.sections.flatMap((section, i) => {
+        {page.sections.flatMap((section, i) => {
           // A divider is a plain sibling in this same flex column, not nested
           // inside its section's wrapper: that's what makes the gap on both
           // sides of it match the ungapped rhythm everywhere else, instead

@@ -293,26 +293,8 @@ export interface ImpactSection {
   groups?: { label: string; stats?: StatsBlock; topics?: FeatureBlock[] }[];
 }
 
-/** Everything a case study page is made of, in reading order. */
+/** Everything a case study page is made of, in reading order. The full page
+ *  shape (slug/title/client/tags + this) is `CaseStudyPage` in
+ *  `@/types/work` — see the note on `WorkEntry` for why those live there
+ *  instead of here. */
 export type Section = ColumnsSection | Chapter | SpotlightSection | ImpactSection;
-
-/**
- * A full project case study page (src/app/work/[slug]/page.tsx): a header
- * (hero + intro) followed by sections, each rendered as a `<section>` with
- * its own subsections nested inside.
- */
-export interface CaseStudy {
-  slug: string;
-  title: string;
-  client: string;
-  tags: string[];
-  heroImage: {
-    src: string;
-    alt: string;
-    desktopAspect?: "wide" | "portrait";
-  };
-  intro: string[];
-  /** Space between sections at the 1440px desktop width (72px by default). */
-  rowGap?: number;
-  sections: Section[];
-}

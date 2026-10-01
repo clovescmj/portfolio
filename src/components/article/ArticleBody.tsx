@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { assetPath } from "@/lib/asset-path";
-import { projects } from "@/content/projects";
-import type { Article, ArticleBlock, ArticleSection } from "@/types/article";
+import type { ArticleBlock, ArticleSection } from "@/types/article";
+import type { WorkEntry } from "@/types/work";
 import { ArticleNote } from "./ArticleNote";
 import { Heading } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
@@ -138,16 +138,8 @@ function SideImageSection({ section, id }: { section: ArticleSection; id: string
  * Figma-node-by-node grid: only the one layout Clóves actually asked
  * for (side image) is modeled, not a general-purpose positioning system.
  */
-export function ArticleBody({ article }: { article: Article }) {
-  // Title, client and tags come from this article's own Work card (the
-  // single source both places read from) when it has one, so the two
-  // can't drift apart the way they once did (this article's own copy of
-  // its tags didn't match the card's, and its title carried an extra
-  // "Comms Map:" prefix the card never had).
-  const project = projects.find((p) => p.slug === article.slug);
-  const title = project?.title ?? article.title;
-  const client = project?.client ?? article.company;
-  const tags = project ? project.tags.join(", ") : article.role;
+export function ArticleBody({ entry }: { entry: Extract<WorkEntry, { kind: "article" }> }) {
+  const { title, client, tags, page } = entry;
 
   return (
     <div className="grid grid-cols-1 gap-y-10 md:grid-cols-6 md:gap-x-gutter md:gap-y-12">
@@ -155,24 +147,24 @@ export function ArticleBody({ article }: { article: Article }) {
         <p className="font-sans text-caption text-muted">Article</p>
         <Heading level={1} variant="h1" className="break-words">{title}</Heading>
         <p className="font-sans text-caption text-ink">
-          <span className="font-bold">{client}</span> | {tags}
+          <span className="font-bold">{client}</span> | {tags.join(", ")}
         </p>
-        {article.lead && <p className="font-sans text-h3 text-ink italic">{article.lead}</p>}
+        {page.lead && <p className="font-sans text-h3 text-ink italic">{page.lead}</p>}
       </header>
 
       <hr className="border-ink md:col-span-6" />
 
-      {article.note && (
+      {page.note && (
         <div className="md:col-span-4 md:col-start-1">
-          <ArticleNote note={article.note} />
+          <ArticleNote note={page.note} />
         </div>
       )}
 
-      {article.tldr && (
+      {page.tldr && (
         <div className="flex flex-col gap-title bg-lightergrey p-6 md:col-span-4 md:col-start-1">
           <Heading level={2} variant="h4">TL;DR</Heading>
           <ul className="flex flex-col gap-1 font-sans text-body text-ink">
-            {article.tldr.map((item) => (
+            {page.tldr.map((item) => (
               <li key={item.label} className="flex gap-2">
                 <span aria-hidden className="text-muted">
                   •
@@ -186,7 +178,7 @@ export function ArticleBody({ article }: { article: Article }) {
         </div>
       )}
 
-      {article.sections.map((section, i) =>
+      {page.sections.map((section, i) =>
         section.sideImage ? (
           <SideImageSection key={section.heading ?? i} section={section} id={section.heading ?? i} />
         ) : (

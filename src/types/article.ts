@@ -30,24 +30,6 @@ export interface ArticleSection {
   sideImage?: boolean;
 }
 
-export interface Article {
-  slug: string;
-  /** Title, client and tags normally come from this article's own entry
-   *  in `content/projects.ts` (the same ones its Work card shows) — see
-   *  ArticleBody. These are only a fallback for an article with no
-   *  matching project card (none currently registered have one). */
-  title?: string;
-  company?: string;
-  role?: string;
-  /** An italicized one-line summary under the title — the Notion source's
-   *  own lead sentence, e.g. "As design manager, I built and ran a
-   *  development plan...". */
-  lead?: string;
-  /** A small callout above the body — Fixing UI Debt's note that it
-   *  follows the Contract Template Management case, with a link back to it. */
-  note?: { text: string; link?: { label: string; href: string } };
-  /** Career Development Plan's TL;DR aside: a short labeled list read
-   *  before the full body. */
-  tldr?: { label: string; body: string }[];
-  sections: ArticleSection[];
-}
+/** A full article page's content (slug/title/client/tags + this) is
+ *  `ArticlePage` in `@/types/work` — see the note on `WorkEntry` for why
+ *  those live there instead of here. */
