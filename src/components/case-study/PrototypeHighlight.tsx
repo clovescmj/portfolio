@@ -12,7 +12,7 @@ import { headingId } from "@/lib/heading-id";
  */
 export function PrototypeHighlight({ title, embed }: { title?: string; embed: CaseStudyEmbed }) {
   return (
-    <HighlightBlock background="bg-placeholder" labelledBy={title ? headingId(title) : undefined}>
+    <HighlightBlock tone="light" labelledBy={title ? headingId(title) : undefined}>
       <div className="flex flex-col gap-4 md:gap-6">
         {title && (
           <Heading level={3} variant="h3" id={headingId(title)}>

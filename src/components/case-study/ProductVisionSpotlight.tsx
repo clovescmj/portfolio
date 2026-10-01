@@ -30,7 +30,7 @@ import { headingId } from "@/lib/heading-id";
  */
 export function ProductVisionSpotlight({ spotlight }: { spotlight: SpotlightSection }) {
   return (
-    <HighlightBlock background="bg-ink" labelledBy={headingId(spotlight.title)}>
+    <HighlightBlock tone="dark" labelledBy={headingId(spotlight.title)}>
       <div className="page-grid gap-y-8">
         <div className="flex flex-col gap-8 md:col-span-4 md:gap-[134px]">
           <div className="flex flex-col gap-6">

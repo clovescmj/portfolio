@@ -133,7 +133,7 @@ export function Carousel({ slides, title }: { slides: CaseStudySlide[]; title?: 
   const activeTitle = slides[index]?.title ?? title;
 
   return (
-    <HighlightBlock background="bg-placeholder">
+    <HighlightBlock tone="light">
       <div className="flex flex-col gap-4 md:gap-6">
         {(activeTitle || hasMultiple) && (
           <div className="flex items-center justify-between gap-4">

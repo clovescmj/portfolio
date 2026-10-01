@@ -54,7 +54,7 @@ function Section({ section, id }: { section: ArticleSection; id: string | number
     <Root
       key={id}
       aria-labelledby={section.heading ? headingId(section.heading) : undefined}
-      className="flex flex-col gap-4 md:col-span-4 md:col-start-1"
+      className="flex flex-col gap-title md:col-span-4 md:col-start-1"
     >
       {section.heading && (
         <Heading level={2} variant="h4" id={headingId(section.heading)}>
@@ -83,7 +83,7 @@ function SideImageSection({ section, id }: { section: ArticleSection; id: string
       <section
         key={`${id}-text`}
         aria-labelledby={section.heading ? headingId(section.heading) : undefined}
-        className="flex flex-col gap-4 md:col-span-2 md:col-start-1"
+        className="flex flex-col gap-title md:col-span-2 md:col-start-1"
       >
         {section.heading && (
           <Heading level={2} variant="h4" id={headingId(section.heading)}>
@@ -158,7 +158,7 @@ export function ArticleBody({ article }: { article: Article }) {
       )}
 
       {article.tldr && (
-        <div className="flex flex-col gap-3 bg-lightergrey p-6 md:col-span-4 md:col-start-1">
+        <div className="flex flex-col gap-title bg-lightergrey p-6 md:col-span-4 md:col-start-1">
           <Heading level={2} variant="h4">TL;DR</Heading>
           <ul className="flex flex-col gap-1 font-sans text-body text-ink">
             {article.tldr.map((item) => (
