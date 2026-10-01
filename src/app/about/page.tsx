@@ -156,15 +156,17 @@ export default function AboutPage() {
           </blockquote>
         </section>
 
-      {/*  <hr className="border-ink" />
+        <hr className="border-ink" />
 
-        <div className="page-grid gap-y-10 md:gap-y-8 md:pr-content">
-          <Heading level={2} variant="h2" className="md:col-span-1 md:col-start-1">Beyond Work</Heading>
+        <section aria-labelledby={headingId("Beyond Work")} className="page-grid gap-title md:pr-content">
+          <Heading level={2} variant="h2" id={headingId("Beyond Work")} className="md:col-span-1 md:col-start-1">
+            Beyond Work
+          </Heading>
           <p className="font-sans text-body text-ink md:col-span-2 md:col-start-2">
-            You&rsquo;ll find me being a dad, going to shows, running my small batch music label, and designing artwork
-            for bands.
+            You&rsquo;ll find me being a dad, going to shows, running my small batch music label, and designing
+            artwork for bands.
           </p>
-        </div>*/}
+        </section>
       </Bleed>
     </article>
   );
