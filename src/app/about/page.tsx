@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { assetPath } from "@/lib/asset-path";
+import { Bleed } from "@/components/ui/Bleed";
 import { Heading } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
 
@@ -26,7 +27,7 @@ export default function AboutPage() {
     <article className="flex flex-col md:gap-[54px]">
       <PageHeader title="About me" />
 
-      <div className="mt-10 flex flex-col gap-12 md:mt-0 bleed-content">
+      <Bleed className="mt-10 flex flex-col gap-12 md:mt-0">
         <div className="page-grid gap-y-10 md:gap-y-8 md:pr-content">
           <p className="font-sans text-h3 text-ink md:col-span-2 md:col-start-1">
             With over 10 years of experience designing digital products, I bring a unique blend of hands-on design
@@ -152,7 +153,7 @@ export default function AboutPage() {
             for bands.
           </p>
         </div>*/}
-      </div>
+      </Bleed>
     </article>
   );
 }

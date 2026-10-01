@@ -1,3 +1,4 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import type { ElementType, ReactNode } from "react";
 
 /**
@@ -14,46 +15,51 @@ import type { ElementType, ReactNode } from "react";
  *   h3  24px  group inside a section (MVP, Release Plan, User Setup...)
  *   h4  18px  subtitle (Usage Data, Main Flows & Features...)
  *   h5  16px  item title or list label (Goals, Effective Team Integration...)
+ *
+ * Built on `cva`: a variant map is exactly what this always was
+ * (`Record<Variant, string>` + a typed prop), `cva` just gives that pattern
+ * a standard shape — the same one every other variant-bearing component in
+ * this file's family (`EmbedFrame`, `HighlightBlock`, `WorkCard`...) uses.
  */
-export type HeadingVariant = "h1" | "h2" | "h3" | "h4" | "h5";
+const heading = cva("font-sans", {
+  variants: {
+    variant: {
+      h1: "text-h1",
+      h2: "text-h2",
+      h3: "text-h3",
+      h4: "text-h4",
+      h5: "text-h5",
+    },
+    tone: {
+      ink: "text-ink",
+      surface: "text-surface",
+    },
+  },
+  defaultVariants: { tone: "ink" },
+});
+
+export type HeadingVariant = NonNullable<VariantProps<typeof heading>["variant"]>;
 
 /** HTML heading level, i.e. the document outline. Never skip a level. */
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
-// Full class names, not built from the variant string: Tailwind only
-// generates classes it can find as literals in the source.
-const VARIANT_CLASS: Record<HeadingVariant, string> = {
-  h1: "text-h1",
-  h2: "text-h2",
-  h3: "text-h3",
-  h4: "text-h4",
-  h5: "text-h5",
-};
-
-const TONE_CLASS = {
-  ink: "text-ink",
-  surface: "text-surface",
-} as const;
-
 export function Heading({
   level,
   variant,
-  tone = "ink",
+  tone,
   className = "",
   id,
   children,
 }: {
   level: HeadingLevel;
-  variant: HeadingVariant;
-  tone?: keyof typeof TONE_CLASS;
   className?: string;
   /** Set when a `<section aria-labelledby>` points at this heading. */
   id?: string;
   children: ReactNode;
-}) {
+} & VariantProps<typeof heading>) {
   const Tag = `h${level}` as ElementType;
   return (
-    <Tag id={id} className={`font-sans ${VARIANT_CLASS[variant]} ${TONE_CLASS[tone]} ${className}`.trim()}>
+    <Tag id={id} className={`${heading({ variant, tone })} ${className}`.trim()}>
       {children}
     </Tag>
   );

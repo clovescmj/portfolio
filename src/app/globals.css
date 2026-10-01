@@ -1,15 +1,34 @@
 @import "tailwindcss";
 
 /*
- * Design tokens, extracted from the Figma file (Portfolio 2026).
- * Every value here becomes a Tailwind utility automatically:
+ * Design tokens, extracted from the Figma file (Portfolio 2026), in three
+ * tiers (the standard split for a token system — see
+ * docs/architecture.md#tokens for the full rationale):
+ *
+ *   1. BASE      raw values with no meaning of their own (a hex, a px
+ *                number). Referenced by semantic tokens, almost never by a
+ *                component directly.
+ *   2. SEMANTIC  tokens named by the ROLE they play (`--color-ink`,
+ *                `--spacing-title-gap`, `--text-h3`), not by their value.
+ *                This is what components and content actually consume —
+ *                everything in this file's `@theme` block.
+ *   3. COMPONENT scoped, component-local values that aren't reusable
+ *                enough to deserve a semantic name (a crop offset, a
+ *                device-bezel radius). These stay as inline arbitrary
+ *                values in that one component, with a comment — they are
+ *                the explicit escape hatch, not a failure to tokenize.
+ *
+ * Every semantic token below becomes a Tailwind utility automatically:
  * --color-ink      -> bg-ink / text-ink / border-ink
  * --font-sans      -> font-sans
  * --spacing-gutter -> p-gutter / gap-gutter / px-gutter ...
- * --text-h3     -> text-h3 (size + line-height + tracking + weight)
+ * --text-h3        -> text-h3 (size + line-height + tracking + weight)
  * --shadow-card    -> shadow-card
  *
- * Change a value here and every component using that token updates.
+ * Change a value here and every component using that token updates. If a
+ * value feels like it wants to be a token but is only used once, it
+ * probably belongs at tier 3 instead — adding it here is a promise that
+ * other components will reuse it.
  */
 @theme {
   /* Colors */
@@ -48,6 +67,12 @@
   /* Column gap of the case-study / article / about 6-column grid. The work
      page uses --spacing-gutter (24px) instead, per its own Figma frame. */
   --spacing-column: 32px;
+  /* Title → its own body/list, inside one title block. */
+  --spacing-title-gap: 8px;
+  /* Between sibling title blocks in the same list/column — one step up
+     from --spacing-title-gap, the same role --spacing-subsection plays
+     one level up (between whole subsections instead). */
+  --spacing-block-gap: 32px;
 
   /* Shadow (Drop Shadow/400 in the Figma library) */
   --shadow-card:
@@ -199,9 +224,15 @@
 /* Gap between a title (Heading) and the text/list directly under it —
    every title block in a case study, so this one value is what keeps
    "Process", "Pain Points", "My Role", "Problem"'s items etc. all reading
-   as the same pattern instead of drifting per call site. */
+   as the same pattern instead of drifting per call site. Semantic tokens
+   (not plain Tailwind `gap-*` numbers) on purpose: `gap-2`/`gap-8` says
+   nothing about WHY that's the value, so the next person touching a
+   title block has no reason not to reach for a different number. */
 @utility gap-title {
-  gap: 8px;
+  gap: var(--spacing-title-gap);
+}
+@utility gap-block {
+  gap: var(--spacing-block-gap);
 }
 
 /* Cancels the scroll area's left and right inset, then puts the left one

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Bleed } from "@/components/ui/Bleed";
 import { ArticleBody } from "@/components/article/ArticleBody";
 import { MoreWork } from "@/components/work/MoreWork";
 import { BackLink, FloatingBackLink } from "@/components/case-study/BackLink";
@@ -33,13 +34,13 @@ export default async function CaseStudyPage({
             the case-study branch — a `sideImage` section's image bleeds
             to this true right edge; everything else adds its own
             `pr-content` back in ArticleBody. */}
-        <div className="bleed-content">
+        <Bleed>
           <ArticleBody article={article} />
           <div className="mt-[72px] flex flex-col gap-[72px] md:pr-content">
             <hr className="border-ink" />
             <MoreWork currentSlug={slug} />
           </div>
-        </div>
+        </Bleed>
       </article>
     );
   }
@@ -80,7 +81,7 @@ export default async function CaseStudyPage({
         Direct children are the header and then one <section> per chapter
         (with <hr> dividers between), all separated by the page rhythm.
       */}
-      <div className="flex flex-col bleed-content" style={rowGapStyle}>
+      <Bleed className="flex flex-col" style={rowGapStyle}>
         <header className="flex flex-col gap-8 md:gap-12">
           <Hero image={caseStudy.heroImage} />
           <CaseStudyIntro
@@ -117,7 +118,7 @@ export default async function CaseStudyPage({
         <div className="md:pr-content">
           <MoreWork currentSlug={slug} />
         </div>
-      </div>
+      </Bleed>
     </article>
   );
 }
