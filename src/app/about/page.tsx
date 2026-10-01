@@ -30,7 +30,7 @@ export default function AboutPage() {
       <Bleed className="mt-10 flex flex-col gap-12 md:mt-0">
         <div className="page-grid gap-y-10 md:gap-y-8 md:pr-content">
           <p className="font-sans text-h3 text-ink md:col-span-2 md:col-start-1">
-            With over 12 years of experience designing digital products, I bridge high-quality craft and strategic business impact.
+            With over 12 years of experience designing digital products, I bridge high-quality design craft and strategic business impact.
           </p>
           <ul className="flex list-disc flex-col gap-1 pl-[22px] font-sans text-body text-ink md:col-span-2 md:col-start-3">
             {expertiseLeft.map((item) => (
