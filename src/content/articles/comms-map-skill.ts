@@ -4,7 +4,7 @@ export const commsMapSkill: Article = {
   slug: "comms-map-skill",
   title: "Comms Map: Building a Skill for Communications Visibility",
   company: "QuintoAndar",
-  role: "Operational Efficiency, Compliance, UI Design, Systems Thinking",
+  role: "AI Tooling, Internal Tools, Workflow Automation",
   sections: [
     {
       heading: "Rules Nobody Could See",
