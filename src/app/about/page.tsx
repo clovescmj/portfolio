@@ -6,7 +6,7 @@ import { Heading } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
 
 const expertiseLeft = [
-  "Lead design initiatives across multiple products and teams, setting direction for systems other teams build on and adopt.",
+  "Lead design initiatives across multiple products and teams.",
   "Partner directly with product and engineering to turn ambiguous problems into a plan the team can execute.",
   "Bring AI into design workflows to make production repeatable at scale.",
   "Craft visually compelling interfaces and high-fidelity prototypes.",
