@@ -53,79 +53,91 @@ export default function AboutPage() {
 
           <section
             aria-labelledby={headingId("Achievements")}
-            className="flex flex-col md:col-span-2 md:col-start-1 md:row-start-1"
+            className="flex flex-col gap-title md:col-span-2 md:col-start-1 md:row-start-1"
           >
-            <Heading level={2} variant="h2" id={headingId("Achievements")} className="mb-10 md:mb-6">
+            <Heading level={2} variant="h2" id={headingId("Achievements")}>
               Achievements
             </Heading>
 
-            <section aria-labelledby={headingId("Loft")} className="flex flex-col gap-title">
-              <Heading level={3} variant="h4" id={headingId("Loft")}>
-                Loft
-              </Heading>
-              <p className="font-sans text-body text-ink">
-                I led the design of the Loft app from the ground up (0-1), achieving a{" "}
-                <span className="font-bold">4-star rating</span> and becoming the{" "}
-                <span className="font-bold">top-downloaded app</span> in the &ldquo;Lifestyle&rdquo; and &ldquo;Home
-                Decor&rdquo; categories on both the App Store and Play Store within the{" "}
-                <span className="font-bold">first three months after launch</span>.
-              </p>
-            </section>
+            {/* gap-block between entries, gap-title (above) between the
+                section title and this whole list — not one flat margin
+                doing both jobs at different sizes per entry. */}
+            <div className="flex flex-col gap-block">
+              <section aria-labelledby={headingId("Loft")} className="flex flex-col gap-title">
+                <Heading level={3} variant="h4" id={headingId("Loft")}>
+                  Loft
+                </Heading>
+                <p className="font-sans text-body text-ink">
+                  I led the design of the Loft app from the ground up (0-1), achieving a{" "}
+                  <span className="font-bold">4-star rating</span> and becoming the{" "}
+                  <span className="font-bold">top-downloaded app</span> in the &ldquo;Lifestyle&rdquo; and
+                  &ldquo;Home Decor&rdquo; categories on both the App Store and Play Store within the{" "}
+                  <span className="font-bold">first three months after launch</span>.
+                </p>
+              </section>
 
-            <section aria-labelledby={headingId("unico IDtech")} className="mt-10 flex flex-col gap-title md:mt-8">
-              <Heading level={3} variant="h4" id={headingId("unico IDtech")}>
-                unico IDtech
-              </Heading>
-              <p className="font-sans text-body text-ink">
-                I planned a career development strategy for a team member, focused on improving technical skills and
-                increasing the visibility of their work with stakeholders. Over two six-month performance review
-                cycles, they received <span className="font-bold">5/5 ratings</span> and{" "}
-                <span className="font-bold">approval for salary increases</span>, and in the most recent cycle, the{" "}
-                <span className="font-bold">
-                  performance committee approved their promotion to a senior position
-                </span>
-                .
-              </p>
-            </section>
+              <section aria-labelledby={headingId("unico IDtech")} className="flex flex-col gap-title">
+                <Heading level={3} variant="h4" id={headingId("unico IDtech")}>
+                  unico IDtech
+                </Heading>
+                <p className="font-sans text-body text-ink">
+                  I planned a career development strategy for a team member, focused on improving technical skills
+                  and increasing the visibility of their work with stakeholders. Over two six-month performance
+                  review cycles, they received <span className="font-bold">5/5 ratings</span> and{" "}
+                  <span className="font-bold">approval for salary increases</span>, and in the most recent cycle,
+                  the{" "}
+                  <span className="font-bold">
+                    performance committee approved their promotion to a senior position
+                  </span>
+                  .
+                </p>
+              </section>
 
-            <section aria-labelledby={headingId("Youse Seguros")} className="mt-10 flex flex-col gap-title md:mt-8">
-              <Heading level={3} variant="h4" id={headingId("Youse Seguros")}>
-                Youse Seguros
-              </Heading>
-              <p className="font-sans text-body text-ink">
-                I led the discovery and design of a new third-party claim filing experience. Within the first month,{" "}
-                <span className="font-bold">
-                  40% of third-party claims were filed through the new digital self-service journey
-                </span>
-                , reducing support ticket volume and operational cost that used to come from every claim requiring a
-                phone call.
-              </p>
-            </section>
+              <section aria-labelledby={headingId("Youse Seguros")} className="flex flex-col gap-title">
+                <Heading level={3} variant="h4" id={headingId("Youse Seguros")}>
+                  Youse Seguros
+                </Heading>
+                <p className="font-sans text-body text-ink">
+                  I led the discovery and design of a new third-party claim filing experience. Within the first
+                  month,{" "}
+                  <span className="font-bold">
+                    40% of third-party claims were filed through the new digital self-service journey
+                  </span>
+                  , reducing support ticket volume and operational cost that used to come from every claim requiring
+                  a phone call.
+                </p>
+              </section>
+            </div>
           </section>
         </div>
 
         <section
           aria-labelledby={headingId("Latest Experiences")}
-          className="page-grid gap-y-10 md:gap-y-6 md:pr-content"
+          className="page-grid gap-block md:pr-content"
         >
-          <Heading level={2} variant="h2" id={headingId("Latest Experiences")} className="md:col-span-2 md:col-start-1">
-            Latest Experiences
-          </Heading>
+          {/* Title tight against its own list (gap-title); the outer
+              gap-block is for mobile, where this stack and the quote below
+              stack as two unrelated blocks, not a title and its text. */}
+          <div className="flex flex-col gap-title md:col-span-3 md:col-start-1">
+            <Heading level={2} variant="h2" id={headingId("Latest Experiences")}>
+              Latest Experiences
+            </Heading>
 
-          <ul className="flex flex-col md:col-span-3 md:col-start-1">
-            {experience.map((entry, i) => (
-              <li key={entry.company}>
-                <div className="grid grid-cols-3 gap-8 py-3">
-                  <div className="col-span-1 flex flex-col gap-0.5">
-                    <p className="font-sans text-caption text-muted">{entry.years}</p>
-                    <p className="font-sans text-h4 text-ink">{entry.company}</p>
+            <ul className="flex flex-col">
+              {experience.map((entry, i) => (
+                <li key={entry.company}>
+                  <div className="grid grid-cols-3 gap-8 py-3">
+                    <div className="col-span-1 flex flex-col gap-0.5">
+                      <p className="font-sans text-caption text-muted">{entry.years}</p>
+                      <p className="font-sans text-h4 text-ink">{entry.company}</p>
+                    </div>
+                    <p className="col-span-2 self-end font-sans text-body text-ink">{entry.role}</p>
                   </div>
-                  <p className="col-span-2 self-end font-sans text-body text-ink">{entry.role}</p>
-                </div>
-                {i < experience.length - 1 && <hr className="border-lightergrey" />}
-              </li>
-            ))}
-          </ul>
+                  {i < experience.length - 1 && <hr className="border-lightergrey" />}
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <blockquote className="flex flex-col gap-3 md:col-span-2 md:col-start-5 md:-mt-[160px]">
             <div className="-mb-[65px] md:ml-10">
