@@ -503,7 +503,7 @@ export const loftApp: WorkEntry = {
                 ]
               },
               {
-                title: "Content matters",
+                title: "Task success",
                 body: [
                   "People were able to complete the onboarding process easily."
                 ]
