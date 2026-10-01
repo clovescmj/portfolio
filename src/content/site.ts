@@ -2,7 +2,7 @@ export const site = {
   name: "Clóves",
   greeting: "Hi!",
   title: "I'm Clóves.",
-  bio: "A Product Designer with over 10 years of experience turning real user problems into experiences that drive business impact.",
+  bio: "A Product Designer with over 12 years of experience turning real user problems into experiences that drive business impact.",
   footer: "Designed by a human.\nCoded with AI.",
 };
 

@@ -6,12 +6,12 @@ import { Heading } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
 
 const expertiseLeft = [
-  "Lead design initiatives across multiple products and teams.",
-  "Mentor designers to help them grow and take on more ownership.",
+  "Lead design initiatives across multiple products and teams, setting direction for systems other teams build on and adopt.",
   "Partner directly with product and engineering to turn ambiguous problems into a plan the team can execute.",
+  "Bring AI into design workflows to make production repeatable at scale.",
   "Craft visually compelling interfaces and high-fidelity prototypes.",
-  "Apply UX research, usability testing, and data analysis to build intuitive, goal-driven products.",
-  "Bring a broad perspective on design challenges across fintech, insurtech, and real estate, in both B2C and B2B contexts.",
+  "Apply UX research, usability testing and data analysis to build intuitive, goal-driven products.",
+  "Mentor designers to help them grow and take on more ownership.",
 ];
 
 const experience = [
@@ -30,7 +30,7 @@ export default function AboutPage() {
       <Bleed className="mt-10 flex flex-col gap-12 md:mt-0">
         <div className="page-grid gap-y-10 md:gap-y-8 md:pr-content">
           <p className="font-sans text-h3 text-ink md:col-span-2 md:col-start-1">
-            With over 10 years of experience designing digital products, I bring a unique blend of hands-on design
+            With over 12 years of experience designing digital products, I bring a unique blend of hands-on design
             expertise and strategic leadership.
           </p>
           <ul className="flex list-disc flex-col gap-1 pl-[22px] font-sans text-body text-ink md:col-span-2 md:col-start-3">
