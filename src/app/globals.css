@@ -31,6 +31,16 @@
  * other components will reuse it.
  */
 @theme {
+  /* The one custom breakpoint beyond Tailwind's defaults: the 1440px
+     width every case-study grid is actually designed at (see
+     CaseStudyIntro's 2-column intro, the only place narrow enough below
+     1440px to need this). A named breakpoint, not an arbitrary
+     `min-[1440px]:` variant, so Tailwind sorts it correctly against `md`
+     in its cascade — arbitrary brackets aren't guaranteed to interleave
+     with named breakpoints in source order, confirmed the hard way (the
+     rule silently lost to `md:` at exactly 1440px until this existed). */
+  --breakpoint-wide: 1440px;
+
   /* Colors */
   --color-canvas: #222121;
   --color-surface: #ffffff;
@@ -122,8 +132,16 @@
      to 24px. Line-height 1.14 and no letter-spacing are Figma's own
      values for that style, confirmed directly (get_design_context) on
      the Loft case-study file across many nodes — not the reciprocal-model
-     estimate this used to be. */
-  --text-h3: 24px;
+     estimate this used to be.
+
+     Fluid, not a fixed breakpoint jump: 20px at a 375px viewport, scaling
+     linearly up to the 24px above at 1440px — the same two reference
+     widths every fluid value in this file is tuned against (see
+     gap-subsection). Mobile gets a TIGHTER type scale than desktop on
+     purpose (research-backed: headings compress proportionally more than
+     body text at small sizes, so h4/h5/body stay fixed while h1-h3 flex)
+     — not an arbitrary shrink. */
+  --text-h3: clamp(20px, 0.376vw + 18.59px, 24px);
   --text-h3--line-height: 1.14;
   --text-h3--font-weight: 500;
 
@@ -155,8 +173,14 @@
    * the project's line-height convention), not re-derived from `a`.
    */
 
-  /* "Heading 1" (case-study title) in Figma, 47px raw, rounded up to 48px. */
-  --text-h1: 48px;
+  /* "Heading 1" (case-study title) in Figma, 47px raw, rounded up to 48px.
+
+     Fluid: 34px at 375px wide, up to 48px at 1440px — see the note on
+     --text-h3 above. This also quietly absorbs the old tablet-only
+     40px patch CaseStudyIntro needed to stop long titles breaking
+     mid-word between 768-1023px: the curve already passes through a
+     sane value there, so that one-off override is gone. */
+  --text-h1: clamp(34px, 1.315vw + 29.07px, 48px);
   --text-h1--line-height: 1.02;
   --text-h1--letter-spacing: -0.01em;
   --text-h1--font-weight: 700;
@@ -165,8 +189,11 @@
      Figma, 31px raw, rounded up to 32px. Line-height 1.12 is Figma's own
      value, confirmed directly (get_design_context) on the Loft
      case-study file across many nodes — not the reciprocal-model
-     estimate this used to be. */
-  --text-h2: 32px;
+     estimate this used to be.
+
+     Fluid: 26px at 375px wide, up to 32px at 1440px — see the note on
+     --text-h3 above. */
+  --text-h2: clamp(26px, 0.563vw + 23.89px, 32px);
   --text-h2--line-height: 1.12;
   --text-h2--letter-spacing: -0.01em;
   --text-h2--font-weight: 500;

@@ -4,6 +4,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { TransitionLink } from "@/components/layout/TransitionLink";
 import { articles } from "@/content/articles";
 import { caseStudies } from "@/content/case-studies";
+import { Heading } from "@/components/ui/Heading";
 import type { Project } from "@/types/project";
 import { ProjectImage } from "./ProjectImage";
 import { ProjectMeta } from "./ProjectMeta";
@@ -71,19 +72,14 @@ export function WorkCard({
 
         {!layout.imageOnly && (
           <div className="flex flex-col gap-2 md:gap-4 md:@min-[420px]:flex-row md:@min-[420px]:gap-6">
-            {/*
-              max-md: here, not bare utilities — same reason as
-              PageHeader/Sidebar: text-h3 bundles size/leading/
-              tracking/weight via Tailwind's shared --tw-leading/
-              --tw-tracking/--tw-font-weight custom properties, so an
-              unprefixed leading-[...] here would keep winning over
-              text-h3's own line-height at the md: breakpoint too.
-            */}
             <div className="flex flex-1 flex-col gap-1">
               <p className="font-sans text-caption text-muted">{kind === "article" ? "Article" : "Case study"}</p>
-              <h2 className="font-sans max-md:text-[19px] max-md:leading-[1.15] max-md:tracking-[-0.01em] max-md:font-medium text-ink md:text-h3">
+              {/* h3 is fluid (20-24px) now, so the card title just takes it
+                  directly instead of carrying its own separate mobile
+                  override — one less place the two could drift apart. */}
+              <Heading level={2} variant="h3">
                 {project.title}
-              </h2>
+              </Heading>
             </div>
             <div className="flex flex-1 flex-col gap-2 md:gap-4">
               <p className="font-sans text-body text-ink">{project.description}</p>
