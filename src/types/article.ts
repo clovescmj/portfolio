@@ -32,9 +32,13 @@ export interface ArticleSection {
 
 export interface Article {
   slug: string;
-  title: string;
-  company: string;
-  role: string;
+  /** Title, client and tags normally come from this article's own entry
+   *  in `content/projects.ts` (the same ones its Work card shows) — see
+   *  ArticleBody. These are only a fallback for an article with no
+   *  matching project card (none currently registered have one). */
+  title?: string;
+  company?: string;
+  role?: string;
   /** An italicized one-line summary under the title — the Notion source's
    *  own lead sentence, e.g. "As design manager, I built and ran a
    *  development plan...". */

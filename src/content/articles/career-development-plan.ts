@@ -1,10 +1,8 @@
 import type { Article } from "@/types/article";
 
 export const careerDevelopmentPlan: Article = {
+  // Title, client and tags come from this slug's entry in content/projects.ts.
   slug: "career-development-plan",
-  title: "Coaching a Designer from Mid-Level to Senior",
-  company: "unico IDtech",
-  role: "Team Mentorship, People Management, Career Development",
   sections: [
     {
       heading: "Context",

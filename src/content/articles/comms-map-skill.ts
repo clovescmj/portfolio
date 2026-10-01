@@ -1,10 +1,8 @@
 import type { Article } from "@/types/article";
 
 export const commsMapSkill: Article = {
+  // Title, client and tags come from this slug's entry in content/projects.ts.
   slug: "comms-map-skill",
-  title: "Comms Map: Building a Skill for Communications Visibility",
-  company: "QuintoAndar",
-  role: "AI Tooling, Internal Tools, Workflow Automation",
   sections: [
     {
       heading: "Rules Nobody Could See",

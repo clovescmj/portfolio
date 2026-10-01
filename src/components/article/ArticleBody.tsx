@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { assetPath } from "@/lib/asset-path";
+import { projects } from "@/content/projects";
 import type { Article, ArticleBlock, ArticleSection } from "@/types/article";
 import { ArticleNote } from "./ArticleNote";
 import { Heading } from "@/components/ui/Heading";
@@ -138,13 +139,23 @@ function SideImageSection({ section, id }: { section: ArticleSection; id: string
  * for (side image) is modeled, not a general-purpose positioning system.
  */
 export function ArticleBody({ article }: { article: Article }) {
+  // Title, client and tags come from this article's own Work card (the
+  // single source both places read from) when it has one, so the two
+  // can't drift apart the way they once did (this article's own copy of
+  // its tags didn't match the card's, and its title carried an extra
+  // "Comms Map:" prefix the card never had).
+  const project = projects.find((p) => p.slug === article.slug);
+  const title = project?.title ?? article.title;
+  const client = project?.client ?? article.company;
+  const tags = project ? project.tags.join(", ") : article.role;
+
   return (
     <div className="grid grid-cols-1 gap-y-10 md:grid-cols-6 md:gap-x-gutter md:gap-y-12">
       <header className="flex flex-col gap-4 md:col-span-4 md:col-start-1">
         <p className="font-sans text-caption text-muted">Article</p>
-        <Heading level={1} variant="h1" className="break-words">{article.title}</Heading>
+        <Heading level={1} variant="h1" className="break-words">{title}</Heading>
         <p className="font-sans text-caption text-ink">
-          <span className="font-bold">{article.company}</span> | {article.role}
+          <span className="font-bold">{client}</span> | {tags}
         </p>
         {article.lead && <p className="font-sans text-h3 text-ink italic">{article.lead}</p>}
       </header>
