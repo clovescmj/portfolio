@@ -162,9 +162,17 @@ export default function AboutPage() {
           <Heading level={2} variant="h2" id={headingId("Beyond Work")} className="md:col-span-1 md:col-start-1">
             Beyond Work
           </Heading>
-          <p className="font-sans text-body text-ink md:col-span-2 md:col-start-2">
-            You&rsquo;ll find me being a dad, going to shows, running my small batch music label, and designing
-            artwork for bands.
+          <p className="font-sans text-body text-ink md:col-span-3 md:col-start-2">
+            You&rsquo;ll find me being a dad, going to shows, running a{" "}
+            <a
+              href="https://forkha.bandcamp.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="font-sans link"
+            >
+            small batch record label
+            </a>
+            , and designing artwork for bands and concerts.
           </p>
         </section>
       </Bleed>

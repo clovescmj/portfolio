@@ -12,7 +12,7 @@ export function ArticleNote({ note }: { note: NonNullable<Article["note"]> }) {
       {note.link && (
         <TransitionLink
           href={note.link.href}
-          className="w-fit font-sans text-caption text-accent underline underline-offset-2 transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
+          className="w-fit font-sans text-caption link"
         >
           {note.link.label}
         </TransitionLink>

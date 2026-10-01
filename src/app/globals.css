@@ -274,6 +274,28 @@
   }
 }
 
+/* The site's one text-link style — accent, underlined, inverts to ink/
+   no-underline on hover. Everywhere a link sits in running text or on its
+   own line (case-study "View prototype", an article note, this bio's
+   Bandcamp link) uses this, so it can't drift into near-duplicates the
+   way five copies of the same five classes did before this existed. The
+   sidebar's own nav links are a deliberate exception — active/current-page
+   state there needs its own logic, not this hover-only style. Font size
+   stays with the caller (`text-caption`/`text-body`), since that depends
+   on where the link sits, not on it being a link. */
+@utility link {
+  color: var(--color-accent);
+  text-decoration-line: underline;
+  text-underline-offset: 2px;
+  transition-property: color, text-decoration-color;
+  transition-duration: 400ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    color: var(--color-ink);
+    text-decoration-line: none;
+  }
+}
+
 body {
   background: var(--color-canvas);
   color: var(--color-ink);

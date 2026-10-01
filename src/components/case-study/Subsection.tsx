@@ -196,7 +196,7 @@ function TopicContent({ topic, level }: { topic: Topics[number]; level: HeadingL
               href={topic.link.href}
               target="_blank"
               rel="noreferrer"
-              className="font-sans text-caption text-accent underline transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
+              className="font-sans text-caption link"
             >
               {topic.link.label}
             </a>
@@ -435,7 +435,7 @@ function SubsectionBody({
               href={titleLink.href}
               target="_blank"
               rel="noreferrer"
-              className="font-sans text-caption text-accent underline transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
+              className="font-sans text-caption link"
             >
               {titleLink.label}
             </a>
@@ -560,7 +560,7 @@ function SubsectionBody({
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-sans text-body text-accent underline underline-offset-2 transition-colors duration-400 ease-in-out hover:text-ink hover:no-underline"
+                  className="font-sans text-body link"
                 >
                   {link.label}
                 </a>
