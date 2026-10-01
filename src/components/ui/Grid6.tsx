@@ -18,6 +18,12 @@ const grid6 = cva("page-grid", {
       sm: "gap-y-3 md:gap-y-6",
       md: "gap-y-3 md:gap-y-10",
       lg: "gap-y-10",
+      /** Mobile keeps the normal stacked-card gap; desktop uses
+       *  `--spacing-title-gap` — for a grid whose only real desktop row
+       *  gap is a heading splitting from its own body (`ColumnsSection`'s
+       *  two-row columns). Harmless when desktop never has a second row
+       *  (nothing to gap against) — same as `md` was before this existed. */
+      title: "gap-y-3 md:gap-y-[length:var(--spacing-title-gap)]",
     },
     /** Reserves the shared right inset (`--spacing-content`) so content
      *  doesn't run to the bleed edge a parent `<Bleed>` opened up. */

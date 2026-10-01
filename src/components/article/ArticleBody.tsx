@@ -28,6 +28,13 @@ function Block({ block }: { block: ArticleBlock }) {
       </Tag>
     );
   }
+  if (block.kind === "code") {
+    return (
+      <pre className="whitespace-pre-wrap break-words bg-lightergrey px-4 py-3 font-mono text-[12px] leading-relaxed text-ink">
+        <code>{block.text}</code>
+      </pre>
+    );
+  }
   return (
     <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
       src={assetPath(block.src)}

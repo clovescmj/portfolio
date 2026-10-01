@@ -6,6 +6,7 @@
 export type ArticleBlock =
   | { kind: "paragraph"; text: string }
   | { kind: "list"; items: string[]; ordered?: boolean }
+  | { kind: "code"; text: string }
   | { kind: "image"; src: string; alt: string; width: number; height: number };
 
 /** One section of an article's body — content, optionally under a
