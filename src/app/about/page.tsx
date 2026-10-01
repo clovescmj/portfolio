@@ -11,7 +11,7 @@ const expertiseLeft = [
   "Bring AI into design workflows to make production repeatable at scale.",
   "Craft visually compelling interfaces and high-fidelity prototypes.",
   "Apply UX research, usability testing and data analysis to build intuitive, goal-driven products.",
-  "Mentor designers to help them grow and take on more ownership.",
+  "Mentor designers to develop their craft and advance their career.",
 ];
 
 const experience = [
