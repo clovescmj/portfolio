@@ -70,7 +70,14 @@ export function ProductVisionSpotlight({ spotlight }: { spotlight: SpotlightSect
           </div>
         </div>
 
-        <div className="relative aspect-[529/793] w-full md:col-span-2 md:aspect-auto">
+        {/* Mobile's aspect ratio is the image's own natural one (635/900,
+            confirmed on the source file) — not Figma's cropped desktop
+            frame ratio, which was narrower-for-its-height than the photo
+            and made `object-cover` crop the sides on mobile. At its own
+            ratio, `cover` has nothing to crop: the box and the image agree.
+            Desktop (`md:aspect-auto`) keeps the real crop-to-match-the-
+            text-column behavior described above. */}
+        <div className="relative aspect-[635/900] w-full md:col-span-2 md:aspect-auto">
           <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
             src={assetPath(spotlight.image.src)}
             alt={spotlight.image.alt}
