@@ -19,8 +19,12 @@ export function FlowDiagram({ flow }: { flow: CaseStudyFlow }) {
   return (
     <figure className="flex flex-col gap-3 md:pr-content">
       <div
-        className={`scroll-area -mx-6 w-[calc(100%+48px)] overflow-x-auto md:mx-0 md:w-full md:overflow-visible ${flow.background ? "bg-placeholder p-6 md:p-8" : ""}`}
+        className={`scroll-area -mx-6 w-[calc(100%+48px)] overflow-x-auto px-6 md:mx-0 md:w-full md:overflow-visible md:px-0 ${flow.background ? "bg-placeholder py-6 md:p-8" : ""}`}
       >
+        {/* The scroll container bleeds to the true edge so the scrollbar/
+            touch area reaches it, but the image itself keeps the same 24px
+            margin text gets (`px-6` above) at both the start and end of the
+            scroll range, instead of sitting flush against the edge. */}
         <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
           src={assetPath(flow.src)}
           alt={flow.alt}

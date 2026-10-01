@@ -247,7 +247,11 @@ function Topic({
       // (see Loft's Key Findings, where that itself may be a content
       // slip worth double-checking — title alone isn't a safe key).
       key={`${i}-${topic.title ?? ""}`}
-      className={`flex flex-col gap-title md:col-span-2 ${positionClass} ${topic.tag ? "relative -m-[14px] border-2 border-accent bg-accent/[0.07] p-3" : ""}`}
+      className={`flex flex-col gap-title md:col-span-2 ${positionClass} ${
+        topic.tag
+          ? `relative -m-[14px] border-2 border-accent bg-accent/[0.07] p-3 ${i === 0 ? "max-md:mt-2" : ""}`
+          : ""
+      }`}
     >
         {topic.tag && (
           <span className="absolute -top-[11px] right-3 w-fit bg-accent px-1.5 py-0.5 font-sans text-meta font-bold text-surface">
