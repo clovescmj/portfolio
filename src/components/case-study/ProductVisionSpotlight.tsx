@@ -33,7 +33,7 @@ export function ProductVisionSpotlight({ spotlight }: { spotlight: SpotlightSect
     <HighlightBlock tone="dark" labelledBy={headingId(spotlight.title)}>
       <div className="page-grid gap-y-8">
         <div className="flex flex-col gap-8 md:col-span-4 md:gap-[134px]">
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-title">
             <Heading level={2} variant="h2" tone="surface" id={headingId(spotlight.title)}>
               {spotlight.title}
             </Heading>
@@ -43,7 +43,7 @@ export function ProductVisionSpotlight({ spotlight }: { spotlight: SpotlightSect
           {/* Figma order: Experience Principles sits left (closer to the
               title), Search Context to its right, closer to the photo. */}
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-x-8">
-            <div className="flex min-w-0 flex-col gap-4">
+            <div className="flex min-w-0 flex-col gap-title">
               <p className="font-sans text-h4 text-lightgrey">{spotlight.principlesLabel}</p>
               <ul className="flex flex-col gap-1 font-sans text-h3 text-surface">
                 {spotlight.principles.map((principle) => (
@@ -52,11 +52,11 @@ export function ProductVisionSpotlight({ spotlight }: { spotlight: SpotlightSect
               </ul>
             </div>
 
-            <div className="flex min-w-0 flex-col gap-4">
+            <div className="flex min-w-0 flex-col gap-title">
               <p className="font-sans text-h4 text-lightgrey">{spotlight.searchContextLabel}</p>
               <div className="flex gap-8">
                 {spotlight.searchContext.map((column) => (
-                  <div key={column.label} className="flex min-w-0 flex-1 flex-col gap-2">
+                  <div key={column.label} className="flex min-w-0 flex-1 flex-col gap-title">
                     <Heading level={3} variant="h3" tone="surface">{column.label}</Heading>
                     <ul className="flex flex-col gap-1 font-sans text-nav text-surface">
                       {column.items.map((item) => (

@@ -59,7 +59,7 @@ export default function AboutPage() {
               Achievements
             </Heading>
 
-            <section aria-labelledby={headingId("Loft")} className="flex flex-col gap-3">
+            <section aria-labelledby={headingId("Loft")} className="flex flex-col gap-title">
               <Heading level={3} variant="h4" id={headingId("Loft")}>
                 Loft
               </Heading>
@@ -72,7 +72,7 @@ export default function AboutPage() {
               </p>
             </section>
 
-            <section aria-labelledby={headingId("unico IDtech")} className="mt-10 flex flex-col gap-3 md:mt-8">
+            <section aria-labelledby={headingId("unico IDtech")} className="mt-10 flex flex-col gap-title md:mt-8">
               <Heading level={3} variant="h4" id={headingId("unico IDtech")}>
                 unico IDtech
               </Heading>
@@ -88,7 +88,7 @@ export default function AboutPage() {
               </p>
             </section>
 
-            <section aria-labelledby={headingId("Youse Seguros")} className="mt-10 flex flex-col gap-3 md:mt-8">
+            <section aria-labelledby={headingId("Youse Seguros")} className="mt-10 flex flex-col gap-title md:mt-8">
               <Heading level={3} variant="h4" id={headingId("Youse Seguros")}>
                 Youse Seguros
               </Heading>

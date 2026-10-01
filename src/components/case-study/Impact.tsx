@@ -30,7 +30,7 @@ function NumberedLists({ lists }: { lists: LabeledList[] }) {
     return (
       <div
         key={list.label ?? i}
-        className={`flex flex-col gap-3 md:col-span-2 md:row-start-2 ${gridPositionClass(LIST_POSITION_CLASSES, i, "impact list")}`}
+        className={`flex flex-col gap-title md:col-span-2 md:row-start-2 ${gridPositionClass(LIST_POSITION_CLASSES, i, "impact list")}`}
       >
         {list.label && <Heading level={3} variant="h4">{list.label}</Heading>}
         <ol className="flex flex-col gap-2 font-sans text-body text-ink">
@@ -107,7 +107,7 @@ function ImpactGroups({ groups }: { groups: { label: string; stats?: StatsBlock;
               browser gets to them. Confirmed via getBoundingClientRect:
               swapping this order was the fix, not adding back row-start. */}
           {group.topics?.map((topic, i) => (
-            <div key={topic.title} className={`flex flex-col gap-3 md:col-span-2 ${LIST_POSITION_CLASSES[i % 2]}`}>
+            <div key={topic.title} className={`flex flex-col gap-title md:col-span-2 ${LIST_POSITION_CLASSES[i % 2]}`}>
               {/* An h4 takes the h4 size. Without a group label the topic is an h3
                   (no level skipped under "Impact") and keeps the smaller item size. */}
               <Heading level={group.label ? 4 : 3} variant={group.label ? "h4" : "h5"}>
