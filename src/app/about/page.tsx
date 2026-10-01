@@ -32,7 +32,7 @@ export default function AboutPage() {
           <p className="font-sans text-h3 text-ink md:col-span-2 md:col-start-1">
             With over 12 years of experience designing digital products, I bridge high-quality design craft and strategic business impact.
           </p>
-          <ul className="flex list-disc flex-col gap-1 pl-[22px] font-sans text-body text-ink md:col-span-2 md:col-start-3">
+          <ul className="flex list-disc flex-col gap-1 pl-[22px] font-sans text-body text-ink md:col-span-3 md:col-start-3">
             {expertiseLeft.map((item) => (
               <li key={item}>{item}</li>
             ))}
