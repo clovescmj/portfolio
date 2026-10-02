@@ -271,8 +271,7 @@ export const contractTemplateManagement: WorkEntry = {
           {
             items: [
               "Closes the audit and permissioning gap on attachments, previously editable by any analyst.",
-              "Sets up the foundation to scale: templates now live as structured data, opening the door to native in-product signing down the line.",
-              "Rollout planned across two phases within the same half year, with the RFC reviewed and approved before build started."
+              "Sets up the foundation to scale: templates now live as structured data, opening the door to native in-product signing down the line."
             ]
           }
         ]
