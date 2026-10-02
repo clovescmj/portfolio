@@ -264,7 +264,7 @@ export const contractTemplateManagement: WorkEntry = {
         lists: [
           {
             items: [
-              "Closes a concrete compliance risk tied to the company's IPO preparation, shipping a contract template management tool and an attachment template management tool, both for exclusive use by the legal team.",
+              "Closes a concrete compliance risk tied to the company's IPO preparation, shipping a contract and attachment template management tool, both for exclusive use by the legal team.",
               "Removes the engineering bottleneck on contract updates. What used to take 4 to 6 weeks is now managed directly by the legal team."
             ]
           },
