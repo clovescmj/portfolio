@@ -19,38 +19,28 @@ export const fixingUiDebt: WorkEntry = {
     }
   },
   page: {
-    note: {
-      text: "This follows the Contract Template Management case. During the sprint that shipped that system, the team cut some visual refinements to deliver the functional core on time.",
-      link: {
-        label: "Contract Template Management",
-        href: "/work/contract-template-management"
-      }
-    },
     sections: [
       {
-        heading: "Situation",
         blocks: [
           {
             kind: "paragraph",
-            text: "After the sprint shipped, I ran a design review of what had actually gone live and found real gaps between the design and the implementation: a button's dropdown opened on hover instead of click, a status label used the wrong word, a details screen showed the contract name as its title instead of the version number, and a form was missing spacing between labels and fields. I documented each one and created backlog tickets for the fixes."
+            text: "The contract template management tool was part of an initiative to remove compliance risks from QuintoAndar's contract templates and attachments ahead of the company's IPO. With a tight deadline, I was part of the call to prioritize the functional core and leave some visual refinements for later. It was the right trade-off to hit the date, and it left a gap to close after launch."
+          },
+          {
+            kind: "paragraph",
+            text: "After launch, I pulled together a design review with the team, walking through a document comparing what I'd designed against what had actually shipped. Four gaps surfaced: a dropdown that opened on hover instead of on click, a status label using the wrong word, a details screen showing the contract name as its title instead of the version number, and a form missing spacing between labels and fields. Each one was small. Together, they made the tool harder to read for the people using it every day. Working with engineering, we turned each one into a backlog task."
+          },
+          {
+            kind: "paragraph",
+            text: "The fixes were well-scoped and low-risk, and the company was encouraging designers to pick up this kind of work in code, with AI support, rather than wait for engineering bandwidth. I wanted to explore that tooling myself and test what I could do with it, so I cloned the repository, ran it locally, and made all four changes myself, directly in the team's production design system."
           }
         ]
       },
       {
-        heading: "Task",
         blocks: [
           {
             kind: "paragraph",
-            text: "I didn't want the tool to ship in a half-finished state. Holding the line on UI quality is part of my job as the designer on this project, and what had gone live didn't match what was designed. It was also a chance to put into practice something the company was actively encouraging: designers picking up code, with AI support, to move faster on exactly this kind of fix."
-          }
-        ]
-      },
-      {
-        heading: "Action",
-        blocks: [
-          {
-            kind: "paragraph",
-            text: "I cloned the repository, ran it locally, and implemented all four fixes myself. An AI coding assistant walked me through the codebase's conventions and pointed me to the right place to make each change, but I wrote and edited every line myself, using the team's actual design system. Two fixes required reading the design system's own source code to understand undocumented behavior, like why a button component had two incompatible sets of variant names, or why a card component's internal markup was leaking spacing into its parent layout. Each fix shipped as its own pull request, went through the team's automated code review (which caught two outdated test assertions that would have broken as soon as the copy changed) and staging validation before merging."
+            text: "The design system's documentation didn't cover the behavior I needed, so I read its source directly: once to find why a dropdown's trigger defaulted to hover, once to find where a details screen pulled its title from. An AI assistant helped me navigate the codebase's conventions and knew where to look. Understanding what I found, and deciding it was the right fix, was mine to do."
           },
           {
             kind: "image",
@@ -62,11 +52,10 @@ export const fixingUiDebt: WorkEntry = {
         ]
       },
       {
-        heading: "Result",
         blocks: [
           {
             kind: "paragraph",
-            text: "Now it's closer to the quality bar the company holds as a pillar, with the interface matching what was actually designed. Resolving debt like this, technical or UI/UX, is part of getting there."
+            text: "Each fix shipped as its own pull request and went through the team's normal review, tests, and staging validation, the same process any other change gets. The review caught two test assertions still checking the old copy, which would have broken the moment it changed. All four merged, and the interface now matches what was designed."
           }
         ]
       }
