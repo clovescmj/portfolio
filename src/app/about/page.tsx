@@ -48,7 +48,7 @@ const recommendations: Recommendation[] = [
   {
     quote:
       "I was always impressed by Clóves's ability to lead meetings and influence people and the organization with his ideas, even people who initially had completely different views.",
-    name: "Vinícios Pio",
+    name: "Vinícius Pio",
     role: "Former Product Designer at unico IDtech",
     linkedin: "https://www.linkedin.com/in/viniciuspio/",
   },
