@@ -80,16 +80,16 @@ export default function AboutPage() {
 
           <section
             aria-labelledby={headingId("Achievements")}
-            className="flex flex-col gap-title md:col-span-2 md:col-start-1 md:row-start-1"
+            className="flex flex-col gap-4 md:col-span-2 md:col-start-1 md:row-start-1"
           >
             <Heading level={2} variant="h2" id={headingId("Achievements")}>
               Achievements
             </Heading>
 
-            {/* gap-block between entries, gap-title (above) between the
-                section title and this whole list — not one flat margin
-                doing both jobs at different sizes per entry. */}
-            <div className="flex flex-col gap-block">
+            {/* 16px from the section title to the list and 24px between
+                entries; each entry keeps gap-title between its own title
+                and text. */}
+            <div className="flex flex-col gap-6">
               <section aria-labelledby={headingId("Loft")} className="flex flex-col gap-title">
                 <Heading level={3} variant="h4" id={headingId("Loft")}>
                   Loft
