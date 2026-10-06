@@ -7,7 +7,12 @@ export type ArticleBlock =
   | { kind: "paragraph"; text: string }
   | { kind: "list"; items: string[]; ordered?: boolean }
   | { kind: "code"; text: string }
-  | { kind: "image"; src: string; alt: string; width: number; height: number };
+  | { kind: "image"; src: string; alt: string; width: number; height: number }
+  /** A single sentence pulled out and set in the same large italic
+   *  treatment as the article lead — an editorial pull-quote for the one
+   *  line per section worth landing harder than the surrounding prose.
+   *  Used sparingly: more than one per section stops reading as emphasis. */
+  | { kind: "highlight"; text: string };
 
 /** One section of an article's body — content, optionally under a
  *  heading, in the order it should render. Deliberately looser than the

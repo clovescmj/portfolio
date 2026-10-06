@@ -40,7 +40,11 @@ export const fixingUiDebt: WorkEntry = {
         blocks: [
           {
             kind: "paragraph",
-            text: "The design system's documentation didn't cover the behavior I needed, so I read its source directly: once to find why a dropdown's trigger defaulted to hover, once to find where a details screen pulled its title from. An AI assistant helped me navigate the codebase's conventions and knew where to look. Understanding what I found, and deciding it was the right fix, was mine to do."
+            text: "The design system's documentation didn't cover the behavior I needed, so I read its source directly: once to find why a dropdown's trigger defaulted to hover, once to find where a details screen pulled its title from. An AI assistant helped me navigate the codebase's conventions and knew where to look."
+          },
+          {
+            kind: "highlight",
+            text: "Understanding what I found, and deciding it was the right fix, was mine to do."
           },
           {
             kind: "image",

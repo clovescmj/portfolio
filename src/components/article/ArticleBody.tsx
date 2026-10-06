@@ -36,6 +36,9 @@ function Block({ block }: { block: ArticleBlock }) {
       </pre>
     );
   }
+  if (block.kind === "highlight") {
+    return <p className="font-sans text-h3 text-ink italic">{block.text}</p>;
+  }
   return (
     <Image sizes="(min-width: 768px) 1000px, calc(100vw - 48px)"
       src={assetPath(block.src)}
