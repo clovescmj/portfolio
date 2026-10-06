@@ -156,7 +156,7 @@ export default function AboutPage() {
                   <div className="grid grid-cols-3 gap-8 py-3">
                     <div className="col-span-1 flex flex-col gap-0.5">
                       <p className="font-sans text-caption text-muted">{entry.years}</p>
-                      <p className="font-sans text-h4 text-ink">{entry.company}</p>
+                      <p className="font-sans text-h5 text-ink">{entry.company}</p>
                     </div>
                     <p className="col-span-2 self-end font-sans text-body text-ink">{entry.role}</p>
                   </div>
