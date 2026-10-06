@@ -4,6 +4,7 @@ import { assetPath } from "@/lib/asset-path";
 import { Bleed } from "@/components/ui/Bleed";
 import { Heading } from "@/components/ui/Heading";
 import { headingId } from "@/lib/heading-id";
+import { Recommendations, type Recommendation } from "@/components/about/Recommendations";
 
 const expertiseLeft = [
   "Lead design initiatives across multiple products and teams.",
@@ -20,6 +21,33 @@ const experience = [
   { years: "2021—2022", company: "Loft", role: "Senior Product Designer" },
   { years: "2021—2021", company: "SumUp", role: "Product Design Specialist" },
   { years: "2016—2021", company: "Youse", role: "Product Design Specialist" },
+];
+
+const recommendations: Recommendation[] = [
+  {
+    quote:
+      "I saw firsthand his unwavering commitment and impressive skills as a Senior Product Designer, with an impeccable visual eye and a real care for process and UX culture. He then grew into a dedicated Design Lead who made a meaningful impact on the lives of the people he led.",
+    name: "Rafael Burity",
+    role: "Former Design Manager at unico IDtech",
+  },
+  {
+    quote:
+      "I highly recommend Clóves both as an expert design professional and as a fair leader who truly cares about the technical and behavioral development of the people on his team.",
+    name: "Rhânia Marcela",
+    role: "Former Product Designer at unico IDtech",
+  },
+  {
+    quote:
+      "He is very methodical and is always looking for new ways to approach design. During the time I worked with him, I grew a lot and learned to prioritize and structure my processes better.",
+    name: "Teresa Alencar",
+    role: "Former Product Designer at Loft",
+  },
+  {
+    quote:
+      "I was always impressed by Clóves's ability to lead meetings and influence people and the organization with his ideas, even people who initially had completely different views.",
+    name: "Vinícios Pio",
+    role: "Former Product Designer at unico IDtech",
+  },
 ];
 
 export default function AboutPage() {
@@ -138,7 +166,7 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <blockquote className="flex flex-col gap-3 md:col-span-2 md:col-start-5 md:-mt-[160px]">
+          <blockquote className="flex flex-col gap-3 md:col-span-2 md:col-start-5 md:-mt-[80px]">
             <div className="-mb-[65px] md:ml-10">
               <Image
                 aria-hidden="true"
@@ -154,6 +182,8 @@ export default function AboutPage() {
             <cite className="font-sans text-body text-muted not-italic md:text-right">— Dieter Rams</cite>
           </blockquote>
         </section>
+
+        <Recommendations items={recommendations} />
 
         <hr className="border-ink" />
 

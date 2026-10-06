@@ -274,8 +274,10 @@
   }
 }
 
-/* The site's one text-link style — accent, underlined, inverts to ink/
-   no-underline on hover. Everywhere a link sits in running text or on its
+/* The site's one text-link style — accent, underlined, inverts to ink on
+   hover and keyboard focus. The underline always stays (a cue that doesn't
+   depend on color) and follows the text color, so it transitions with it.
+   Everywhere a link sits in running text or on its
    own line (case-study "View prototype", an article note, this bio's
    Bandcamp link) uses this, so it can't drift into near-duplicates the
    way five copies of the same five classes did before this existed. The
@@ -287,12 +289,12 @@
   color: var(--color-accent);
   text-decoration-line: underline;
   text-underline-offset: 2px;
-  transition-property: color, text-decoration-color;
+  transition-property: color;
   transition-duration: 400ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  &:hover {
+  &:hover,
+  &:focus-visible {
     color: var(--color-ink);
-    text-decoration-line: none;
   }
 }
 
