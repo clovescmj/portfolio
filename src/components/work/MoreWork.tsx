@@ -20,7 +20,7 @@ export function MoreWork({ currentSlug }: { currentSlug: string }) {
   const picked = [...others.filter((e) => isCase(e.kind)), ...others.filter((e) => !isCase(e.kind))].slice(0, COUNT);
 
   return (
-    <section aria-labelledby={headingId("More work")} className="flex flex-col gap-6 md:gap-10">
+    <section aria-labelledby={headingId("More work")} className="flex flex-col gap-6">
       <Heading level={2} variant="h2" id={headingId("More work")}>
         More work
       </Heading>
