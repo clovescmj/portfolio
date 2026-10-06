@@ -29,24 +29,28 @@ const recommendations: Recommendation[] = [
       "I saw firsthand his unwavering commitment and impressive skills as a Senior Product Designer, with an impeccable visual eye and a real care for process and UX culture. He then grew into a dedicated Design Lead who made a meaningful impact on the lives of the people he led.",
     name: "Rafael Burity",
     role: "Former Design Manager at unico IDtech",
+    linkedin: "https://www.linkedin.com/in/rafaelburity/",
   },
   {
     quote:
       "I highly recommend Clóves both as an expert design professional and as a fair leader who truly cares about the technical and behavioral development of the people on his team.",
     name: "Rhânia Marcela",
     role: "Former Product Designer at unico IDtech",
+    linkedin: "https://www.linkedin.com/in/rhaniamarcela/",
   },
   {
     quote:
       "He is very methodical and is always looking for new ways to approach design. During the time I worked with him, I grew a lot and learned to prioritize and structure my processes better.",
     name: "Teresa Alencar",
     role: "Former Product Designer at Loft",
+    linkedin: "https://www.linkedin.com/in/teresacalencar/",
   },
   {
     quote:
       "I was always impressed by Clóves's ability to lead meetings and influence people and the organization with his ideas, even people who initially had completely different views.",
     name: "Vinícios Pio",
     role: "Former Product Designer at unico IDtech",
+    linkedin: "https://www.linkedin.com/in/viniciuspio/",
   },
 ];
 

@@ -7,6 +7,7 @@ export interface Recommendation {
   quote: string;
   name: string;
   role: string;
+  linkedin: string;
 }
 
 const TITLE = "Recommendations";
@@ -37,6 +38,15 @@ export function Recommendations({ items }: { items: Recommendation[] }) {
             <figcaption className="flex flex-col">
               <p className="font-sans text-body font-bold text-ink">{item.name}</p>
               <p className="font-sans text-caption text-ink">{item.role}</p>
+              <a
+                href={item.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${item.name} on LinkedIn`}
+                className="w-fit font-sans text-caption link"
+              >
+                LinkedIn
+              </a>
             </figcaption>
           </figure>
         ),
