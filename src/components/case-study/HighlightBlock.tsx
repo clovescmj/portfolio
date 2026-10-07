@@ -29,7 +29,9 @@ const highlightBlock = cva(
     variants: {
       tone: {
         dark: "bg-ink",
-        light: "bg-placeholder",
+        // Links on the grey tint read in ink with the underline at rest, and
+        // take the accent orange on hover and keyboard focus.
+        light: "bg-placeholder [&_.link]:text-ink [&_.link:hover]:text-accent [&_.link:focus-visible]:text-accent",
       },
     },
     defaultVariants: { tone: "light" },
